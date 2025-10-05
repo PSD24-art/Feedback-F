@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import withLoader from "../utils/withLoader";
 import Loader from "../components/Loader";
+import BasicBars from "../charts/barGraph";
+import FacultyFeedbackChart from "../charts/HorizontallBars";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const FacultyDashboard = () => {
   const [facultyData, setFacultyData] = useState(null);
@@ -73,12 +75,17 @@ const FacultyDashboard = () => {
         )}
 
         {facultyData ? (
-          <div className="grid gap-6 lg:grid-cols-2">
+          <div className=" ">
             {/* Analytics Card */}
             <div className="bg-white border-2 border-orange-200 rounded-lg shadow-md p-6 hover:shadow-lg hover:border-orange-400 transition flex flex-col">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-semibold text-gray-800">
-                  Faculty Analytics
+                  Faculty Analytics <span>{" ⭐4.7"}</span>
+                  <span
+                    className={`text-red-700 bg-amber-100 ms-2 ps-2 pe-2 live rounded-sm`}
+                  >
+                    Live
+                  </span>
                 </h3>
                 <select
                   id="linkSubject"
@@ -99,9 +106,16 @@ const FacultyDashboard = () => {
                 Count:{" "}
                 <span className="text-orange-600 font-bold">{count}</span>
               </div>
-
-              <div className="flex-grow flex items-center justify-center text-gray-500 text-sm border border-dashed border-orange-300 rounded-md p-6">
-                No Data to show
+              <div className="grid grid-cols-3">
+                <div className="flex-grow flex-col flex items-center justify-center text-gray-500 text-sm border border-dashed border-orange-300 rounded-md p-6 ">
+                  <div className="font-bold text-xl">
+                    Average ratings for each subject
+                  </div>
+                  <BasicBars />
+                </div>
+                <div className="flex-grow flex items-center justify-center text-gray-500 text-sm border border-dashed border-orange-300 rounded-md p-6 ">
+                  <FacultyFeedbackChart />
+                </div>
               </div>
             </div>
 

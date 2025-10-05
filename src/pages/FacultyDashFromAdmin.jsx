@@ -92,13 +92,13 @@ const FacultyDashFromAdmin = () => {
     <>
       {loading && <Loader />}
       {facultyData && (
-        <h2 className="mt-6 text-2xl font-cursive text-orange-600 font-bold text-center">
+        <h2 className="mt-16 text-2xl font-cursive text-orange-600 font-bold text-center">
           {facultyData.name}
         </h2>
       )}
 
       {facultyData ? (
-        <div className="space-y-6 p-3 sm:p-0">
+        <div className="space-y-6 p-3 sm:p-0 ms-3 me-3">
           {/* Faculty Analytics Card */}
           <div className="relative w-full min-h-[200px] sm:h-[calc(100dvh-500px)] mb-4 flex flex-col bg-white border-2 border-orange-200 rounded-lg shadow-md p-3 sm:p-4">
             {/* Header with dropdown */}
@@ -121,8 +121,6 @@ const FacultyDashFromAdmin = () => {
               </select>
             </div>
 
-            {/* Count Badge (absolute for desktop, inline for mobile) */}
-            {/* Mobile inline */}
             <div className="sm:hidden mb-3 bg-orange-100 text-orange-700 font-medium px-3 py-1 rounded-lg shadow-sm w-fit">
               Count: <span>{count}</span>
             </div>
@@ -154,13 +152,23 @@ const FacultyDashFromAdmin = () => {
           </div>
 
           {/* Delete Button */}
-          <div className="flex justify-center">
-            <button
-              onClick={handleDeleteFaculty}
-              className="bg-red-500 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-red-600 transition active:scale-95"
-            >
-              Delete Faculty
-            </button>
+          <div className="grid grid-cols-2">
+            <div className="flex justify-center">
+              <button
+                onClick={handleDeleteFaculty}
+                className="bg-red-500 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-red-600 transition active:scale-95"
+              >
+                Delete Faculty
+              </button>
+            </div>
+            <div className="flex justify-center ">
+              <button
+                onClick={() => navigate(`/admin/${id}`)}
+                className="hover:cursor-pointer px-4 py-2 rounded-lg bg-blue-500 text-white font-medium hover:bg-blue-600 transition"
+              >
+                Back
+              </button>
+            </div>
           </div>
         </div>
       ) : null}

@@ -8,3 +8,16 @@
   font-weight: 400;
   font-style: normal;
 }
+
+.live {
+  animation: blink 0.8s ease-out 0s infinite alternate;
+}
+
+@keyframes blink {
+  from {
+    opacity: 0.6;
+  }
+  to {
+    opacity: 1;
+  }
+}

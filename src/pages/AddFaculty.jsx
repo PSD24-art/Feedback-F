@@ -110,6 +110,14 @@ const AddFaculty = () => {
           >
             Add Faculty
           </button>
+          <div className="flex justify-end ">
+            <button
+              onClick={() => navigate(`/admin/${id}`)}
+              className="hover:cursor-pointer px-4 py-2 rounded-lg bg-blue-500 text-white font-medium hover:bg-blue-600 transition"
+            >
+              Back
+            </button>
+          </div>
         </form>
       </div>
     </>
