@@ -24,10 +24,10 @@ const FeedbackForm = () => {
   useEffect(() => {
     withLoader(async () => {
       try {
-        const res = await fetch(
-          `${BASE_URL}/faculties/${id}/tokens/${subject}`,
-          { method: "GET", headers: { "Content-Type": "application/json" } }
-        );
+        const res = await fetch(`${BASE_URL}/faculty/${id}/tokens/${subject}`, {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        });
 
         const data = await res.json();
         console.log("token data", data);

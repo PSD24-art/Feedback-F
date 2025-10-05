@@ -26,7 +26,7 @@ const AddFaculty = () => {
 
     await withLoader(async () => {
       try {
-        const res = await fetch(`${BASE_URL}/admin/faculties/new`, {
+        const res = await fetch(`${BASE_URL}/admin/${id}/faculties/new`, {
           method: "POST",
           credentials: "include",
           headers: { "Content-Type": "application/json" },

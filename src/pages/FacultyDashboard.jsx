@@ -14,7 +14,7 @@ const FacultyDashboard = () => {
   useEffect(() => {
     withLoader(async () => {
       try {
-        const res = await fetch(`${BASE_URL}/faculties/${id}/feedback`, {
+        const res = await fetch(`${BASE_URL}/faculty/${id}/feedback`, {
           method: "GET",
           credentials: "include",
           headers: { "Content-Type": "application/json" },
@@ -26,11 +26,11 @@ const FacultyDashboard = () => {
         console.error("Failed to fetch links", err);
       }
     }, setLoading);
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     withLoader(async () => {
-      const res = await fetch(`${BASE_URL}/faculties/${id}`, {
+      const res = await fetch(`${BASE_URL}/faculty/${id}`, {
         method: "GET",
         credentials: "include",
       });
@@ -41,7 +41,7 @@ const FacultyDashboard = () => {
         navigate(`/change-password/${id}`);
       }
     }, setLoading);
-  }, []);
+  }, [id]);
 
   const handleOnClick = () => {
     navigate(`/faculty/${id}/form`);
@@ -52,13 +52,10 @@ const FacultyDashboard = () => {
     const subjectId = document.getElementById("linkSubject").value;
     console.log(subjectId);
     withLoader(async () => {
-      const res = await fetch(
-        `${BASE_URL}/faculties/${id}/count/${subjectId}`,
-        {
-          method: "GET",
-          credentials: "include",
-        }
-      );
+      const res = await fetch(`${BASE_URL}/faculty/${id}/count/${subjectId}`, {
+        method: "GET",
+        credentials: "include",
+      });
       const data = await res.json();
       console.log("All feedbacks", data);
       setCount(data.FeedbackLength);

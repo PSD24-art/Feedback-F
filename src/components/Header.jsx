@@ -9,7 +9,7 @@ const Header = () => {
   const [loading, setLoading] = useState();
   const navigate = useNavigate();
   const location = useLocation();
-  const { isAuthenticated, user, logout } = useAuth();
+  const { user, logout } = useAuth();
 
   let username;
   if (user) {
@@ -29,13 +29,19 @@ const Header = () => {
   const hideButtons =
     /^\/faculty\/[^/]+\/feedback\/[^/]+$/.test(location.pathname) ||
     /^\/feedback\/sent$/.test(location.pathname);
+  let institute;
+  if (user) {
+    institute = user.Institute.name.split(" ").splice(0, 1);
+  } else {
+    institute = "feedback_guru";
+  }
 
   return (
     <>
       {loading && <Loader />}
       <div className="bg-orange-400 fixed top-0 min-w-full h-15 flex justify-between items-center shadow">
         <div className="text-3xl text-black p-1 flex flex-row ms-2 great-vibes-regular">
-          feedback_guru
+          {institute}
         </div>
 
         {user && !hideButtons && (

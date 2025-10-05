@@ -15,7 +15,7 @@ const Subject = () => {
   useEffect(() => {
     withLoader(async () => {
       try {
-        const res = await fetch(`${BASE_URL}/faculties/${id}/feedback`, {
+        const res = await fetch(`${BASE_URL}/faculty/${id}/feedback`, {
           method: "GET",
           credentials: "include",
           headers: { "Content-Type": "application/json" },
@@ -34,7 +34,7 @@ const Subject = () => {
     if (!confirmed) return;
 
     withLoader(async () => {
-      const res = await fetch(`${BASE_URL}/faculties/${id}/feedback/${link}`, {
+      const res = await fetch(`${BASE_URL}/faculty/${id}/feedback/${link}`, {
         method: "DELETE",
         credentials: "include",
         headers: { "Content-Type": "application/json" },

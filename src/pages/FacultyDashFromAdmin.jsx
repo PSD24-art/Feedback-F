@@ -14,11 +14,14 @@ const FacultyDashFromAdmin = () => {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     withLoader(async () => {
-      const res = await fetch(`${BASE_URL}/admin/faculties/${facultyId}`, {
-        method: "GET",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-      });
+      const res = await fetch(
+        `${BASE_URL}/admin/${id}/faculties/${facultyId}`,
+        {
+          method: "GET",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+        }
+      );
       const data = await res.json();
       console.log("Individual Faculty: ", data);
       setFacultyData(data.faculty);
@@ -29,7 +32,7 @@ const FacultyDashFromAdmin = () => {
     withLoader(async () => {
       try {
         const res = await fetch(
-          `${BASE_URL}/admin/faculties/${facultyId}/links`,
+          `${BASE_URL}/admin/${id}/faculties/${facultyId}/links`,
           {
             method: "GET",
             credentials: "include",
@@ -52,7 +55,7 @@ const FacultyDashFromAdmin = () => {
     withLoader(async () => {
       try {
         const res = await fetch(
-          `${BASE_URL}/admin/faculties/${facultyId}/feedback/${subjectId}`,
+          `${BASE_URL}/admin/${id}/faculties/${facultyId}/feedback/${subjectId}`,
           {
             method: "GET",
             credentials: "include",
@@ -72,11 +75,14 @@ const FacultyDashFromAdmin = () => {
     const confirmed = confirm("Really want to delete the faculty");
     if (!confirmed) return;
     withLoader(async () => {
-      const res = await fetch(`${BASE_URL}/admin/faculties/${facultyId}`, {
-        method: "DELETE",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-      });
+      const res = await fetch(
+        `${BASE_URL}/admin/${id}/faculties/${facultyId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+        }
+      );
       const data = await res.json();
       alert(data.message);
       navigate(`/admin/${id}`);

@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 import withLoader from "../utils/withLoader";
+import Loader from "../components/Loader";
 const PasswordReset = () => {
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
@@ -10,6 +11,7 @@ const PasswordReset = () => {
   const newPassRef = useRef();
   const handleSubmit = async (e) => {
     e.preventDefault();
+    confirm("Please ensure you will remember your password");
     const oldPassword = oldPassRef.current.value;
     const newPassword = newPassRef.current.value;
     withLoader(async () => {
@@ -21,8 +23,13 @@ const PasswordReset = () => {
           body: JSON.stringify({ oldPassword, newPassword }),
         });
         const data = await res.json();
-        console.log(data);
-        alert("Password changed successfully");
+        console.log(data.message);
+        if (data.role) {
+          alert("Password changed successfully");
+        } else if (data.error) {
+          alert("Incorrect Old Password");
+        }
+
         if (data.role === "admin") {
           navigate(`/admin/${id}`);
         } else if (data.role === "faculty") {

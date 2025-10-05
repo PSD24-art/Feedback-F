@@ -30,7 +30,7 @@ const CreateForm = ({ triggerFetch }) => {
 
     // Add faculty to subject
     withLoader(async () => {
-      await fetch(`${BASE_URL}/faculties/${id}/subject`, {
+      await fetch(`${BASE_URL}/faculty/${id}/subject`, {
         method: "PUT",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -41,7 +41,7 @@ const CreateForm = ({ triggerFetch }) => {
       console.log("foundSubjectId:", subjectId);
 
       // Add feedback link
-      const res = await fetch(`${BASE_URL}/faculties/${id}/feedback`, {
+      const res = await fetch(`${BASE_URL}/faculty/${id}/feedback`, {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -72,9 +72,9 @@ const CreateForm = ({ triggerFetch }) => {
 
     let url;
     if (dept && sem) {
-      url = `${BASE_URL}/faculties/${id}/subject/${dept}/${sem}`;
+      url = `${BASE_URL}/faculty/${id}/subject/${dept}/${sem}`;
     } else {
-      url = `${BASE_URL}/faculties/${id}/subject/${dept}`;
+      url = `${BASE_URL}/faculty/${id}/subject/${dept}`;
     }
     withLoader(async () => {
       try {

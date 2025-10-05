@@ -18,7 +18,7 @@ const AddSubject = () => {
     const department = deptRef.current.value;
     const semester = semesterRef.current.value;
     withLoader(async () => {
-      const res = await fetch(`${BASE_URL}/faculties/${id}/subject`, {
+      const res = await fetch(`${BASE_URL}/faculty/${id}/subject`, {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
