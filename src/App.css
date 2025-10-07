@@ -10,7 +10,7 @@
 }
 
 .live {
-  animation: blink 0.8s ease-out 0s infinite alternate;
+  animation: blink 0.8s ease-in 0s infinite alternate;
 }
 
 @keyframes blink {
@@ -19,5 +19,18 @@
   }
   to {
     opacity: 1;
+  }
+}
+
+.usernameAnimation {
+  animation: username 0.5 ease-in 0.2 1;
+}
+
+@keyframes username {
+  from {
+    transform: translateX(-300px);
+  }
+  to {
+    transform: translateX(300px);
   }
 }

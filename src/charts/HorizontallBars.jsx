@@ -1,24 +1,44 @@
-import * as React from "react";
-import { useTheme, styled } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { BarChart } from "@mui/x-charts/BarChart";
 import { PiecewiseColorLegend } from "@mui/x-charts/ChartsLegend";
-import { useAnimate, useAnimateBar, useDrawingArea } from "@mui/x-charts/hooks";
+import { useAnimate } from "@mui/x-charts/hooks";
 import { interpolateObject } from "@mui/x-charts-vendor/d3-interpolate";
 
-// ✅ Replace this with your own imported JSON file
-// import facultyRatings from "../dataset/facultyRatings.json";
-
-const facultyRatings = [
-  { criteria: "Communication Clarity", rating: 4.2 },
-  { criteria: "Knowledge of Subject", rating: 3.8 },
-  { criteria: "Engagement", rating: 4.5 },
-  { criteria: "Punctuality", rating: 4.0 },
-  { criteria: "Doubt Solving", rating: 4.6 },
+// Hardcoded criteria names
+const fallbackRatings = [
+  { subjectName: "Communication", avgRating: 3.8 },
+  { subjectName: "Knowledge", avgRating: 2.0 },
+  { subjectName: "Engagement", avgRating: 4.5 },
+  { subjectName: "Punctuality", avgRating: 2.6 },
+  { subjectName: "Doubt Solving", avgRating: 4.6 },
 ];
 
-export default function FacultyFeedbackChart() {
+export default function FacultyFeedbackChart({ criteriaObj = [] }) {
+  console.log("Received criteriaObj:", criteriaObj);
+
+  // Map numeric ratings to criteria names
+  const dataset =
+    Array.isArray(criteriaObj) && criteriaObj.length > 0
+      ? fallbackRatings.map((item, i) => ({
+          subjectName: item.subjectName,
+          avgRating: Number(criteriaObj[i]) || 0,
+        }))
+      : fallbackRatings;
+
+  console.log("Dataset passed to chart:", dataset);
+
+  if (!dataset || dataset.length === 0) {
+    return (
+      <Box width="100%" textAlign="center" mt={4}>
+        <Typography color="text.secondary">
+          No feedback data available
+        </Typography>
+      </Box>
+    );
+  }
+
   return (
     <Box width="100%">
       <Typography marginBottom={2} fontWeight={600}>
@@ -26,20 +46,12 @@ export default function FacultyFeedbackChart() {
       </Typography>
 
       <BarChart
-        height={350}
-        dataset={facultyRatings}
-        series={[
-          {
-            id: "rating",
-            dataKey: "rating",
-            valueFormatter: (v) => `${v.toFixed(1)} / 5`,
-            color: "#3b82f6",
-          },
-        ]}
+        height={320}
         layout="horizontal"
+        dataset={dataset}
         xAxis={[
           {
-            id: "ratings",
+            label: "Average Rating (0–5)",
             min: 0,
             max: 5,
             colorMap: {
@@ -47,27 +59,39 @@ export default function FacultyFeedbackChart() {
               thresholds: [2.5, 4],
               colors: ["#ef4444", "#facc15", "#22c55e"],
             },
-            valueFormatter: (value) => `${value.toFixed(1)} / 5`,
           },
         ]}
         yAxis={[
           {
             scaleType: "band",
-            dataKey: "criteria",
-            width: 150,
+            data: dataset.map((d) => d.subjectName), // ✅ Explicitly provide data labels
+            label: "Criteria",
+            tickLabelStyle: {
+              fontSize: 13,
+              fontWeight: 600,
+              fill: "#374151",
+            },
+            width: 125,
           },
         ]}
-        barLabel={(v) => `${v.value.toFixed(1)}`}
+        series={[
+          {
+            data: dataset.map((d) => d.avgRating), // ✅ Explicitly bind data values
+            label: "Average Rating",
+            valueFormatter: (v) =>
+              typeof v === "number" ? `${v.toFixed(2)} / 5` : "-",
+            color: "#3b82f6",
+          },
+        ]}
+        margin={{ top: 20, bottom: 30 }}
         slots={{
           legend: PiecewiseColorLegend,
-          barLabel: BarLabelAtBase,
-          bar: BarShadedBackground,
+          barLabel: BarLabelInside,
         }}
         slotProps={{
           legend: {
             axisDirection: "x",
             markType: "square",
-            labelPosition: "inline-start",
             labelFormatter: ({ index }) => {
               if (index === 0) return "Needs Improvement";
               if (index === 1) return "Good";
@@ -80,58 +104,39 @@ export default function FacultyFeedbackChart() {
   );
 }
 
-export function BarShadedBackground(props) {
-  const { ownerState, ...other } = props;
-  const theme = useTheme();
-  const animatedProps = useAnimateBar(props);
-  const { width } = useDrawingArea();
-
-  return (
-    <>
-      <rect
-        {...other}
-        fill={(theme.vars || theme).palette.text.primary}
-        opacity={theme.palette.mode === "dark" ? 0.05 : 0.1}
-        x={other.x}
-        width={width}
-      />
-      <rect
-        {...other}
-        filter={ownerState.isHighlighted ? "brightness(120%)" : undefined}
-        opacity={ownerState.isFaded ? 0.3 : 1}
-        data-highlighted={ownerState.isHighlighted || undefined}
-        data-faded={ownerState.isFaded || undefined}
-        {...animatedProps}
-      />
-    </>
-  );
-}
-
+// Label inside each bar
 const Text = styled("text")(({ theme }) => ({
   ...theme.typography.body2,
-  stroke: "none",
   fill: (theme.vars || theme).palette.common.white,
-  textAnchor: "start",
+  textAnchor: "middle",
   dominantBaseline: "central",
   pointerEvents: "none",
   fontWeight: 600,
 }));
 
-function BarLabelAtBase(props) {
-  const { xOrigin, y, height, skipAnimation } = props;
+function BarLabelInside(props) {
+  const { x, y, width, height, formattedValue } = props;
+  if (
+    typeof x !== "number" ||
+    typeof width !== "number" ||
+    typeof y !== "number" ||
+    typeof height !== "number"
+  ) {
+    return null;
+  }
+
   const animatedProps = useAnimate(
-    { x: xOrigin + 8, y: y + height / 2 },
+    { x: x + width / 2, y: y + height / 2 },
     {
-      initialProps: { x: xOrigin, y: y + height / 2 },
+      initialProps: { x, y: y + height / 2 },
       createInterpolator: interpolateObject,
       transformProps: (p) => p,
       applyProps: (el, p) => {
         el.setAttribute("x", p.x.toString());
         el.setAttribute("y", p.y.toString());
       },
-      skip: skipAnimation,
     }
   );
 
-  return <Text {...animatedProps}>{props.formattedValue}</Text>;
+  return <Text {...animatedProps}>{formattedValue}</Text>;
 }

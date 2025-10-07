@@ -5,6 +5,8 @@ import withLoader from "../utils/withLoader";
 import Loader from "../components/Loader";
 import BasicBars from "../charts/barGraph";
 import FacultyFeedbackChart from "../charts/HorizontallBars";
+import fetchFn from "../utils/fetchFn";
+import "../App.css";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const FacultyDashboard = () => {
   const [facultyData, setFacultyData] = useState(null);
@@ -13,20 +15,15 @@ const FacultyDashboard = () => {
   const [subjects, setSubjects] = useState([]);
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [ratings, setRatings] = useState();
+  const [criteriaObj, setcriteriaObj] = useState([]);
+  const [totalRating, setTotalRating] = useState();
+
   useEffect(() => {
     withLoader(async () => {
-      try {
-        const res = await fetch(`${BASE_URL}/faculty/${id}/feedback`, {
-          method: "GET",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-        });
-        const data = await res.json();
-        console.log("Fetched from facultyy dashboard:", data.links);
-        setSubjects(data.links);
-      } catch (err) {
-        console.error("Failed to fetch links", err);
-      }
+      const data = await fetchFn(`/faculty/${id}/feedback`, "GET");
+      console.log("data from fetchFn: ", data);
+      setSubjects(data.links);
     }, setLoading);
   }, [id]);
 
@@ -37,8 +34,10 @@ const FacultyDashboard = () => {
         credentials: "include",
       });
       const data = await res.json();
-      console.log("Faculty Data", data.faculty);
+      console.log("Faculty Data", data);
       setFacultyData(data.faculty);
+      setRatings(data.ratingObjects);
+      setTotalRating(data.totalRating);
       if (!data.faculty.isPasswordSet) {
         navigate(`/change-password/${id}`);
       }
@@ -60,6 +59,7 @@ const FacultyDashboard = () => {
       });
       const data = await res.json();
       console.log("All feedbacks", data);
+      setcriteriaObj(data.ratings);
       setCount(data.FeedbackLength);
     }, setLoading);
   };
@@ -67,60 +67,71 @@ const FacultyDashboard = () => {
   return (
     <>
       {loading && <Loader />}
-      <div className="mt-16 ps-2 pe-2">
+      <div className="w-full mt-16 ps-2 pe-2">
         {facultyData && (
-          <h2 className="text-2xl font-bold text-orange-600 mb-6">
+          <h2 className="usernameAnimation bg-white mt-2 mb-2 border-amber-500 left-5  text-2xl font-bold text-orange-600 ">
             Welcome, {facultyData.name}
           </h2>
         )}
 
         {facultyData ? (
-          <div className=" ">
+          <div className="">
             {/* Analytics Card */}
-            <div className="bg-white border-2 border-orange-200 rounded-lg shadow-md p-6 hover:shadow-lg hover:border-orange-400 transition flex flex-col">
-              <div className="flex justify-between items-center mb-4">
+            <div className=" bg-white border-2 border-orange-200 rounded-lg shadow-md p-6 hover:shadow-lg hover:border-orange-400 transition flex flex-col">
+              <div className="mt-10 flex justify-between items-center mb-2">
                 <h3 className="text-lg font-semibold text-gray-800">
-                  Faculty Analytics <span>{" ⭐4.7"}</span>
+                  Faculty Analytics{" "}
+                  <span>{totalRating && `⭐${totalRating}`}</span>
                   <span
                     className={`text-red-700 bg-amber-100 ms-2 ps-2 pe-2 live rounded-sm`}
                   >
                     Live
                   </span>
                 </h3>
-                <select
-                  id="linkSubject"
-                  className="h-8 px-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
-                  onChange={handleOnChange}
-                >
-                  <option value="Select Subject">Select Subject</option>
-                  {subjects &&
-                    subjects.map((link) => (
-                      <option key={link._id} value={link.subject._id}>
-                        {link.subject.name}
-                      </option>
-                    ))}
-                </select>
               </div>
-
               <div className="mb-3 text-sm font-medium text-gray-700">
                 Count:{" "}
                 <span className="text-orange-600 font-bold">{count}</span>
               </div>
-              <div className="grid grid-cols-3">
-                <div className="flex-grow flex-col flex items-center justify-center text-gray-500 text-sm border border-dashed border-orange-300 rounded-md p-6 ">
+              <div className="grid lg:grid-cols-3 gap-2 md:grid-cols-2 sm:gird-cols-1">
+                <div className="flex-grow flex-col flex items-center justify-center text-gray-500 text-sm border border-dashed border-orange-300 rounded-md p-3 ">
                   <div className="font-bold text-xl">
                     Average ratings for each subject
                   </div>
-                  <BasicBars />
+                  {ratings && <BasicBars ratings={ratings} />}
                 </div>
-                <div className="flex-grow flex items-center justify-center text-gray-500 text-sm border border-dashed border-orange-300 rounded-md p-6 ">
-                  <FacultyFeedbackChart />
+                <div className="flex-grow flex flex-col items-center justify-between text-gray-500 text-sm border border-dashed border-orange-300 rounded-md p-3 ">
+                  <div className="mb-3 flex w-full justify-between items-center">
+                    {" "}
+                    <label htmlFor="linkSubject"> Subject: </label>
+                    <select
+                      id="linkSubject"
+                      className="w-30 h-6 px-2 border rounded-md text-xs focus:outline-none focus:ring-2 focus:ring-orange-400"
+                      onChange={handleOnChange}
+                    >
+                      <option value="Select Subject">Select Subject</option>
+                      {subjects &&
+                        subjects.map((link) => (
+                          <option key={link._id} value={link.subject._id}>
+                            {link.subject.name}
+                          </option>
+                        ))}
+                    </select>
+                  </div>
+
+                  {criteriaObj && criteriaObj.length > 0 ? (
+                    <FacultyFeedbackChart criteriaObj={criteriaObj} />
+                  ) : (
+                    <div className="text-gray-500 text-sm">
+                      Select a subject to view detailed feedback.
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
 
             {/* Faculty Info Card */}
-            <div className="bg-white border-2 border-orange-200 rounded-lg shadow-md p-6 hover:shadow-lg hover:border-orange-400 transition">
+            <div className="bg-white border-2 border-orange-200 rounded-lg shadow-md p-6 hover:shadow-lg hover:border-orange-400 transition mt-2">
               <h3 className="text-lg font-semibold text-gray-800 mb-4">
                 Faculty Details
               </h3>

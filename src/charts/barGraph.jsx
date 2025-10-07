@@ -1,34 +1,41 @@
+import React from "react";
 import { BarChart } from "@mui/x-charts/BarChart";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { lime, purple } from "@mui/material/colors";
-import Button from "@mui/material/Button";
-const theme = createTheme({
-  palette: {
-    primary: lime,
-    secondary: purple,
-  },
-});
 
-export default function BasicBars() {
+export default function BasicBars({ ratings }) {
+  const categories = ratings.map(
+    (r) => r.subjectName.split(" ").splice(0, 2).join(" ") ?? ""
+  );
+  const data = ratings.map((r) => Number(r.avgRating) || 0);
+
+  const colors = [
+    "#FFA500", // orange
+    "#C70039", // maroon
+    "#3380FF", // blue
+    "#FF5733", // red-orange
+    "#33FF57", // green
+    "#FFC300", // yellow
+  ];
+
+  // Create a separate series for each bar
+  const series = data.map((value, i) => ({
+    data: [value],
+    label: categories[i],
+    color: colors[i % colors.length],
+  }));
+
   return (
-    <BarChart
-      xAxis={[
-        {
-          id: "barCategories",
-          data: ["DBMS", "Cloud", "Crypto"],
-        },
-      ]}
-      series={[
-        {
-          data: [4.7, 3.5, 5],
-          color: "#3b82f6", // default fallback
-          colorMap: {
-            type: "ordinal",
-            values: ["#3b82f6", "#22c55e", "#f59e0b", "#ef4444"],
-          },
-        },
-      ]}
-      height={300}
-    />
+    <div style={{ width: "100%", maxWidth: 800, margin: "0 auto" }}>
+      <BarChart
+        xAxis={[{ data: [""], scaleType: "band" }]}
+        series={series}
+        height={300}
+        margin={{ top: 20, bottom: 50 }}
+        slotProps={{
+          legend: { hidden: false },
+        }}
+        fontSize={13}
+        fontWeight={600}
+      />
+    </div>
   );
 }

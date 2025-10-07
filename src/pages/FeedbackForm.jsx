@@ -92,18 +92,18 @@ const FeedbackForm = () => {
           parameter1: {
             q1: answers[0],
             q2: answers[1],
-            q3: answers[2],
           },
           parameter2: {
-            q1: answers[3],
-            q2: answers[4],
-            q3: answers[5],
-            q4: answers[6],
+            q1: answers[2],
+            q2: answers[3],
+            q3: answers[4],
+            q4: answers[5],
           },
           parameter3: {
-            q1: answers[7],
-            q2: answers[8],
-            q3: answers[9],
+            q1: answers[6],
+            q2: answers[7],
+            q3: answers[8],
+            q4: answers[9],
           },
           parameter4: {
             q1: answers[10],
