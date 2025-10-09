@@ -48,21 +48,29 @@ const FacultyDashboard = () => {
     navigate(`/faculty/${id}/form`);
   };
 
-  const handleOnChange = async () => {
-    console.log("select option changed");
-    const subjectId = document.getElementById("linkSubject").value;
-    console.log(subjectId);
+  const [selectedSubjectId, setSelectedSubjectId] = useState("");
+
+  useEffect(() => {
+    if (subjects.length > 0 && !selectedSubjectId) {
+      setSelectedSubjectId(subjects[0].subject._id);
+    }
+  }, [subjects]);
+
+  useEffect(() => {
+    if (!selectedSubjectId) return;
     withLoader(async () => {
-      const res = await fetch(`${BASE_URL}/faculty/${id}/count/${subjectId}`, {
-        method: "GET",
-        credentials: "include",
-      });
+      const res = await fetch(
+        `${BASE_URL}/faculty/${id}/count/${selectedSubjectId}`,
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
       const data = await res.json();
-      console.log("All feedbacks", data);
       setcriteriaObj(data.ratings);
       setCount(data.FeedbackLength);
     }, setLoading);
-  };
+  }, [selectedSubjectId]);
 
   return (
     <>
@@ -77,11 +85,13 @@ const FacultyDashboard = () => {
         {facultyData ? (
           <div className="">
             {/* Analytics Card */}
-            <div className=" bg-white border-2 border-orange-200 rounded-lg shadow-md p-6 hover:shadow-lg hover:border-orange-400 transition flex flex-col">
-              <div className="mt-10 flex justify-between items-center mb-2">
+            <div className=" bg-white border-2 border-orange-200 rounded-lg shadow-md p-4 pt-1 hover:shadow-lg hover:border-orange-400 transition flex flex-col">
+              <div className="mt-2 flex justify-between items-center mb-2">
                 <h3 className="text-lg font-semibold text-gray-800">
                   Faculty Analytics{" "}
-                  <span>{totalRating && `⭐${totalRating}`}</span>
+                  <span>
+                    {isNaN(totalRating) ? "⭐--" : `⭐${totalRating}`}
+                  </span>
                   <span
                     className={`text-red-700 bg-amber-100 ms-2 ps-2 pe-2 live rounded-sm`}
                   >
@@ -93,41 +103,48 @@ const FacultyDashboard = () => {
                 Count:{" "}
                 <span className="text-orange-600 font-bold">{count}</span>
               </div>
-              <div className="grid lg:grid-cols-3 gap-2 md:grid-cols-2 sm:gird-cols-1">
-                <div className="flex-grow flex-col flex items-center justify-center text-gray-500 text-sm border border-dashed border-orange-300 rounded-md p-3 ">
-                  <div className="font-bold text-xl">
-                    Average ratings for each subject
+              {subjects && subjects.length > 0 ? (
+                <div className="grid lg:grid-cols-3 gap-2 md:grid-cols-2 sm:gird-cols-1">
+                  <div className="flex-grow flex-col flex items-center justify-between text-gray-500 text-sm border border-dashed border-orange-300 rounded-md p-3 ">
+                    {/* <div className="font-bold text-xl"></div> */}
+                    <div className="p-1 text-xl rounded-md mb-3 flex w-full justify-between items-center">
+                      Average ratings for each subject
+                    </div>
+
+                    {ratings && <BasicBars ratings={ratings} />}
                   </div>
-                  {ratings && <BasicBars ratings={ratings} />}
-                </div>
-                <div className="flex-grow flex flex-col items-center justify-between text-gray-500 text-sm border border-dashed border-orange-300 rounded-md p-3 ">
-                  <div className="mb-3 flex w-full justify-between items-center">
-                    {" "}
-                    <label htmlFor="linkSubject"> Subject: </label>
-                    <select
-                      id="linkSubject"
-                      className="w-30 h-6 px-2 border rounded-md text-xs focus:outline-none focus:ring-2 focus:ring-orange-400"
-                      onChange={handleOnChange}
-                    >
-                      <option value="Select Subject">Select Subject</option>
-                      {subjects &&
-                        subjects.map((link) => (
+                  <div className="flex-grow flex flex-col items-center justify-between text-gray-500 text-sm border border-dashed border-orange-300 rounded-md p-3 ">
+                    <div className="p-1 rounded-md mb-3 flex w-full justify-between items-center">
+                      {" "}
+                      <label htmlFor="linkSubject" className="font-bold">
+                        {" "}
+                        Subject:{" "}
+                      </label>
+                      <select
+                        id="linkSubject"
+                        value={selectedSubjectId}
+                        disabled={subjects.length <= 1}
+                        onChange={(e) => setSelectedSubjectId(e.target.value)}
+                        className="w-30 h-6 px-2 border rounded-md text-xs focus:outline-none focus:ring-2 focus:ring-orange-400"
+                      >
+                        {subjects.map((link) => (
                           <option key={link._id} value={link.subject._id}>
                             {link.subject.name}
                           </option>
                         ))}
-                    </select>
-                  </div>
-
-                  {criteriaObj && criteriaObj.length > 0 ? (
-                    <FacultyFeedbackChart criteriaObj={criteriaObj} />
-                  ) : (
-                    <div className="text-gray-500 text-sm">
-                      Select a subject to view detailed feedback.
+                      </select>
                     </div>
-                  )}
+
+                    {criteriaObj && criteriaObj.length > 0 ? (
+                      <FacultyFeedbackChart criteriaObj={criteriaObj} />
+                    ) : null}
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <div className="text-gray-500 text-sm">
+                  No subjects or feedbacks recieved.
+                </div>
+              )}
             </div>
 
             {/* Faculty Info Card */}

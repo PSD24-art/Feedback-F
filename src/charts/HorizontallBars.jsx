@@ -41,9 +41,9 @@ export default function FacultyFeedbackChart({ criteriaObj = [] }) {
 
   return (
     <Box width="100%">
-      <Typography marginBottom={2} fontWeight={600}>
+      {/* <Typography marginBottom={2} fontWeight={600}>
         Criteria-wise Faculty Feedback Ratings
-      </Typography>
+      </Typography> */}
 
       <BarChart
         height={320}
