@@ -2,6 +2,8 @@ import React from "react";
 import { BarChart } from "@mui/x-charts/BarChart";
 
 export default function BasicBars({ ratings }) {
+  console.log("Bar chart ratings Vertical: ", ratings);
+
   const categories = ratings.map(
     (r) => r.subjectName.split(" ").splice(0, 2).join(" ") ?? ""
   );

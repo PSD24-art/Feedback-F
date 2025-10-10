@@ -8,11 +8,11 @@ import { interpolateObject } from "@mui/x-charts-vendor/d3-interpolate";
 
 // Hardcoded criteria names
 const fallbackRatings = [
-  { subjectName: "Communication", avgRating: 3.8 },
-  { subjectName: "Knowledge", avgRating: 2.0 },
-  { subjectName: "Engagement", avgRating: 4.5 },
-  { subjectName: "Punctuality", avgRating: 2.6 },
-  { subjectName: "Doubt Solving", avgRating: 4.6 },
+  { criteria: "Communication", avgRating: 3.8 },
+  { criteria: "Knowledge", avgRating: 2.0 },
+  { criteria: "Engagement", avgRating: 4.5 },
+  { criteria: "Punctuality", avgRating: 2.6 },
+  { criteria: "Doubt Solving", avgRating: 4.6 },
 ];
 
 export default function FacultyFeedbackChart({ criteriaObj = [] }) {
@@ -22,7 +22,7 @@ export default function FacultyFeedbackChart({ criteriaObj = [] }) {
   const dataset =
     Array.isArray(criteriaObj) && criteriaObj.length > 0
       ? fallbackRatings.map((item, i) => ({
-          subjectName: item.subjectName,
+          criteria: item.criteria,
           avgRating: Number(criteriaObj[i]) || 0,
         }))
       : fallbackRatings;
@@ -64,7 +64,7 @@ export default function FacultyFeedbackChart({ criteriaObj = [] }) {
         yAxis={[
           {
             scaleType: "band",
-            data: dataset.map((d) => d.subjectName), // ✅ Explicitly provide data labels
+            data: dataset.map((d) => d.criteria), // ✅ Explicitly provide data labels
             label: "Criteria",
             tickLabelStyle: {
               fontSize: 13,
