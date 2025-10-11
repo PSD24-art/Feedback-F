@@ -5,10 +5,15 @@ import withLoader from "../utils/withLoader";
 import Loader from "../components/Loader";
 import BasicBars from "../charts/barGraph";
 import FacultyFeedbackChart from "../charts/HorizontallBars";
+import GenerateBtn from "../components/generateBtn";
+import useAuth from "../store/AuthProvider";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const FacultyDashFromAdmin = () => {
+  const { user } = useAuth();
   const { id, facultyId, subject } = useParams();
   const [count, setCount] = useState();
+  const [criteriaRatingsAi, setCriteriaRatingsAi] = useState({});
+  const [subRatingsAi, setSubRatingsAi] = useState({});
   const [facultyData, setFacultyData] = useState();
   const [subjects, setSubjects] = useState([]);
   const navigate = useNavigate();
@@ -17,6 +22,7 @@ const FacultyDashFromAdmin = () => {
   const [totalRating, setTotalRating] = useState();
   const [selectedSubjectId, setSelectedSubjectId] = useState("");
   const [criteriaObj, setcriteriaObj] = useState([]);
+  const [aiSummary, setAiSummary] = useState();
 
   useEffect(() => {
     withLoader(async () => {
@@ -33,6 +39,7 @@ const FacultyDashFromAdmin = () => {
       setFacultyData(data.faculty);
       setRatings(data.ratingObjects);
       setTotalRating(data.totalRating);
+      setSubRatingsAi(data.ratingsForAi);
     }, setLoading);
   }, []);
 
@@ -78,9 +85,27 @@ const FacultyDashFromAdmin = () => {
       const data = await res.json();
       setcriteriaObj(data.ratings);
       setCount(data.FeedbackLength);
+      setCriteriaRatingsAi(data.criteriaRatingsAi);
     }, setLoading);
   }, [selectedSubjectId]);
-
+  //AI summary generator
+  const handleGenerateSummary = async () => {
+    withLoader(async () => {
+      const res = await fetch(`${BASE_URL}/admin/${id}/faculty-summary`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          facultyName: facultyData.name,
+          criteriaAnalysis: criteriaRatingsAi,
+          subjectAnalysis: subRatingsAi,
+        }),
+      });
+      const data = await res.json();
+      console.log("summary: ", data);
+      setAiSummary(data.summary);
+    }, setLoading);
+  };
   const handleOnChange = async () => {
     console.log("select option changed");
     const subjectId = document.getElementById("linkSubject").value;
@@ -177,8 +202,23 @@ const FacultyDashFromAdmin = () => {
                     ) : null}
                   </div>
                   {}
-                  <div className="p-1 rounded-md mb-3 flex w-full justify-between items-center">
-                    <p></p>
+                  {/* AI Summary */}
+                  <div className="flex-grow flex flex-col items-center justify-evenly text-gray-500 text-sm border border-dashed border-orange-300 rounded-md p-3 min-h-96">
+                    {aiSummary && aiSummary !== " " ? (
+                      <p> {aiSummary}</p>
+                    ) : (
+                      <p>Click Ai Summary button until it generates summary!</p>
+                    )}
+                    <div className="w-45 h-20" onClick={handleGenerateSummary}>
+                      <GenerateBtn />
+                    </div>
+                  </div>
+                  <div className="flex-grow flex flex-col items-center justify-evenly text-gray-500 text-sm border border-dashed border-orange-300 rounded-md p-3 min-h-96">
+                    <div className="w-45 h-20" onClick={handleGenerateSummary}>
+                      <GenerateBtn />
+                    </div>
+
+                    {aiSummary && <p> {aiSummary}</p>}
                   </div>
                 </div>
               ) : (

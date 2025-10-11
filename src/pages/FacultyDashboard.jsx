@@ -25,6 +25,7 @@ const FacultyDashboard = () => {
   const [criteriaRatingsAi, setCriteriaRatingsAi] = useState({});
   const [subRatingsAi, setSubRatingsAi] = useState({});
   const [aiSummary, setAiSummary] = useState();
+  console.log("Recievd user obj: ", user);
 
   //AI summary generator
   const handleGenerateSummary = async () => {
@@ -112,29 +113,31 @@ const FacultyDashboard = () => {
           </h2>
         )}
         {/* Faculty Info Card */}
-        <div className=" border-2 bg-white border-orange-200 rounded-lg shadow-md p-3 hover:shadow-lg hover:border-orange-400 transition mt-2 mb-2">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">
-            Faculty Details:
-          </h3>
-          <div className="flex justify-between">
-            <p className="text-gray-700 mb-2">
-              <span className="font-medium text-orange-600">Department:</span>{" "}
-              {facultyData.department}
-            </p>
-            <p className="text-gray-700 mb-2">
-              <span className="font-medium text-orange-600">Email:</span>{" "}
-              {facultyData.email}
-            </p>
+        {facultyData && (
+          <div className=" border-2 bg-white border-orange-200 rounded-lg shadow-md p-3 hover:shadow-lg hover:border-orange-400 transition mt-2 mb-2">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">
+              Faculty Details:
+            </h3>
+            <div className="flex justify-between">
+              <p className="text-gray-700 mb-2">
+                <span className="font-medium text-orange-600">Department:</span>{" "}
+                {facultyData.department}
+              </p>
+              <p className="text-gray-700 mb-2">
+                <span className="font-medium text-orange-600">Email:</span>{" "}
+                {facultyData.email}
+              </p>
+            </div>
+            <div className="flex justify-center">
+              <button
+                onClick={handleOnClick}
+                className="hover:cursor-pointer px-4 py-2 rounded-lg bg-orange-500 text-white font-medium hover:bg-orange-600 transition"
+              >
+                Feedback Form
+              </button>
+            </div>
           </div>
-          <div className="flex justify-center">
-            <button
-              onClick={handleOnClick}
-              className="hover:cursor-pointer px-4 py-2 rounded-lg bg-orange-500 text-white font-medium hover:bg-orange-600 transition"
-            >
-              Feedback Form
-            </button>
-          </div>
-        </div>
+        )}
 
         {facultyData ? (
           <div className="">
