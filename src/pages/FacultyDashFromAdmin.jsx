@@ -176,6 +176,10 @@ const FacultyDashFromAdmin = () => {
                       <FacultyFeedbackChart criteriaObj={criteriaObj} />
                     ) : null}
                   </div>
+                  {}
+                  <div className="p-1 rounded-md mb-3 flex w-full justify-between items-center">
+                    <p></p>
+                  </div>
                 </div>
               ) : (
                 <div className="text-gray-500 text-sm">

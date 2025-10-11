@@ -7,6 +7,7 @@ const fetchFn = async (url, method, body) => {
       method,
       credentials: "include",
       headers: { "Content-Type": "application/json" },
+      body,
     });
     const data = await res.json();
     return data;
