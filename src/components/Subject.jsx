@@ -21,7 +21,7 @@ const Subject = () => {
           headers: { "Content-Type": "application/json" },
         });
         const data = await res.json();
-        console.log("Fetched:", data.links);
+
         setFeedbackLinks(data.links);
       } catch (err) {
         console.error("Failed to fetch links", err);
@@ -40,7 +40,6 @@ const Subject = () => {
         headers: { "Content-Type": "application/json" },
       });
       const data = await res.json();
-      console.log(data);
       setShouldFetch((prev) => !prev);
     }, setLoading);
   };

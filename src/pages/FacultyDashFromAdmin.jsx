@@ -85,22 +85,6 @@ const FacultyDashFromAdmin = () => {
       setAiSummary(data.summary);
     }, setLoading);
   };
-  const handleOnChange = async () => {
-    console.log("select option changed");
-    const subjectId = document.getElementById("linkSubject").value;
-    console.log(subjectId);
-    withLoader(async () => {
-      try {
-        const data = fetchFn(
-          `/admin/${id}/faculties/${facultyId}/feedback/${subjectId}`,
-          "GET"
-        );
-        setCount(data.FeedbackLength);
-      } catch (e) {
-        console.log(e.message);
-      }
-    }, setLoading);
-  };
 
   const handleDeleteFaculty = async () => {
     const confirmed = confirm("Really want to delete the faculty");

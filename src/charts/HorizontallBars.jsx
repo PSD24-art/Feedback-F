@@ -16,7 +16,7 @@ const fallbackRatings = [
 ];
 
 export default function FacultyFeedbackChart({ criteriaObj = [] }) {
-  console.log("Received criteriaObj:", criteriaObj);
+  // console.log("Received criteriaObj:", criteriaObj);
 
   // Map numeric ratings to criteria names
   const dataset =
@@ -26,8 +26,6 @@ export default function FacultyFeedbackChart({ criteriaObj = [] }) {
           avgRating: Number(criteriaObj[i]) || 0,
         }))
       : fallbackRatings;
-
-  console.log("Dataset passed to chart:", dataset);
 
   if (!dataset || dataset.length === 0) {
     return (

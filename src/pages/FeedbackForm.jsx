@@ -60,7 +60,7 @@ const FeedbackForm = () => {
           studentRoll: studentroll,
         })
       );
-      console.log("Backend Response", data);
+
       if (data.message) {
         setCurrent(true);
       } else {
@@ -71,7 +71,6 @@ const FeedbackForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(answers);
     withLoader(async () => {
       const data = await fetchFn(
         `/feedback/${token}`,
