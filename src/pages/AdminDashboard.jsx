@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 import withLoader from "../utils/withLoader";
 import Loader from "../components/Loader";
+import fetchFn from "../utils/fetchFn";
 const AdminDashboard = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -11,13 +12,8 @@ const AdminDashboard = () => {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     withLoader(async () => {
-      const res = await fetch(`${BASE_URL}/admin/${id}`, {
-        method: "GET",
-        credentials: "include",
-      });
-      const data = await res.json();
+      const data = await fetchFn(`/admin/${id}`, "GET");
       setFacultyList(data.allFaculties);
-      console.log(data);
       if (!data.admin.isPasswordSet) {
         navigate(`/change-password/${id}`);
       }

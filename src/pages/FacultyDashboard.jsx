@@ -25,23 +25,19 @@ const FacultyDashboard = () => {
   const [criteriaRatingsAi, setCriteriaRatingsAi] = useState({});
   const [subRatingsAi, setSubRatingsAi] = useState({});
   const [aiSummary, setAiSummary] = useState();
-  console.log("Recievd user obj: ", user);
 
   //AI summary generator
   const handleGenerateSummary = async () => {
     withLoader(async () => {
-      const res = await fetch(`${BASE_URL}/faculty/${id}/faculty-summary`, {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+      const data = await fetchFn(
+        `/faculty/${id}/faculty-summary`,
+        "POST",
+        JSON.stringify({
           facultyName: user.name,
           criteriaAnalysis: criteriaRatingsAi,
           subjectAnalysis: subRatingsAi,
-        }),
-      });
-      const data = await res.json();
-      console.log("summary: ", data);
+        })
+      );
       setAiSummary(data.summary);
     }, setLoading);
   };
@@ -56,12 +52,7 @@ const FacultyDashboard = () => {
 
   useEffect(() => {
     withLoader(async () => {
-      const res = await fetch(`${BASE_URL}/faculty/${id}`, {
-        method: "GET",
-        credentials: "include",
-      });
-      const data = await res.json();
-      console.log("Faculty Data", data);
+      const data = await fetchFn(`/faculty/${id}`, "GET");
       setFacultyData(data.faculty);
       setRatings(data.ratingObjects);
       setTotalRating(data.totalRating);
@@ -87,16 +78,10 @@ const FacultyDashboard = () => {
   useEffect(() => {
     if (!selectedSubjectId) return;
     withLoader(async () => {
-      const res = await fetch(
-        `${BASE_URL}/faculty/${id}/count/${selectedSubjectId}`,
-        {
-          method: "GET",
-          credentials: "include",
-        }
+      const data = await fetchFn(
+        `/faculty/${id}/count/${selectedSubjectId}`,
+        "GET"
       );
-      const data = await res.json();
-      console.log("Criteria for AI: ", data.criteriaRatingsAi);
-
       setcriteriaObj(data.ratings);
       setCount(data.FeedbackLength);
       setCriteriaRatingsAi(data.criteriaRatingsAi);
@@ -127,14 +112,6 @@ const FacultyDashboard = () => {
                 <span className="font-medium text-orange-600">Email:</span>{" "}
                 {facultyData.email}
               </p>
-            </div>
-            <div className="flex justify-center">
-              <button
-                onClick={handleOnClick}
-                className="hover:cursor-pointer px-4 py-2 rounded-lg bg-orange-500 text-white font-medium hover:bg-orange-600 transition"
-              >
-                Feedback Form
-              </button>
             </div>
           </div>
         )}
@@ -198,11 +175,14 @@ const FacultyDashboard = () => {
                   </div>
                   {/* AI Summary */}
                   <div className="flex-grow flex flex-col items-center justify-evenly text-gray-500 text-sm border border-dashed border-orange-300 rounded-md p-3 min-h-96">
+                    {aiSummary && aiSummary !== " " ? (
+                      <p> {aiSummary}</p>
+                    ) : (
+                      <p>Click AI Summary button until it generates summary!</p>
+                    )}
                     <div className="w-45 h-20" onClick={handleGenerateSummary}>
                       <GenerateBtn />
                     </div>
-
-                    {aiSummary && <p> {aiSummary}</p>}
                   </div>
                   <div className="flex-grow flex flex-col items-center justify-evenly text-gray-500 text-sm border border-dashed border-orange-300 rounded-md p-3 min-h-96">
                     <div className="w-45 h-20" onClick={handleGenerateSummary}>
@@ -220,6 +200,14 @@ const FacultyDashboard = () => {
             </div>
           </div>
         ) : null}
+      </div>
+      <div className=" mt-5 flex justify-center">
+        <button
+          onClick={handleOnClick}
+          className="hover:cursor-pointer px-4 py-2 rounded-lg bg-orange-500 text-white font-medium hover:bg-orange-600 transition"
+        >
+          Feedback Form
+        </button>
       </div>
     </>
   );

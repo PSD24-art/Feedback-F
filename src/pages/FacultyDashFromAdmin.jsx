@@ -7,6 +7,7 @@ import BasicBars from "../charts/barGraph";
 import FacultyFeedbackChart from "../charts/HorizontallBars";
 import GenerateBtn from "../components/generateBtn";
 import useAuth from "../store/AuthProvider";
+import fetchFn from "../utils/fetchFn";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const FacultyDashFromAdmin = () => {
   const { user } = useAuth();
@@ -26,16 +27,7 @@ const FacultyDashFromAdmin = () => {
 
   useEffect(() => {
     withLoader(async () => {
-      const res = await fetch(
-        `${BASE_URL}/admin/${id}/faculties/${facultyId}`,
-        {
-          method: "GET",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-      const data = await res.json();
-      console.log("Individual Faculty: ", data);
+      const data = await fetchFn(`/admin/${id}/faculties/${facultyId}`, "GET");
       setFacultyData(data.faculty);
       setRatings(data.ratingObjects);
       setTotalRating(data.totalRating);
@@ -46,18 +38,11 @@ const FacultyDashFromAdmin = () => {
   useEffect(() => {
     withLoader(async () => {
       try {
-        const res = await fetch(
-          `${BASE_URL}/admin/${id}/faculties/${facultyId}/links`,
-          {
-            method: "GET",
-            credentials: "include",
-            headers: { "Content-Type": "application/json" },
-          }
+        const data = await fetchFn(
+          `/admin/${id}/faculties/${facultyId}/links`,
+          "GET"
         );
-        const data = await res.json();
-        console.log("Fetched from facultyy dashboard:", data.links);
         setSubjects(data.links);
-        console.log("Subject: ", subjects);
       } catch (err) {
         console.error("Failed to fetch links", err);
       }
@@ -75,14 +60,11 @@ const FacultyDashFromAdmin = () => {
   useEffect(() => {
     if (!selectedSubjectId) return;
     withLoader(async () => {
-      const res = await fetch(
-        `${BASE_URL}/admin/${id}/faculties/${facultyId}/feedback/${selectedSubjectId}`,
-        {
-          method: "GET",
-          credentials: "include",
-        }
+      const data = await fetchFn(
+        `/admin/${id}/faculties/${facultyId}/feedback/${selectedSubjectId}`,
+        "GET"
       );
-      const data = await res.json();
+
       setcriteriaObj(data.ratings);
       setCount(data.FeedbackLength);
       setCriteriaRatingsAi(data.criteriaRatingsAi);
@@ -91,18 +73,15 @@ const FacultyDashFromAdmin = () => {
   //AI summary generator
   const handleGenerateSummary = async () => {
     withLoader(async () => {
-      const res = await fetch(`${BASE_URL}/admin/${id}/faculty-summary`, {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+      const data = await fetchFn(
+        `/admin/${id}/faculty-summary`,
+        "POST",
+        JSON.stringify({
           facultyName: facultyData.name,
           criteriaAnalysis: criteriaRatingsAi,
           subjectAnalysis: subRatingsAi,
-        }),
-      });
-      const data = await res.json();
-      console.log("summary: ", data);
+        })
+      );
       setAiSummary(data.summary);
     }, setLoading);
   };
@@ -112,16 +91,10 @@ const FacultyDashFromAdmin = () => {
     console.log(subjectId);
     withLoader(async () => {
       try {
-        const res = await fetch(
-          `${BASE_URL}/admin/${id}/faculties/${facultyId}/feedback/${subjectId}`,
-          {
-            method: "GET",
-            credentials: "include",
-            headers: { "Content-Type": "application/json" },
-          }
+        const data = fetchFn(
+          `/admin/${id}/faculties/${facultyId}/feedback/${subjectId}`,
+          "GET"
         );
-        const data = await res.json();
-        console.log("Feedbacks: ", data);
         setCount(data.FeedbackLength);
       } catch (e) {
         console.log(e.message);
@@ -133,15 +106,10 @@ const FacultyDashFromAdmin = () => {
     const confirmed = confirm("Really want to delete the faculty");
     if (!confirmed) return;
     withLoader(async () => {
-      const res = await fetch(
-        `${BASE_URL}/admin/${id}/faculties/${facultyId}`,
-        {
-          method: "DELETE",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-        }
+      const data = await fetchFn(
+        `/admin/${id}/faculties/${facultyId}`,
+        "DELETE"
       );
-      const data = await res.json();
       alert(data.message);
       navigate(`/admin/${id}`);
     }, setLoading);
@@ -160,6 +128,23 @@ const FacultyDashFromAdmin = () => {
 
         {facultyData ? (
           <div className="">
+            <div className=" border-2 bg-white border-orange-200 rounded-lg shadow-md p-3 hover:shadow-lg hover:border-orange-400 transition mt-2 mb-2">
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">
+                Faculty Details:
+              </h3>
+              <div className="flex justify-between">
+                <p className="text-gray-700 mb-2">
+                  <span className="font-medium text-orange-600">
+                    Department:
+                  </span>{" "}
+                  {facultyData.department}
+                </p>
+                <p className="text-gray-700 mb-2">
+                  <span className="font-medium text-orange-600">Email:</span>{" "}
+                  {facultyData.email}
+                </p>
+              </div>
+            </div>
             {/* Analytics Card */}
             <div className="bg-white border-2 border-orange-200 rounded-lg shadow-md p-4 pt-1 hover:shadow-lg hover:border-orange-400 transition flex flex-col mb-4">
               <div className="mt-2 flex justify-between items-center mb-2">
@@ -169,7 +154,7 @@ const FacultyDashFromAdmin = () => {
               </div>
 
               {subjects && subjects.length > 0 ? (
-                <div className="grid lg:grid-cols-3 gap-2 md:grid-cols-2 sm:gird-cols-1">
+                <div className="grid xl:grid-cols-4 lg:grid-cols-2 gap-2 md:grid-cols-2 sm:gird-cols-1">
                   <div className="flex-grow flex-col flex items-center justify-between text-gray-500 text-sm border border-dashed border-orange-300 rounded-md p-3">
                     <div className="p-1 text-xl rounded-md mb-3 flex w-full justify-between items-center">
                       Average ratings for each subject
@@ -207,7 +192,7 @@ const FacultyDashFromAdmin = () => {
                     {aiSummary && aiSummary !== " " ? (
                       <p> {aiSummary}</p>
                     ) : (
-                      <p>Click Ai Summary button until it generates summary!</p>
+                      <p>Click AI Summary button until it generates summary!</p>
                     )}
                     <div className="w-45 h-20" onClick={handleGenerateSummary}>
                       <GenerateBtn />
@@ -229,41 +214,23 @@ const FacultyDashFromAdmin = () => {
             </div>
 
             {/* Faculty Info Card */}
-            <div className="bg-white border-2 border-orange-200 rounded-lg shadow-md p-6 hover:shadow-lg hover:border-orange-400 transition mb-4">
-              <h3 className="text-lg font-semibold text-gray-800 mb-4">
-                Faculty Details
-              </h3>
-              <p className="text-gray-700 mb-2">
-                <span className="font-medium text-orange-600">Name:</span>{" "}
-                {facultyData.name}
-              </p>
-              <p className="text-gray-700 mb-2">
-                <span className="font-medium text-orange-600">Department:</span>{" "}
-                {facultyData.department}
-              </p>
-              <p className="text-gray-700 mb-4">
-                <span className="font-medium text-orange-600">Email:</span>{" "}
-                {facultyData.email}
-              </p>
-
-              {/* Admin Buttons */}
-              <div className="grid grid-cols-2 gap-4 place-items-center">
-                <button
-                  onClick={handleDeleteFaculty}
-                  className=" bg-red-500 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-red-600 transition active:scale-95 "
-                >
-                  Delete Faculty
-                </button>
-                <button
-                  onClick={() => navigate(`/admin/${id}`)}
-                  className="hover:cursor-pointer px-4 py-2 rounded-lg bg-blue-500 text-white font-medium hover:bg-blue-600 transition"
-                >
-                  Back
-                </button>
-              </div>
-            </div>
           </div>
         ) : null}
+      </div>
+      {/* Admin Buttons */}
+      <div className="flex gap-4 justify-end pe-4">
+        <button
+          onClick={handleDeleteFaculty}
+          className=" bg-red-500 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-red-600 transition active:scale-95 "
+        >
+          Delete Faculty
+        </button>
+        <button
+          onClick={() => navigate(`/admin/${id}`)}
+          className="hover:cursor-pointer px-4 py-2 rounded-lg bg-blue-500 text-white font-medium hover:bg-blue-600 transition"
+        >
+          Back
+        </button>
       </div>
     </>
   );

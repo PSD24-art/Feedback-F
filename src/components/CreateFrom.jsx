@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import withLoader from "../utils/withLoader";
 import Loader from "./Loader";
+import fetchFn from "../utils/fetchFn";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const CreateForm = ({ triggerFetch }) => {
   const { id } = useParams();
@@ -30,32 +31,25 @@ const CreateForm = ({ triggerFetch }) => {
 
     // Add faculty to subject
     withLoader(async () => {
-      await fetch(`${BASE_URL}/faculty/${id}/subject`, {
-        method: "PUT",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code: selectedCode }),
-      });
-      console.log("selectedCode:", selectedCode);
-      console.log("subjects:", subjects);
-      console.log("foundSubjectId:", subjectId);
+      const putData = await fetchFn(
+        `/faculty/${id}/subject`,
+        "PUT",
+        JSON.stringify({ code: selectedCode })
+      );
+      console.log("Put faculty: ", putData);
 
       // Add feedback link
-      const res = await fetch(`${BASE_URL}/faculty/${id}/feedback`, {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+      const data = await fetchFn(
+        `/faculty/${id}/feedback`,
+        "POST",
+        JSON.stringify({
           subject: foundSubjectId,
           link: `http://localhost:5173/faculty/${id}/feedback/${selectedCode}`,
-        }),
-      });
-
-      const data = await res.json();
+        })
+      );
       if (data.message) {
         setLinkMessage(data.message);
       }
-
       setButton(true);
       triggerFetch();
     }, setLoading);
@@ -78,12 +72,7 @@ const CreateForm = ({ triggerFetch }) => {
     }
     withLoader(async () => {
       try {
-        const res = await fetch(url, {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-        });
-        const data = await res.json();
+        const data = await fetchFn(url, "GET");
         setSubjects(data.subjects);
       } catch (err) {
         console.error("Failed to fetch subjects", err);
@@ -97,7 +86,7 @@ const CreateForm = ({ triggerFetch }) => {
       {!button ? (
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col gap-4 bg-white p-6 rounded-lg border-2 border-orange-200 shadow-md"
+          className="sm:w-[60%] flex flex-col gap-4 bg-white p-6 rounded-lg border-2 border-orange-200 shadow-md"
         >
           <div className="flex flex-col">
             <label

@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import withLoader from "../utils/withLoader";
 import Loader from "./Loader";
+import fetchFn from "../utils/fetchFn";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const AddSubject = () => {
   const [loading, setLoading] = useState(false);
@@ -18,14 +19,12 @@ const AddSubject = () => {
     const department = deptRef.current.value;
     const semester = semesterRef.current.value;
     withLoader(async () => {
-      const res = await fetch(`${BASE_URL}/faculty/${id}/subject`, {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, code, department, semester }),
-      });
-      const data = await res.json();
-      console.log(data);
+      const data = await fetchFn(
+        `/faculty/${id}/subject`,
+        "POST",
+        JSON.stringify({ name, code, department, semester })
+      );
+
       if (data.message) {
         setMessage(data.message);
       } else if (data.error) {
@@ -43,7 +42,7 @@ const AddSubject = () => {
       {message === null ? (
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col gap-4 bg-white p-6 rounded-lg border-2 border-orange-200 shadow-md"
+          className="sm:w-[60%] flex flex-col gap-4 bg-white p-6 rounded-lg border-2 border-orange-200 shadow-md"
         >
           {/* Subject Name */}
           <input

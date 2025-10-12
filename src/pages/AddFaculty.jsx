@@ -26,15 +26,11 @@ const AddFaculty = () => {
 
     await withLoader(async () => {
       try {
-        const res = await fetch(`${BASE_URL}/admin/${id}/faculties/new`, {
-          method: "POST",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, email, department }),
-        });
-
-        const data = await res.json();
-        console.log("Response data:", data);
+        const data = await fetchFn(
+          `/admin/${id}/faculties/new`,
+          "POST",
+          JSON.stringify({ name, email, department })
+        );
 
         if (res.ok) {
           alert("Faculty added successfully");

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import questions from "../data/questions";
 import Loader from "../components/Loader";
 import withLoader from "../utils/withLoader";
+import fetchFn from "../utils/fetchFn";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const FeedbackForm = () => {
@@ -24,14 +25,7 @@ const FeedbackForm = () => {
   useEffect(() => {
     withLoader(async () => {
       try {
-        const res = await fetch(`${BASE_URL}/faculty/${id}/tokens/${subject}`, {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        });
-
-        const data = await res.json();
-        console.log("token data", data);
-
+        const data = await fetchFn(`/faculty/${id}/tokens/${subject}`, "GET");
         if (data?.newToken?.token) {
           setToken(data.newToken.token);
           setSubjectName(data.newToken.subject.name);
@@ -59,14 +53,13 @@ const FeedbackForm = () => {
     setRoll(studentroll);
     setName(studentName);
     withLoader(async () => {
-      const res = await fetch(`${BASE_URL}/feedback/${token}/check`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+      const data = await fetchFn(
+        `/feedback/${token}/check`,
+        "POST",
+        JSON.stringify({
           studentRoll: studentroll,
-        }),
-      });
-      const data = await res.json();
+        })
+      );
       console.log("Backend Response", data);
       if (data.message) {
         setCurrent(true);
@@ -80,10 +73,10 @@ const FeedbackForm = () => {
     e.preventDefault();
     console.log(answers);
     withLoader(async () => {
-      const res = await fetch(`${BASE_URL}/feedback/${token}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+      const data = await fetchFn(
+        `/feedback/${token}`,
+        "POST",
+        JSON.stringify({
           studentName: name,
           studentRoll: roll,
           faculty: id,
@@ -119,10 +112,8 @@ const FeedbackForm = () => {
           strengths: answers[17],
           improvements: answers[18],
           additionalComments: answers[19],
-        }),
-      });
-      const data = await res.json();
-      console.log(data);
+        })
+      );
       alert("Feedback submitted successfully!");
       navigate("/feedback/sent");
     }, setLoading);

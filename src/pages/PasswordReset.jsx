@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 import withLoader from "../utils/withLoader";
 import Loader from "../components/Loader";
+import fetchFn from "../utils/fetchFn";
 const PasswordReset = () => {
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
@@ -16,13 +17,11 @@ const PasswordReset = () => {
     const newPassword = newPassRef.current.value;
     withLoader(async () => {
       try {
-        const res = await fetch(`${BASE_URL}/change-password/${id}`, {
-          method: "POST",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ oldPassword, newPassword }),
-        });
-        const data = await res.json();
+        const data = await fetchFn(
+          `/change-password/${id}`,
+          "POST",
+          JSON.stringify({ oldPassword, newPassword })
+        );
         console.log(data.message);
         if (data.role) {
           alert("Password changed successfully");

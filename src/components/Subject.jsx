@@ -98,7 +98,7 @@ const Subject = () => {
         </div>
 
         {clickValue === "AddSubject" && (
-          <div className="relative bg-white border-2 border-orange-200 rounded-lg shadow-md p-4 mb-6">
+          <div className="flex flex-col justify-center items-center relative bg-white border-2 border-orange-200 rounded-lg shadow-md p-4 mb-6">
             {/* Close Button */}
             <button
               onClick={() => setClickValue(null)}
@@ -112,7 +112,7 @@ const Subject = () => {
         )}
 
         {clickValue === "CreateForm" && (
-          <div className="relative bg-white border-2 border-orange-200 rounded-lg shadow-md p-4 pt-8 mb-6">
+          <div className="flex flex-col justify-center items-center relative bg-white border-2 border-orange-200 rounded-lg shadow-md p-4 pt-8 mb-6">
             {/* Close Button */}
             <button
               onClick={() => setClickValue(null)}
