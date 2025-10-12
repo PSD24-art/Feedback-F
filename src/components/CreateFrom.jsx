@@ -36,7 +36,7 @@ const CreateForm = ({ triggerFetch }) => {
         "PUT",
         JSON.stringify({ code: selectedCode })
       );
-      console.log("Put faculty: ", putData);
+      // console.log("Put faculty: ", putData);
 
       // Add feedback link
       const data = await fetchFn(

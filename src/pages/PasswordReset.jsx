@@ -22,7 +22,7 @@ const PasswordReset = () => {
           "POST",
           JSON.stringify({ oldPassword, newPassword })
         );
-        console.log(data.message);
+  
         if (data.role) {
           alert("Password changed successfully");
         } else if (data.error) {

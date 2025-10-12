@@ -21,12 +21,10 @@ const AdminDashboard = () => {
   }, []);
 
   const handleOnClick = (facultyId) => {
-    console.log("Clicked Faculty");
     navigate(`/admin/${id}/faculty/${facultyId}`);
   };
 
   const handleAddFacultyClick = async () => {
-    console.log("Clicked Add faculty");
     navigate(`/admin/${id}/faculty/new`);
   };
   return (

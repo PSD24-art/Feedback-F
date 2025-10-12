@@ -45,7 +45,6 @@ const FacultyDashboard = () => {
   useEffect(() => {
     withLoader(async () => {
       const data = await fetchFn(`/faculty/${id}/feedback`, "GET");
-      console.log("data from fetchFn: ", data);
       setSubjects(data.links);
     }, setLoading);
   }, [id]);
