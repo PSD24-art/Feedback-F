@@ -3,8 +3,9 @@ import { useParams } from "react-router-dom";
 import withLoader from "../utils/withLoader";
 import Loader from "./Loader";
 import fetchFn from "../utils/fetchFn";
-const BASE_URL = import.meta.env.VITE_BASE_URL;
+const FRONTEND_URL = import.meta.env.VITE_FRONTEND_URL;
 const CreateForm = ({ triggerFetch }) => {
+  console.log("Frontend url: ", FRONTEND_URL);
   const { id } = useParams();
   const subjectRef = useRef();
   const [button, setButton] = useState(false);
@@ -44,7 +45,7 @@ const CreateForm = ({ triggerFetch }) => {
         "POST",
         JSON.stringify({
           subject: foundSubjectId,
-          link: `http://localhost:5173/faculty/${id}/feedback/${selectedCode}`,
+          link: `${FRONTEND_URL}/faculty/${id}/feedback/${selectedCode}`,
         })
       );
       if (data.message) {
@@ -177,12 +178,12 @@ const CreateForm = ({ triggerFetch }) => {
             {/* Link */}
             <div className="whitespace-normal break-words text-blue-700 underline bg-blue-50 p-2 rounded-md">
               <a
-                href={`http://localhost:5173/faculty/${id}/feedback/${code}`}
+                href={`${FRONTEND_URL}/faculty/${id}/feedback/${code}`}
                 target="_blank"
                 rel="noreferrer"
               >
                 {linkMessage ??
-                  `http://localhost:5173/faculty/${id}/feedback/${code}`}
+                  `${FRONTEND_URL}/faculty/${id}/feedback/${code}`}
               </a>
             </div>
 
@@ -191,7 +192,7 @@ const CreateForm = ({ triggerFetch }) => {
               onClick={() => {
                 navigator.clipboard.writeText(
                   linkMessage ??
-                    `http://localhost:5173/faculty/${id}/feedback/${code}`
+                    `${FRONTEND_URL}/faculty/${id}/feedback/${code}`
                 );
                 alert("Link copied to clipboard!");
               }}

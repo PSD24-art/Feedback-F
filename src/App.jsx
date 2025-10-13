@@ -21,7 +21,6 @@ function App() {
         <Route path="/faculty/:id" element={<FacultyDashboard />} />
         <Route path="/change-password/:id" element={<PasswordReset />} />
         <Route path="/faculty/:id/form" element={<Subject />} />
-.
         <Route
           path="/faculty/:id/feedback/:subject"
           element={<FeedbackForm />}
@@ -34,7 +33,6 @@ function App() {
         <Route path="/admin/:id/faculty/new" element={<AddFaculty />} />
         {/* Student routes*/}
         <Route path="/admin/:id/faculty/new" element={<AddFaculty />} />
-        <Route path="/faculty/feedbackForm" element={<FeedbackForm />} />
         <Route path="feedback/sent" element={<FeedbackSent />} />
       </Routes>
     </>
