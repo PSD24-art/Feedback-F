@@ -81,6 +81,8 @@ const FacultyDashboard = () => {
         `/faculty/${id}/count/${selectedSubjectId}`,
         "GET"
       );
+      console.log("Criteria ratings data: ", data);
+
       setcriteriaObj(data.ratings);
       setCount(data.FeedbackLength);
       setCriteriaRatingsAi(data.criteriaRatingsAi);
@@ -168,9 +170,11 @@ const FacultyDashboard = () => {
                       </select>
                     </div>
 
-                    {criteriaObj && criteriaObj.length > 0 ? (
+                    {criteriaObj && criteriaObj.length !== 0 ? (
                       <FacultyFeedbackChart criteriaObj={criteriaObj} />
-                    ) : null}
+                    ) : (
+                      <div>No data to show</div>
+                    )}
                   </div>
                   {/* AI Summary */}
                   <div className="flex-grow flex flex-col items-center justify-evenly text-gray-500 text-sm border border-dashed border-orange-300 rounded-md p-3 min-h-96">

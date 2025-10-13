@@ -36,7 +36,7 @@ const CreateForm = ({ triggerFetch }) => {
         "PUT",
         JSON.stringify({ code: selectedCode })
       );
-      // console.log("Put faculty: ", putData);
+      console.log("Put faculty: ", putData);
 
       // Add feedback link
       const data = await fetchFn(
@@ -66,9 +66,9 @@ const CreateForm = ({ triggerFetch }) => {
 
     let url;
     if (dept && sem) {
-      url = `${BASE_URL}/faculty/${id}/subject/${dept}/${sem}`;
+      url = `/faculty/${id}/subject/${dept}/${sem}`;
     } else {
-      url = `${BASE_URL}/faculty/${id}/subject/${dept}`;
+      url = `/faculty/${id}/subject/${dept}`;
     }
     withLoader(async () => {
       try {
@@ -127,7 +127,7 @@ const CreateForm = ({ triggerFetch }) => {
               defaultValue={"selectSemester"}
               className="p-2 border-2 border-orange-300 rounded-md focus:ring-2 focus:ring-orange-400 focus:outline-none"
             >
-              <option value="">Select Semester</option>
+              <option value="selectSem">Select Semester</option>
               <option value="01">SEM I</option>
               <option value="02">SEM II</option>
               <option value="03">SEM III</option>
