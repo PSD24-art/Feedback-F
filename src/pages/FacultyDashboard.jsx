@@ -139,7 +139,7 @@ const FacultyDashboard = () => {
                 <span className="text-orange-600 font-bold">{count}</span>
               </div>
               {subjects && subjects.length > 0 ? (
-                <div className="grid xl:grid-cols-4 lg:grid-cols-2 gap-2 md:grid-cols-2 sm:gird-cols-1">
+                <div className="grid xl:grid-cols-3 lg:grid-cols-2 gap-2 md:grid-cols-2 sm:gird-cols-1">
                   <div className="flex-grow flex-col flex items-center justify-between text-gray-500 text-sm border border-dashed border-orange-300 rounded-md p-3 min-h-96">
                     {/* <div className="font-bold text-xl"></div> */}
                     <div className="p-1 text-xl rounded-md mb-3 flex w-full justify-between items-center">
@@ -187,13 +187,13 @@ const FacultyDashboard = () => {
                       <GenerateBtn />
                     </div>
                   </div>
-                  <div className="flex-grow flex flex-col items-center justify-evenly text-gray-500 text-sm border border-dashed border-orange-300 rounded-md p-3 min-h-96">
+                  {/* <div className="flex-grow flex flex-col items-center justify-evenly text-gray-500 text-sm border border-dashed border-orange-300 rounded-md p-3 min-h-96">
                     <div className="w-45 h-20" onClick={handleGenerateSummary}>
                       <GenerateBtn />
                     </div>
 
                     {aiSummary && <p> {aiSummary}</p>}
-                  </div>
+                  </div> */}
                 </div>
               ) : (
                 <div className="text-gray-500 text-sm">
@@ -204,13 +204,13 @@ const FacultyDashboard = () => {
           </div>
         ) : null}
       </div>
-      <div className=" mt-5 flex justify-center">
-        <button
+      <div className="items-center mt-5 flex justify-center">
+        {/* <button
           onClick={handleOnClick}
-          className="hover:cursor-pointer px-4 py-2 rounded-lg bg-orange-500 text-white font-medium hover:bg-orange-600 transition"
+          className="h-16 hover:cursor-pointer px-4 py-2 rounded-lg bg-orange-500 text-white font-medium hover:bg-orange-600 transition"
         >
           Feedback Form
-        </button>
+        </button> */}
       </div>
     </>
   );

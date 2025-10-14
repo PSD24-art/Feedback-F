@@ -2,16 +2,31 @@ import useAuth from "../store/AuthProvider";
 import { useNavigate, useLocation } from "react-router-dom";
 import { LogOut } from "lucide-react";
 import withLoader from "../utils/withLoader";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Loader from "./Loader";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
-const Header = () => {
+import { Menu, X } from "lucide-react";
+
+const Header = ({ isOpen, setIsOpen }) => {
   const [loading, setLoading] = useState();
   const navigate = useNavigate();
   const location = useLocation();
   const { user, logout } = useAuth();
-
+  const [login, setLogin] = useState(true);
   let username;
+
+  useEffect(() => {
+    if (location.pathname === "/") {
+      setLogin(true);
+    } else {
+      setLogin(false);
+    }
+  }, [location.pathname]);
+
+  const handleLogIn = async () => {
+    navigate("/login");
+  };
+
   if (user) {
     username = user.username.charAt(0).toUpperCase();
   }
@@ -43,19 +58,37 @@ const Header = () => {
         <div className="text-3xl text-black p-1 flex flex-row text-center items-center justify-center ms-3 great-vibes-regular">
           {institute}
         </div>
+        {login && (
+          <button
+            className="flex items-center gap-2 h-10 me-4 justify-center px-4 text-white font-semibold rounded-lg shadow-md active:scale-95 bg-orange-600 hover:bg-orange-700 transition duration-200 hover:cursor-pointer"
+            onClick={handleLogIn}
+          >
+            Log In
+          </button>
+        )}
 
         {user && !hideButtons && (
           <div className="flex items-center justify-center">
-            <button
+            {/* <button
               onClick={handlLogOut}
               className="flex items-center gap-2 h-10 me-4 justify-center px-4 text-white font-semibold rounded-lg shadow-md active:scale-95 bg-orange-600 hover:bg-orange-700 transition duration-200 hover:cursor-pointer"
             >
               Logout <LogOut className="w-5 h-5" />
-            </button>
+            </button> */}
 
             <div className=" hover:border-2 hover:border-white w-10 text-2xl flex h-10 me-2 justify-center items-center rounded-full transition duration-200 text-white shadow-lg bg-pink-500">
               <button className="">{username}</button>
             </div>
+            <button
+              className=" me-2 z-50 lg:hidden bg-amber-20 bg-orange-600 hover:bg-orange-700 p-2 rounded-md shadow-md  transition-all"
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              {isOpen ? (
+                <X className="w-6 h-6 text-white" />
+              ) : (
+                <Menu className="w-6 h-6 text-white" />
+              )}
+            </button>
           </div>
         )}
       </div>

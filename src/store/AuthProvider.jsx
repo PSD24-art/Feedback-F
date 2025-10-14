@@ -54,6 +54,8 @@ export function AuthProvider({ children }) {
       return console.log("Invalid Username or Password", data);
     }
     const data = await res.json();
+    console.log("Login success: ", data);
+
     dispatch({ type: "LOGIN", payload: data.user });
     return data;
   };
