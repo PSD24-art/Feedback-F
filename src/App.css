@@ -1,3 +1,33 @@
+@import "tailwindcss";
+
+/* Main utility classes */
+
+.bg-basic_color {
+  @apply bg-red-700;
+}
+
+.text-basic_color {
+  @apply text-red-600;
+}
+
+.basic_border {
+  @apply border-red-200 hover:border-red-400;
+}
+
+/*Basic button*/
+.basic_button {
+  @apply h-10 hover:cursor-pointer px-4 py-2 rounded-lg bg-red-500 text-white font-medium hover:bg-red-600 transition;
+}
+/*Basic input*/
+.basic_input {
+  @apply w-full p-2 border-2 border-red-300 rounded-md focus:ring-2 focus:ring-red-400 focus:outline-none;
+}
+
+/*Basic dropdown*/
+.basic_dropdown {
+  @apply focus:border-red-300 px-1 border-2 border-red-300 rounded-md focus:ring-2 focus:ring-red-400 focus:outline-none;
+}
+/* Font */
 .mea-culpa-regular {
   font-family: "Mea Culpa", cursive;
   font-style: normal;

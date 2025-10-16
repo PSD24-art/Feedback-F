@@ -10,9 +10,13 @@ import "../App.css";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 import useAuth from "../store/AuthProvider";
 import GenerateBtn from "../components/generateBtn";
+import { Typewriter } from "react-simple-typewriter";
+import Dashboard from "../components/Dashboard";
 
 const FacultyDashboard = () => {
   const { user } = useAuth();
+  console.log("user: ", user);
+
   const [facultyData, setFacultyData] = useState(null);
   const navigate = useNavigate();
   const { id } = useParams();
@@ -62,10 +66,6 @@ const FacultyDashboard = () => {
     }, setLoading);
   }, [id]);
 
-  const handleOnClick = () => {
-    navigate(`/faculty/${id}/form`);
-  };
-
   const [selectedSubjectId, setSelectedSubjectId] = useState("");
 
   useEffect(() => {
@@ -92,126 +92,30 @@ const FacultyDashboard = () => {
   return (
     <>
       {loading && <Loader />}
-      <div className="w-full mt-16 ps-2 pe-2">
-        {facultyData && (
-          <h2 className="usernameAnimation bg-white mt-2 mb-2 border-amber-500 left-5  text-2xl font-bold text-orange-600 ">
-            Welcome, {facultyData.name}
-          </h2>
-        )}
-        {/* Faculty Info Card */}
-        {facultyData && (
-          <div className=" border-2 bg-white border-orange-200 rounded-lg shadow-md p-3 hover:shadow-lg hover:border-orange-400 transition mt-2 mb-2">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">
-              Faculty Details:
-            </h3>
-            <div className="flex justify-between">
-              <p className="text-gray-700 mb-2">
-                <span className="font-medium text-orange-600">Department:</span>{" "}
-                {facultyData.department}
-              </p>
-              <p className="text-gray-700 mb-2">
-                <span className="font-medium text-orange-600">Email:</span>{" "}
-                {facultyData.email}
-              </p>
-            </div>
-          </div>
-        )}
-
+      <div className="w-full mt-16 ps-2 pe-2 mb-2">
         {facultyData ? (
           <div className="">
             {/* Analytics Card */}
-            <div className=" bg-white border-2 border-orange-200 rounded-lg shadow-md p-4 pt-1 hover:shadow-lg hover:border-orange-400 transition flex flex-col">
-              <div className="mt-2 inline-flex justify-between items-center mb-2">
-                <h3 className="text-lg font-semibold text-gray-800 flex items-center">
-                  Faculty Analytics{" "}
-                  <span className="ml-2">
-                    {isNaN(totalRating) ? "⭐--" : `⭐${totalRating}`}
-                  </span>
-                  <div className="flex items-center text-red-700 bg-amber-100 ms-2 ps-2 pe-2 rounded-sm">
-                    <div className="bg-red-600 w-2 h-2 rounded-full mr-1 live"></div>
-                    Live
-                  </div>
-                </h3>
-              </div>
-
-              <div className="mb-3 text-sm font-medium text-gray-700">
-                Count:{" "}
-                <span className="text-orange-600 font-bold">{count}</span>
-              </div>
-              {subjects && subjects.length > 0 ? (
-                <div className="grid xl:grid-cols-3 lg:grid-cols-2 gap-2 md:grid-cols-2 sm:gird-cols-1">
-                  <div className="flex-grow flex-col flex items-center justify-between text-gray-500 text-sm border border-dashed border-orange-300 rounded-md p-3 min-h-96">
-                    {/* <div className="font-bold text-xl"></div> */}
-                    <div className="p-1 text-xl rounded-md mb-3 flex w-full justify-between items-center">
-                      Average ratings for each subject
-                    </div>
-
-                    {ratings && <BasicBars ratings={ratings} />}
-                  </div>
-                  <div className="flex-grow flex flex-col items-center justify-between text-gray-500 text-sm border border-dashed border-orange-300 rounded-md p-3 min-h-96 ">
-                    <div className="p-1 rounded-md mb-3 flex w-full justify-between items-center">
-                      {" "}
-                      <label htmlFor="linkSubject" className="font-bold">
-                        {" "}
-                        Subject:{" "}
-                      </label>
-                      <select
-                        id="linkSubject"
-                        value={selectedSubjectId}
-                        disabled={subjects.length <= 1}
-                        onChange={(e) => setSelectedSubjectId(e.target.value)}
-                        className="w-30 h-6 px-2 border rounded-md text-xs focus:outline-none focus:ring-2 focus:ring-orange-400"
-                      >
-                        {subjects.map((link) => (
-                          <option key={link._id} value={link.subject._id}>
-                            {link.subject.name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    {criteriaObj && criteriaObj.length !== 0 ? (
-                      <FacultyFeedbackChart criteriaObj={criteriaObj} />
-                    ) : (
-                      <div>No data to show</div>
-                    )}
-                  </div>
-                  {/* AI Summary */}
-                  <div className="flex-grow flex flex-col items-center justify-evenly text-gray-500 text-sm border border-dashed border-orange-300 rounded-md p-3 min-h-96">
-                    {aiSummary && aiSummary !== " " ? (
-                      <p> {aiSummary}</p>
-                    ) : (
-                      <p>Click AI Summary button until it generates summary!</p>
-                    )}
-                    <div className="w-45 h-20" onClick={handleGenerateSummary}>
-                      <GenerateBtn />
-                    </div>
-                  </div>
-                  {/* <div className="flex-grow flex flex-col items-center justify-evenly text-gray-500 text-sm border border-dashed border-orange-300 rounded-md p-3 min-h-96">
-                    <div className="w-45 h-20" onClick={handleGenerateSummary}>
-                      <GenerateBtn />
-                    </div>
-
-                    {aiSummary && <p> {aiSummary}</p>}
-                  </div> */}
-                </div>
-              ) : (
-                <div className="text-gray-500 text-sm">
-                  No subjects or feedbacks recieved.
-                </div>
-              )}
-            </div>
+            <Dashboard
+              totalRating={totalRating}
+              facultyData={facultyData}
+              count={count}
+              subjects={subjects}
+              ratings={ratings}
+              selectedSubjectId={selectedSubjectId}
+              setSelectedSubjectId={setSelectedSubjectId}
+              criteriaObj={criteriaObj}
+              aiSummary={aiSummary}
+              handleGenerateSummary={handleGenerateSummary}
+            />
           </div>
         ) : null}
       </div>
-      <div className="items-center mt-5 flex justify-center">
-        {/* <button
-          onClick={handleOnClick}
-          className="h-16 hover:cursor-pointer px-4 py-2 rounded-lg bg-orange-500 text-white font-medium hover:bg-orange-600 transition"
-        >
+      {/* <div className="items-center mt-5 flex justify-center">
+        <button onClick={handleOnClick} className="basic_button">
           Feedback Form
-        </button> */}
-      </div>
+        </button>
+      </div> */}
     </>
   );
 };

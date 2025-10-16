@@ -34,12 +34,12 @@ const Login = () => {
   return (
     <>
       {loading && <Loader />}
-      <div className="mt-15 flex justify-center items-center w-full h-[calc(100dvh-53px)] bg-orange-50 flex-col">
-        <div className="mb-4 text-2xl font-bold text-orange-500">
+      <div className="flex justify-center items-center w-full h-dvh bg-red-50 flex-col">
+        <div className="mb-4 text-2xl font-bold text-red-500">
           Welcome back!
         </div>
-        <div className="bg-white border-2 border-orange-300 shadow-lg rounded-xl flex flex-col p-6 w-full max-w-sm">
-          <h2 className="mb-4 pb-2 border-b-2 border-orange-300 text-orange-600 text-2xl font-bold text-center">
+        <div className=" bg-white border-2 border-red-300 shadow-lg rounded-xl flex flex-col p-6 w-full max-w-sm">
+          <h2 className="mb-4 pb-2 border-b-2 border-red-300 text-basic_color text-2xl font-bold text-center">
             Login
           </h2>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -49,7 +49,7 @@ const Login = () => {
                 placeholder="Username"
                 ref={usernameRef}
                 id="username"
-                className="w-full border-2 border-orange-300 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-orange-300 focus:border-orange-500"
+                className="basic_input"
               />
             </div>
             <div>
@@ -58,14 +58,11 @@ const Login = () => {
                 placeholder="Password"
                 ref={passwordRef}
                 id="password"
-                className="w-full border-2 border-orange-300 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-orange-300 focus:border-orange-500"
+                className="basic_input"
               />
             </div>
             <div>
-              <button
-                type="submit"
-                className="w-full bg-orange-400 text-white font-semibold py-2 rounded-lg shadow-md active:scale-95 hover:bg-orange-600 transition duration-200 hover:cursor-pointer"
-              >
+              <button type="submit" className="w-full basic_button">
                 Login
               </button>
             </div>

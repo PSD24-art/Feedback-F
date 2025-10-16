@@ -4,7 +4,7 @@ import withLoader from "../utils/withLoader";
 import Loader from "./Loader";
 import fetchFn from "../utils/fetchFn";
 const FRONTEND_URL = import.meta.env.VITE_FRONTEND_URL;
-const CreateForm = ({ triggerFetch }) => {
+const CreateForm = () => {
   console.log("Frontend url: ", FRONTEND_URL);
   const { id } = useParams();
   const subjectRef = useRef();
@@ -52,7 +52,6 @@ const CreateForm = ({ triggerFetch }) => {
         setLinkMessage(data.message);
       }
       setButton(true);
-      triggerFetch();
     }, setLoading);
   };
 
@@ -82,12 +81,15 @@ const CreateForm = ({ triggerFetch }) => {
   };
 
   return (
-    <>
+    <div className="flex flex-col w-[100%]">
+      <h2 className="mb-4 ms-8 mt-16 text-xl font-semibold text-basic_color">
+        Create Feedback Form
+      </h2>
       {loading && <Loader />}
       {!button ? (
         <form
           onSubmit={handleSubmit}
-          className="sm:w-[60%] flex flex-col gap-4 bg-white p-6 rounded-lg border-2 border-orange-200 shadow-md"
+          className="h-fit mt-2 mb-3 m-8 flex flex-col gap-4 bg-white p-6 rounded-lg border-2 border-orange-200 shadow-md"
         >
           <div className="flex flex-col">
             <label
@@ -102,7 +104,7 @@ const CreateForm = ({ triggerFetch }) => {
               id="department"
               onChange={handleOnChange}
               defaultValue={"selectDepartment"}
-              className="p-2 border-2 border-orange-300 rounded-md focus:ring-2 focus:ring-orange-400 focus:outline-none"
+              className="basic_dropdown"
             >
               <option value="selectDepartment">Select Department</option>
               <option value="CS">Computer Science</option>
@@ -126,7 +128,7 @@ const CreateForm = ({ triggerFetch }) => {
               id="semester"
               onChange={handleOnChange}
               defaultValue={"selectSemester"}
-              className="p-2 border-2 border-orange-300 rounded-md focus:ring-2 focus:ring-orange-400 focus:outline-none"
+              className="basic_dropdown"
             >
               <option value="selectSem">Select Semester</option>
               <option value="01">SEM I</option>
@@ -148,7 +150,7 @@ const CreateForm = ({ triggerFetch }) => {
               required
               id="subject"
               ref={subjectRef}
-              className="p-2 border-2 border-orange-300 rounded-md focus:ring-2 focus:ring-orange-400 focus:outline-none"
+              className="basic_dropdown"
             >
               {subjects ? (
                 subjects.map((subject) => (
@@ -164,14 +166,14 @@ const CreateForm = ({ triggerFetch }) => {
 
           <button
             type="submit"
-            className="mt-2 px-4 py-2 bg-orange-500 text-white font-semibold rounded-md shadow-md hover:bg-orange-600 transition active:scale-95"
+            className="mt-2 px-4 py-2 bg-orange-500 text-white font-semibold rounded-md shadow-md hover:bg-basic_color transition active:scale-95"
           >
             Create Form
           </button>
         </form>
       ) : (
         <div className="flex flex-col gap-4 bg-white p-6 rounded-lg border-2 border-orange-200 shadow-md">
-          <h3 className="text-lg font-semibold text-orange-600">
+          <h3 className="text-lg font-semibold text-basic_color">
             Please share the below link to get the feedback
           </h3>
           <div className="flex flex-col gap-2">
@@ -196,14 +198,14 @@ const CreateForm = ({ triggerFetch }) => {
                 );
                 alert("Link copied to clipboard!");
               }}
-              className="self-start px-3 py-1 bg-orange-500 text-white text-sm rounded-md shadow hover:bg-orange-600 active:scale-95 transition"
+              className="self-start px-3 py-1 bg-orange-500 text-white text-sm rounded-md shadow hover:bg-basic_color active:scale-95 transition"
             >
               Copy Link
             </button>
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

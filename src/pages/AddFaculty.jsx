@@ -65,7 +65,7 @@ const AddFaculty = () => {
               ref={nameRef}
               placeholder="Enter full name"
               required
-              className="w-full p-2 border-2 border-orange-300 rounded-md focus:ring-2 focus:ring-orange-400 focus:outline-none"
+              className="basic_input"
             />
           </div>
 
@@ -78,7 +78,7 @@ const AddFaculty = () => {
               ref={emailRef}
               placeholder="Enter email"
               required
-              className="w-full p-2 border-2 border-orange-300 rounded-md focus:ring-2 focus:ring-orange-400 focus:outline-none"
+              className="basic_input"
             />
           </div>
 
@@ -90,7 +90,7 @@ const AddFaculty = () => {
               ref={deptRef}
               id="department"
               required
-              className=" focus:border-blue-500  px-4 py-2 text-gray-800 w-full p-2 border-2 border-orange-300 rounded-md focus:ring-2 focus:ring-orange-400 focus:outline-none"
+              className="w-full basic_dropdown"
             >
               <option value="CS">Computer Science</option>
               <option value="CE">Civil Engineering</option>
@@ -102,18 +102,10 @@ const AddFaculty = () => {
 
           <button
             type="submit"
-            className="w-full bg-orange-600 text-white font-medium py-2 rounded-lg shadow hover:bg-orange-700 transition"
+            className="w-full bg-basic_color basic_button text-white font-medium py-2 rounded-lg shadow transition"
           >
             Add Faculty
           </button>
-          <div className="flex justify-end ">
-            <button
-              onClick={() => navigate(`/admin/${id}`)}
-              className="hover:cursor-pointer px-4 py-2 rounded-lg bg-blue-500 text-white font-medium hover:bg-blue-600 transition"
-            >
-              Back
-            </button>
-          </div>
         </form>
       </div>
     </>

@@ -32,16 +32,13 @@ const AdminDashboard = () => {
       {loading && <Loader />}
       <div className="mt-10 p-6">
         {/* Title */}
-        <h2 className="text-xl mt-3 font-cursive text-center pb-2 text-orange-600 font-bold mb-6 border-b-2">
+        <h2 className="text-xl mt-3 font-cursive text-center pb-2 text-basic_color font-bold mb-6 border-b-2">
           Welcome to Admin Dashboard
         </h2>
 
         {/* Department Filter */}
         <div className="items-center mb-6">
-          <select
-            id="dept"
-            className="border-2 border-orange-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-orange-300 focus:border-orange-500 outline-none"
-          >
+          <select id="dept" className="w-50 basic_dropdown">
             <option value=" ">Select Department</option>
             <option value="CS">Computer Science</option>
           </select>
@@ -52,11 +49,11 @@ const AdminDashboard = () => {
           {facultyList.map((faculty) => (
             <li
               key={faculty._id}
-              className="bg-white border-2 border-orange-200 rounded-lg shadow-md p-4 flex items-center justify-between hover:shadow-lg hover:border-orange-400 transition"
+              className="bg-white border-2 border-red-200 rounded-lg shadow-md p-4 flex items-center justify-between hover:shadow-lg hover:border-red-400 transition"
             >
               {/* Faculty Info */}
               <div className="text-gray-800">
-                <p className="font-semibold text-lg text-orange-600">
+                <p className="font-semibold text-lg text-basic_color">
                   {faculty.name}
                 </p>
                 <p className="text-sm text-gray-600">{faculty.username}</p>
@@ -68,7 +65,7 @@ const AdminDashboard = () => {
               {/* Action Button */}
               <button
                 onClick={() => handleOnClick(faculty._id)}
-                className="hover:cursor-pointer flex hover:bg-gray-100 rounded-e-xl h-full justify-center items-center text-orange-500 hover:text-orange-700 transition"
+                className="hover:cursor-pointer flex hover:bg-gray-100 rounded-e-xl h-full justify-center items-center text-red-500 hover:text-red  -700 transition"
                 title="View Faculty"
               >
                 <ArrowRight className="w-6 h-6" />
@@ -81,7 +78,7 @@ const AdminDashboard = () => {
         <div className="flex justify-center">
           <button
             onClick={handleAddFacultyClick}
-            className="hover:cursor-pointer bg-orange-500 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-orange-600 transition"
+            className="hover:cursor-pointer bg-red-500 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-red-500 transition"
           >
             Add Faculty
           </button>

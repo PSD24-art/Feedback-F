@@ -22,7 +22,7 @@ const PasswordReset = () => {
           "POST",
           JSON.stringify({ oldPassword, newPassword })
         );
-  
+
         if (data.role) {
           alert("Password changed successfully");
         } else if (data.error) {
@@ -44,7 +44,7 @@ const PasswordReset = () => {
     <>
       {loading && <Loader />}
       <div className="mt-12 max-w-md mx-auto bg-white rounded-xl shadow-lg p-8 border border-orange-200">
-        <h2 className="text-2xl font-bold text-center text-orange-600 mb-6">
+        <h2 className="text-2xl font-bold text-center text-basic_color mb-6">
           Reset Password
         </h2>
 
@@ -76,7 +76,7 @@ const PasswordReset = () => {
           </div>
           <button
             type="submit"
-            className="w-full py-3 bg-orange-600 text-white font-semibold rounded-lg 
+            className="w-full py-3 bg-basic_color text-white font-semibold rounded-lg 
       hover:bg-orange-700 transition shadow-md"
           >
             Reset Password

@@ -54,13 +54,13 @@ const Header = ({ isOpen, setIsOpen }) => {
   return (
     <>
       {loading && <Loader />}
-      <div className="bg-orange-400 fixed top-0 min-w-full h-15 flex justify-between items-center shadow z-100">
-        <div className="text-3xl text-black p-1 flex flex-row text-center items-center justify-center ms-3 great-vibes-regular">
+      <div className=" bg-basic_color fixed top-0 min-w-full h-[7%] flex justify-between items-center shadow z-100">
+        <div className="text-3xl text-white p-1 flex flex-row text-center items-center justify-center ms-3 great-vibes-regular">
           {institute}
         </div>
         {login && (
           <button
-            className="flex items-center gap-2 h-10 me-4 justify-center px-4 text-white font-semibold rounded-lg shadow-md active:scale-95 bg-orange-600 hover:bg-orange-700 transition duration-200 hover:cursor-pointer"
+            className="flex items-center gap-2 h-10 me-4 justify-center px-4 text-white font-semibold rounded-lg shadow-md active:scale-95 bg-basic_color hover:bg-orange-700 transition duration-200 hover:cursor-pointer"
             onClick={handleLogIn}
           >
             Log In
@@ -71,7 +71,7 @@ const Header = ({ isOpen, setIsOpen }) => {
           <div className="flex items-center justify-center">
             {/* <button
               onClick={handlLogOut}
-              className="flex items-center gap-2 h-10 me-4 justify-center px-4 text-white font-semibold rounded-lg shadow-md active:scale-95 bg-orange-600 hover:bg-orange-700 transition duration-200 hover:cursor-pointer"
+              className="flex items-center gap-2 h-10 me-4 justify-center px-4 text-white font-semibold rounded-lg shadow-md active:scale-95 bg-basic_color hover:bg-orange-700 transition duration-200 hover:cursor-pointer"
             >
               Logout <LogOut className="w-5 h-5" />
             </button> */}
@@ -80,7 +80,7 @@ const Header = ({ isOpen, setIsOpen }) => {
               <button className="">{username}</button>
             </div>
             <button
-              className=" me-2 z-50 lg:hidden bg-amber-20 bg-orange-600 hover:bg-orange-700 p-2 rounded-md shadow-md  transition-all"
+              className=" me-2 z-50 lg:hidden bg-amber-20 bg-basic_color hover:bg-orange-700 p-2 rounded-md shadow-md  transition-all"
               onClick={() => setIsOpen(!isOpen)}
             >
               {isOpen ? (

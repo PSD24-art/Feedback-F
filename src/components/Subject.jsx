@@ -6,7 +6,6 @@ import withLoader from "../utils/withLoader";
 import Loader from "../components/Loader";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const Subject = () => {
-  const navigate = useNavigate();
   const [clickValue, setClickValue] = useState(null);
   const { id } = useParams();
   const [shouldFetch, setShouldFetch] = useState(false);
@@ -47,8 +46,8 @@ const Subject = () => {
   return (
     <>
       {loading && <Loader />}
-      <div className="ps-2 pe-2">
-        <div className="mt-16 mb-4 text-xl font-semibold text-orange-600">
+      <div className=" w-[100%] ps-2 pe-2">
+        <div className=" mt-16 mb-4 text-xl font-semibold text-basic_color">
           All Created Links
         </div>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mb-6">
@@ -56,7 +55,7 @@ const Subject = () => {
             feedbackLinks.map((linkObj) => (
               <div
                 key={linkObj._id}
-                className="bg-white border-2 border-orange-200 rounded-lg shadow-md p-4 hover:shadow-lg hover:border-orange-400 transition flex flex-col"
+                className="bg-white border-2 basic_border rounded-lg shadow-md p-4 hover:shadow-lg transition flex flex-col"
               >
                 {/* Subject Name */}
                 <p className="text-lg font-semibold text-gray-800 mb-1">
@@ -87,7 +86,7 @@ const Subject = () => {
                       navigator.clipboard.writeText(linkObj.link);
                       alert("Link copied to clipboard!");
                     }}
-                    className="hover:cursor-pointer px-3 py-1 bg-orange-100 text-orange-600 rounded-md text-sm hover:bg-orange-200 transition"
+                    className="hover:cursor-pointer px-3 py-1 bg-orange-100 text-basic_color rounded-md text-sm hover:bg-orange-200 transition"
                   >
                     Copy
                   </button>
@@ -109,41 +108,6 @@ const Subject = () => {
             <AddSubject />
           </div>
         )}
-
-        {clickValue === "CreateForm" && (
-          <div className="flex flex-col justify-center items-center relative bg-white border-2 border-orange-200 rounded-lg shadow-md p-4 pt-8 mb-6">
-            {/* Close Button */}
-            <button
-              onClick={() => setClickValue(null)}
-              className="hover:cursor-pointer absolute top-0 right-2 text-gray-500 text-2xl mt-0 hover:text-red-500 transition"
-              title="Close"
-            >
-              ✕
-            </button>
-            <CreateForm triggerFetch={() => setShouldFetch((prev) => !prev)} />
-          </div>
-        )}
-
-        <div className="mt-6 flex flex-wrap justify-center gap-3">
-          <button
-            onClick={() => setClickValue("AddSubject")}
-            className="hover:cursor-pointer px-4 py-2 rounded-lg bg-orange-500 text-white font-medium hover:bg-orange-600 transition"
-          >
-            Add Subject
-          </button>
-          <button
-            onClick={() => setClickValue("CreateForm")}
-            className="hover:cursor-pointer px-4 py-2 rounded-lg bg-orange-500 text-white font-medium hover:bg-orange-600 transition"
-          >
-            Create Form
-          </button>
-          <button
-            onClick={() => navigate(`/faculty/${id}`)}
-            className="hover:cursor-pointer px-4 py-2 rounded-lg bg-blue-500 text-white font-medium hover:bg-blue-600 transition"
-          >
-            Back
-          </button>
-        </div>
       </div>
     </>
   );
