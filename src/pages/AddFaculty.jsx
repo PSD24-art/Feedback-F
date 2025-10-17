@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-const BASE_URL = import.meta.env.VITE_BASE_URL;
 import withLoader from "../utils/withLoader";
 import Loader from "../components/Loader";
+import fetchFn from "../utils/fetchFn";
 
 const AddFaculty = () => {
   const [loading, setLoading] = useState(false);
@@ -11,7 +11,6 @@ const AddFaculty = () => {
   const emailRef = useRef();
   const deptRef = useRef();
   const navigate = useNavigate();
-  const instituteRef = useRef();
   const handleOnSubmit = async (e) => {
     e.preventDefault();
 
@@ -32,7 +31,7 @@ const AddFaculty = () => {
           JSON.stringify({ name, email, department })
         );
 
-        if (res.ok) {
+        if (data.ok) {
           alert("Faculty added successfully");
           navigate(`/admin/${id}`);
         } else {
@@ -43,13 +42,17 @@ const AddFaculty = () => {
         alert("Something went wrong while adding faculty");
       }
     }, setLoading);
+
+    nameRef.current.value = "";
+    emailRef.current.value = "";
+    deptRef.current.value = "";
   };
 
   return (
     <>
       {loading && <Loader />}
       <div className="mt-15 flex justify-center items-center ps-3 pe-3 flex-col ">
-        <h2 className="text-xl text-center font-bold text-orange-500 mt-4 mb-2">
+        <h2 className="text-xl text-center font-bold text-basic_color mt-4 mb-2">
           Enter Faculty Details
         </h2>
         <form

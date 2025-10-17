@@ -36,14 +36,14 @@ const AddSubject = () => {
   return (
     <>
       {loading && <Loader />}
-      <div className="w-full mt-17 mb-3 m-8">
+      <div className=" mt-17 mb-3 m-8">
         <h2 className="mb-4 text-xl font-semibold text-basic_color">
           Add Subject
         </h2>
         {message === null ? (
           <form
             onSubmit={handleSubmit}
-            className=" flex flex-col gap-4 bg-white p-6 rounded-lg border-2 border-orange-200 shadow-md"
+            className=" flex flex-col gap-4 bg-white p-6 rounded-lg border-2 basic_border shadow-md"
           >
             {/* Subject Name */}
             <input
@@ -51,7 +51,7 @@ const AddSubject = () => {
               id="subName"
               ref={nameRef}
               placeholder="Subject Name"
-              className="p-2 border-2 border-orange-300 rounded-md focus:ring-2 focus:ring-orange-400 focus:outline-none"
+              className="basic_input"
             />
 
             {/* Department */}
@@ -107,10 +107,7 @@ const AddSubject = () => {
               </select>
             </div>
 
-            <button
-              type="submit"
-              className="mt-2 px-4 py-2 bg-orange-500 text-white font-semibold rounded-md shadow-md hover:bg-basic_color transition active:scale-95"
-            >
+            <button type="submit" className="basic_button">
               Add New Subject
             </button>
           </form>

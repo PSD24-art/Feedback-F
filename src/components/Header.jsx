@@ -60,27 +60,20 @@ const Header = ({ isOpen, setIsOpen }) => {
         </div>
         {login && (
           <button
-            className="flex items-center gap-2 h-10 me-4 justify-center px-4 text-white font-semibold rounded-lg shadow-md active:scale-95 bg-basic_color hover:bg-orange-700 transition duration-200 hover:cursor-pointer"
+            className="flex items-center gap-2 h-10 me-4 justify-center px-4 text-white font-semibold rounded-lg  active:scale-95 bg-red-500 hover:bg-orange-700 transition duration-200 hover:cursor-pointer"
             onClick={handleLogIn}
           >
-            Log In
+            Login
           </button>
         )}
 
         {user && !hideButtons && (
           <div className="flex items-center justify-center">
-            {/* <button
-              onClick={handlLogOut}
-              className="flex items-center gap-2 h-10 me-4 justify-center px-4 text-white font-semibold rounded-lg shadow-md active:scale-95 bg-basic_color hover:bg-orange-700 transition duration-200 hover:cursor-pointer"
-            >
-              Logout <LogOut className="w-5 h-5" />
-            </button> */}
-
-            <div className=" hover:border-2 hover:border-white w-10 text-2xl flex h-10 me-2 justify-center items-center rounded-full transition duration-200 text-white shadow-lg bg-pink-500">
+            <div className=" hover:border-2 hover:border-white w-10 text-2xl flex h-10 me-2 justify-center items-center rounded-full transition duration-200 text-white bg-pink-500">
               <button className="">{username}</button>
             </div>
             <button
-              className=" me-2 z-50 lg:hidden bg-amber-20 bg-basic_color hover:bg-orange-700 p-2 rounded-md shadow-md  transition-all"
+              className=" me-2 z-50 lg:hidden bg-amber-20 bg-red-500 hover:bg-orange-700 p-2 rounded-md transition-all"
               onClick={() => setIsOpen(!isOpen)}
             >
               {isOpen ? (

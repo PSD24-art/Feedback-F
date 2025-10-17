@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import CreateForm from "./CreateFrom";
 import AddSubject from "./AddSubject";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import withLoader from "../utils/withLoader";
 import Loader from "../components/Loader";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -46,7 +45,7 @@ const Subject = () => {
   return (
     <>
       {loading && <Loader />}
-      <div className=" w-[100%] ps-2 pe-2">
+      <div className=" w-[100%] ps-6 pe-6">
         <div className=" mt-16 mb-4 text-xl font-semibold text-basic_color">
           All Created Links
         </div>

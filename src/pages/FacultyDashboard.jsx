@@ -92,7 +92,7 @@ const FacultyDashboard = () => {
   return (
     <>
       {loading && <Loader />}
-      <div className="w-full mt-16 ps-2 pe-2 mb-2">
+      <div className="w-full mt-16 ps-2 pe-2 mb-2 h-dvh">
         {facultyData ? (
           <div className="">
             {/* Analytics Card */}

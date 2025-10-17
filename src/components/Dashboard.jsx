@@ -17,7 +17,7 @@ const Dashboard = ({
 }) => {
   return (
     <>
-      <div className=" bg-white border-2 border-orange-200 rounded-lg shadow-md p-4 pt-1 hover:shadow-lg hover:border-orange-400 transition flex flex-col">
+      <div className=" bg-white  rounded-lg p-4 pt-1  transition flex flex-col ">
         <div className="mt-2 flex flex-col md:flex-row justify-between items-center mb-2">
           <h3 className="text-lg font-semibold text-gray-800 flex items-center">
             Faculty Analytics{" "}
@@ -59,7 +59,7 @@ const Dashboard = ({
                   value={selectedSubjectId}
                   disabled={subjects.length <= 1}
                   onChange={(e) => setSelectedSubjectId(e.target.value)}
-                  className="w-35 h-6 basic_dropdown"
+                  className="w-40 focus:border-red-300 px-1 border-2 border-red-300 rounded-md focus:ring-2 focus:ring-red-400 focus:outline-none"
                 >
                   {subjects.map((link) => (
                     <option key={link._id} value={link.subject._id}>

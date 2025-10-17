@@ -34,7 +34,7 @@ const Login = () => {
   return (
     <>
       {loading && <Loader />}
-      <div className="flex justify-center items-center w-full h-dvh bg-red-50 flex-col">
+      <div className="flex justify-center items-center w-full h-dvh  flex-col bg-amber-50">
         <div className="mb-4 text-2xl font-bold text-red-500">
           Welcome back!
         </div>

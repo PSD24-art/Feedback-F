@@ -89,7 +89,7 @@ const CreateForm = () => {
       {!button ? (
         <form
           onSubmit={handleSubmit}
-          className="h-fit mt-2 mb-3 m-8 flex flex-col gap-4 bg-white p-6 rounded-lg border-2 border-orange-200 shadow-md"
+          className="h-fit mt-2 mb-3 m-8 flex flex-col gap-4 bg-white p-6 rounded-lg border-2 basic_border shadow-md"
         >
           <div className="flex flex-col">
             <label
@@ -164,10 +164,7 @@ const CreateForm = () => {
             </select>
           </div>
 
-          <button
-            type="submit"
-            className="mt-2 px-4 py-2 bg-orange-500 text-white font-semibold rounded-md shadow-md hover:bg-basic_color transition active:scale-95"
-          >
+          <button type="submit" className="basic_button">
             Create Form
           </button>
         </form>

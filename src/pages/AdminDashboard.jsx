@@ -73,16 +73,6 @@ const AdminDashboard = () => {
             </li>
           ))}
         </ul>
-
-        {/* Add Faculty Button */}
-        <div className="flex justify-center">
-          <button
-            onClick={handleAddFacultyClick}
-            className="hover:cursor-pointer bg-red-500 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-red-500 transition"
-          >
-            Add Faculty
-          </button>
-        </div>
       </div>
     </>
   );

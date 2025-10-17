@@ -46,6 +46,7 @@ const FacultyNav = ({ setIsOpen, setIsFeedbackOpen, isFeedbackOpen, id }) => {
           <span
             className="text-base"
             onClick={() => {
+              setIsOpen(false);
               navigate(`/faculty/${id}/links`);
             }}
           >
@@ -58,6 +59,7 @@ const FacultyNav = ({ setIsOpen, setIsFeedbackOpen, isFeedbackOpen, id }) => {
           <span
             className="text-base"
             onClick={() => {
+              setIsOpen(false);
               navigate(`/faculty/${id}/form`);
             }}
           >
@@ -70,6 +72,7 @@ const FacultyNav = ({ setIsOpen, setIsFeedbackOpen, isFeedbackOpen, id }) => {
           <span
             className="text-base"
             onClick={() => {
+              setIsOpen(false);
               navigate(`/faculty/${id}/subject`);
             }}
           >

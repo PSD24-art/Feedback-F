@@ -31,7 +31,7 @@ function App() {
   }, [location.pathname]);
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen ">
       <Header setIsOpen={setIsSidebarOpen} isOpen={isSidebarOpen} />
       <div className="flex flex-row h-full ">
         {showSidebar && (
