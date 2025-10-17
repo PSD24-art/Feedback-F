@@ -31,15 +31,6 @@ const Header = ({ isOpen, setIsOpen }) => {
     username = user.username.charAt(0).toUpperCase();
   }
 
-  const handlLogOut = async () => {
-    withLoader(async () => {
-      const confirmed = confirm("Are you sure want to log out");
-      if (!confirmed) return;
-      await logout();
-      navigate("/login");
-    }, setLoading);
-  };
-
   // Check if current path matches /faculty/:id/feedback/:subject
   const hideButtons =
     /^\/faculty\/[^/]+\/feedback\/[^/]+$/.test(location.pathname) ||

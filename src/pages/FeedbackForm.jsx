@@ -121,106 +121,116 @@ const FeedbackForm = () => {
   return (
     <>
       {loading && <Loader />}
-      <div className="mt-12 max-w-3xl mx-auto bg-white rounded-xl shadow-lg p-8">
-        <div className="p-6 border rounded-lg bg-gray-50 shadow-sm mb-8">
-          <h2 className="text-xl font-bold text-gray-800 mb-4">
-            Feedback Form Details
-          </h2>
-          <p className="text-gray-700 font-medium mb-2">
-            Faculty:{" "}
-            <span className="font-semibold text-blue-600">{facultyName}</span>
-          </p>
-          <p className="text-gray-700 font-medium">
-            Subject:{" "}
-            <span className="font-semibold text-blue-600">{subjectName}</span>
-          </p>
-        </div>
-        {!current ? (
-          <form onSubmit={handleStudentDataSubmit} className="space-y-6">
-            <div>
-              <label className="block text-gray-700 font-medium mb-2">
-                Student Name:
-              </label>
-              <input
-                type="text"
-                ref={nameRef}
-                required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
+      <div className="flex justify-center items-start md:items-center min-h-[calc(100vh-80px)] py-10">
+        <div className="w-full max-w-3xl bg-white rounded-xl shadow-lg p-8">
+          {/* Header Section */}
+          <div className="p-6 border rounded-lg bg-gray-50 shadow-sm mb-8">
+            <h2 className="text-xl font-bold text-gray-800 mb-4">
+              Feedback Form Details
+            </h2>
+            <p className="text-gray-700 font-medium mb-2">
+              Faculty:{" "}
+              <span className="font-semibold text-blue-600">{facultyName}</span>
+            </p>
+            <p className="text-gray-700 font-medium">
+              Subject:{" "}
+              <span className="font-semibold text-blue-600">{subjectName}</span>
+            </p>
+          </div>
 
-            <div>
-              <label className="block text-gray-700 font-medium mb-2">
-                Student Roll:
-              </label>
-              <input
-                type="text"
-                ref={rollRef}
-                required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition shadow-md"
-            >
-              Next
-            </button>
-          </form>
-        ) : (
-          <form onSubmit={handleSubmit} className="space-y-8">
-            {questions.map((question, IDX) => (
-              <div
-                key={IDX}
-                className="space-y-4 p-4 border rounded-lg bg-gray-50 shadow-sm"
-              >
-                <p className="font-semibold text-gray-800">{question}</p>
-                <div className="flex flex-wrap gap-4">
-                  {[1, 2, 3, 4, 5].map((num) => (
-                    <label
-                      key={num}
-                      className={`flex flex-col items-center px-3 py-2 rounded-lg cursor-pointer border transition
-                    ${
-                      answers[IDX] === num
-                        ? "bg-blue-600 text-white border-blue-600 shadow-md"
-                        : "bg-white text-gray-700 border-gray-300 hover:border-blue-400"
-                    }`}
-                    >
-                      <input
-                        type="radio"
-                        required
-                        name={`question-${IDX}`}
-                        value={num}
-                        checked={answers[IDX] === num}
-                        onChange={() => handleChange(IDX, num)}
-                        className="sr-only"
-                      />
-                      <span className="font-medium">
-                        {num === 1
-                          ? "Strongly Disagree"
-                          : num === 2
-                            ? "Disagree"
-                            : num === 3
-                              ? "Neutral"
-                              : num === 4
-                                ? "Agree"
-                                : "Strongly Agree"}
-                      </span>
-                    </label>
-                  ))}
-                </div>
+          {/* Step 1: Student Info Form */}
+          {!current ? (
+            <form onSubmit={handleStudentDataSubmit} className="space-y-6">
+              <div>
+                <label className="block text-gray-700 font-medium mb-2">
+                  Student Name:
+                </label>
+                <input
+                  type="text"
+                  ref={nameRef}
+                  required
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm 
+                           focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
               </div>
-            ))}
 
-            <button
-              type="submit"
-              className="hover:cursor-pointer w-full py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition shadow-md"
-            >
-              Submit
-            </button>
-          </form>
-        )}
+              <div>
+                <label className="block text-gray-700 font-medium mb-2">
+                  Student Roll:
+                </label>
+                <input
+                  type="text"
+                  ref={rollRef}
+                  required
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm 
+                           focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 
+                         transition shadow-md font-semibold"
+              >
+                Next
+              </button>
+            </form>
+          ) : (
+            /* Step 2: Feedback Questions Form */
+            <form onSubmit={handleSubmit} className="space-y-8">
+              {questions.map((question, IDX) => (
+                <div
+                  key={IDX}
+                  className="space-y-4 p-4 border rounded-lg bg-gray-50 shadow-sm"
+                >
+                  <p className="font-semibold text-gray-800">{question}</p>
+                  <div className="flex flex-wrap gap-4">
+                    {[1, 2, 3, 4, 5].map((num) => (
+                      <label
+                        key={num}
+                        className={`flex flex-col items-center px-3 py-2 rounded-lg cursor-pointer border transition
+                        ${
+                          answers[IDX] === num
+                            ? "bg-blue-600 text-white border-blue-600 shadow-md"
+                            : "bg-white text-gray-700 border-gray-300 hover:border-blue-400"
+                        }`}
+                      >
+                        <input
+                          type="radio"
+                          required
+                          name={`question-${IDX}`}
+                          value={num}
+                          checked={answers[IDX] === num}
+                          onChange={() => handleChange(IDX, num)}
+                          className="sr-only"
+                        />
+                        <span className="font-medium">
+                          {num === 1
+                            ? "Strongly Disagree"
+                            : num === 2
+                              ? "Disagree"
+                              : num === 3
+                                ? "Neutral"
+                                : num === 4
+                                  ? "Agree"
+                                  : "Strongly Agree"}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              ))}
+
+              <button
+                type="submit"
+                className="w-full py-3 bg-green-600 text-white font-semibold rounded-lg 
+                         hover:bg-green-700 transition shadow-md"
+              >
+                Submit
+              </button>
+            </form>
+          )}
+        </div>
       </div>
     </>
   );

@@ -31,13 +31,15 @@ function App() {
   }, [location.pathname]);
 
   return (
-    <div className="flex flex-col min-h-screen ">
+    <div className="flex flex-col min-h-screen">
       <Header setIsOpen={setIsSidebarOpen} isOpen={isSidebarOpen} />
-      <div className="flex flex-row h-full ">
+
+      <div className="flex flex-row flex-1">
         {showSidebar && (
           <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
         )}
-        <div className="flex-1 overflow-auto h-screen">
+
+        <div className="flex-1 overflow-auto">
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<Login />} />
@@ -56,11 +58,11 @@ function App() {
               element={<FacultyDashFromAdmin />}
             />
             <Route path="/admin/:id/faculty/new" element={<AddFaculty />} />
-            {/* Student routes*/}
             <Route path="feedback/sent" element={<FeedbackSent />} />
           </Routes>
         </div>
       </div>
+
       <Footer />
     </div>
   );
