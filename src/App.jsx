@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 import CreateForm from "./components/CreateFrom";
 import AddSubject from "./components/AddSubject";
 import Footer from "./components/Footer";
+import Loader from "./components/Loader";
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);

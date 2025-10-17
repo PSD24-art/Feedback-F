@@ -1,0 +1,88 @@
+.loaderWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  animation: fadeIn 0.6s ease-in;
+}
+
+.iconCircle {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  border: 3px solid #e5e7eb;
+}
+
+/* Base icon style */
+.icon {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  color: #ef4444;
+  opacity: 0;
+  transform: scale(0.5);
+  animation: centerPulse 4.8s ease-in-out infinite;
+}
+
+/* Sequential delays for one at a time */
+.icon1 {
+  animation-delay: 0s;
+}
+
+.icon2 {
+  animation-delay: 1.2s;
+}
+
+.icon3 {
+  animation-delay: 2.4s;
+}
+
+.icon4 {
+  animation-delay: 3.6s;
+}
+
+.loaderText {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #374151;
+  letter-spacing: 0.5px;
+  animation: textFade 1.2s ease-in-out infinite alternate;
+}
+
+/* Animations */
+@keyframes centerPulse {
+  0%,
+  20%,
+  100% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  10% {
+    opacity: 1;
+    transform: scale(1.5);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes textFade {
+  from {
+    opacity: 0.5;
+  }
+  to {
+    opacity: 1;
+  }
+}
