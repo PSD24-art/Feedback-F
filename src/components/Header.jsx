@@ -16,7 +16,7 @@ const Header = ({ isOpen, setIsOpen }) => {
   let username;
 
   useEffect(() => {
-    if (location.pathname === "/") {
+    if (location.pathname === "/" && !user) {
       setLogin(true);
     } else {
       setLogin(false);
@@ -30,6 +30,13 @@ const Header = ({ isOpen, setIsOpen }) => {
   if (user) {
     username = user.username.charAt(0).toUpperCase();
   }
+  const handleIconClick = () => {
+    if (location.pathname === "/" && user.role === "faculty") {
+      navigate(`/faculty/${user.id}`);
+    } else if (location.pathname === "/" && user.role === "admin") {
+      navigate(`/admin/${user.id}`);
+    }
+  };
 
   // Check if current path matches /faculty/:id/feedback/:subject
   const hideButtons =
@@ -61,7 +68,9 @@ const Header = ({ isOpen, setIsOpen }) => {
         {user && !hideButtons && (
           <div className="flex items-center justify-center">
             <div className=" hover:border-2 hover:border-white w-10 text-2xl flex h-10 me-2 justify-center items-center rounded-full transition duration-200 text-white bg-pink-500">
-              <button className="">{username}</button>
+              <button className="" onClick={handleIconClick}>
+                {username}
+              </button>
             </div>
             <button
               className=" me-2 z-50 lg:hidden bg-amber-20 bg-red-500 hover:bg-orange-700 p-2 rounded-md transition-all"

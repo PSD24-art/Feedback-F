@@ -100,10 +100,10 @@ const FacultyDashFromAdmin = () => {
     }, setLoading);
   };
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col 0">
       {loading && <Loader />}
 
-      <div className="w-full mt-16 ps-2 pe-2">
+      <div className="w-full mt-16 ps-2 pe-2 ">
         {facultyData ? (
           <div className="">
             {/* Analytics Card */}
@@ -123,19 +123,13 @@ const FacultyDashFromAdmin = () => {
         ) : null}
       </div>
       {/* Admin Buttons */}
-      <div className="flex gap-4 justify-end pe-4">
+      <div className="flex gap-4 justify-center items-center mb-4 pe-4">
         <button
           onClick={handleDeleteFaculty}
           className=" bg-red-500 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-red-600 transition active:scale-95 "
         >
           Delete Faculty
         </button>
-        {/* <button
-          onClick={() => navigate(`/admin/${id}`)}
-          className="hover:cursor-pointer px-4 py-2 rounded-lg bg-blue-500 text-white font-medium hover:bg-blue-600 transition"
-        >
-          Back
-        </button> */}
       </div>
     </div>
   );

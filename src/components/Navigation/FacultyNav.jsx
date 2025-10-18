@@ -2,12 +2,18 @@ import { useNavigate } from "react-router-dom";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { LayoutDashboard, BarChart3, Settings, LogOut } from "lucide-react";
 import { useParams } from "react-router-dom";
-const FacultyNav = ({ setIsOpen, setIsFeedbackOpen, isFeedbackOpen, id }) => {
+const FacultyNav = ({
+  setIsOpen,
+  setIsFeedbackOpen,
+  isFeedbackOpen,
+  id,
+  isActive,
+}) => {
   const navigate = useNavigate();
   return (
     <>
       <div
-        className="flex items-center gap-3 mt-3 hover:text-amber-700 cursor-pointer"
+        className={`flex items-center  gap-3 mt-3 hover:text-red-500 cursor-pointer ${isActive(`/faculty/${id}`) ? "text-red-500" : "text-amber-900"}`}
         onClick={() => {
           setIsOpen(false);
           navigate(`/faculty/${id}`);
@@ -17,7 +23,7 @@ const FacultyNav = ({ setIsOpen, setIsFeedbackOpen, isFeedbackOpen, id }) => {
         <span className="text-lg font-medium">Dashboard</span>
       </div>
       <div
-        className="mt-3 flex items-center justify-between hover:text-amber-700 cursor-pointer px-2 ps-0 py-2 pt-0 rounded-md transition-all duration-200 pb-0"
+        className="mt-3 flex items-center justify-between hover:text-red-500 cursor-pointer px-2 ps-0 py-2 pt-0 rounded-md transition-all duration-200 pb-0"
         onClick={() => {
           setIsFeedbackOpen((prev) => !prev);
         }}
@@ -27,9 +33,9 @@ const FacultyNav = ({ setIsOpen, setIsFeedbackOpen, isFeedbackOpen, id }) => {
           <span className="text-lg font-medium">Feedback Form</span>
         </div>
         {isFeedbackOpen ? (
-          <ChevronUp className="w-4 h-4 text-amber-700" />
+          <ChevronUp className="w-4 h-4 text-red-500" />
         ) : (
-          <ChevronDown className="w-4 h-4 text-amber-700" />
+          <ChevronDown className="w-4 h-4 text-red-500" />
         )}
       </div>
 
@@ -39,9 +45,9 @@ const FacultyNav = ({ setIsOpen, setIsFeedbackOpen, isFeedbackOpen, id }) => {
           isFeedbackOpen
             ? "max-h-40 opacity-100 flex flex-col ml-9 overflow-hidden transition-all duration-300"
             : "max-h-0 opacity-0 hidden"
-        }`}
+        }  ${isActive(`/faculty/${id}/links`) ? "text-red-500" : "text-amber-900"}`}
       >
-        <div className="flex items-center gap-3 hover:text-amber-700 cursor-pointer py-1">
+        <div className="flex items-center gap-3 hover:text-red-500 cursor-pointer py-1">
           <BarChart3 className="w-4 h-4" />
           <span
             className="text-base"
@@ -50,11 +56,13 @@ const FacultyNav = ({ setIsOpen, setIsFeedbackOpen, isFeedbackOpen, id }) => {
               navigate(`/faculty/${id}/links`);
             }}
           >
-            Created Links
+            Feedback Links
           </span>
         </div>
 
-        <div className="flex items-center gap-3 hover:text-amber-700 cursor-pointer py-1">
+        <div
+          className={`flex items-center gap-3 hover:text-red-500 cursor-pointer py-1  ${isActive(`/faculty/${id}/form`) ? "text-red-500" : "text-amber-900"}`}
+        >
           <BarChart3 className="w-4 h-4" />
           <span
             className="text-base"
@@ -67,7 +75,9 @@ const FacultyNav = ({ setIsOpen, setIsFeedbackOpen, isFeedbackOpen, id }) => {
           </span>
         </div>
 
-        <div className="flex items-center gap-3 hover:text-amber-700 cursor-pointer py-1">
+        <div
+          className={`flex items-center gap-3 hover:text-red-500 cursor-pointer py-1 ${isActive(`/faculty/${id}/subject`) ? "text-red-500" : "text-amber-900"}`}
+        >
           <BarChart3 className="w-4 h-4" />
           <span
             className="text-base"

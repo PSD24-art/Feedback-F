@@ -15,7 +15,6 @@ import Dashboard from "../components/Dashboard";
 
 const FacultyDashboard = () => {
   const { user } = useAuth();
-  console.log("user: ", user);
 
   const [facultyData, setFacultyData] = useState(null);
   const navigate = useNavigate();
@@ -29,7 +28,7 @@ const FacultyDashboard = () => {
   const [criteriaRatingsAi, setCriteriaRatingsAi] = useState({});
   const [subRatingsAi, setSubRatingsAi] = useState({});
   const [aiSummary, setAiSummary] = useState();
-
+  const [limit, setLimit] = useState("");
   //AI summary generator
   const handleGenerateSummary = async () => {
     withLoader(async () => {
@@ -75,14 +74,23 @@ const FacultyDashboard = () => {
   }, [subjects]);
 
   useEffect(() => {
+    if (subjects.length > 0 && selectedSubjectId) {
+      const selectedSub = subjects.find(
+        (sub) => sub.subject._id === selectedSubjectId
+      );
+      if (selectedSub) {
+        setLimit(selectedSub.limit || 0);
+      }
+    }
+  }, [selectedSubjectId, subjects]);
+
+  useEffect(() => {
     if (!selectedSubjectId) return;
     withLoader(async () => {
       const data = await fetchFn(
         `/faculty/${id}/count/${selectedSubjectId}`,
         "GET"
       );
-      console.log("Criteria ratings data: ", data);
-
       setcriteriaObj(data.ratings);
       setCount(data.FeedbackLength);
       setCriteriaRatingsAi(data.criteriaRatingsAi);
@@ -92,11 +100,12 @@ const FacultyDashboard = () => {
   return (
     <>
       {loading && <Loader />}
-      <div className="w-full mt-16 ps-2 pe-2 mb-2 h-dvh">
+      <div className="w-full mt-16 ps-2 pe-2 mb-2 h-dvh ">
         {facultyData ? (
           <div className="">
             {/* Analytics Card */}
             <Dashboard
+              limit={limit}
               totalRating={totalRating}
               facultyData={facultyData}
               count={count}

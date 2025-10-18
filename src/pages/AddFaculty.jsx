@@ -57,7 +57,7 @@ const AddFaculty = () => {
         </h2>
         <form
           onSubmit={handleOnSubmit}
-          className="bg-white shadow-md rounded-xl p-6 w-full max-w-md space-y-6 border-1 border-amber-100"
+          className="bg-white shadow-md basic_border rounded-xl p-6 w-full max-w-md space-y-6 border-2 border-amber-100"
         >
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">

@@ -3,12 +3,14 @@ import { LayoutDashboard, BarChart3, Settings, LogOut } from "lucide-react";
 import useAuth from "../store/AuthProvider";
 import withLoader from "../utils/withLoader";
 import Loader from "./Loader";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import FacultyNav from "./Navigation/FacultyNav";
 import AdminNav from "./Navigation/AdminNav";
 
 export default function Sidebar({ isOpen, setIsOpen }) {
+  const location = useLocation();
+  const isActive = (path) => location.pathname === path;
   const { user } = useAuth();
   let id;
   if (user) {
@@ -51,6 +53,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
                   setIsFeedbackOpen={setIsFeedbackOpen}
                   isFeedbackOpen={isFeedbackOpen}
                   id={id}
+                  isActive={isActive}
                 />
               ) : (
                 <AdminNav
@@ -58,16 +61,17 @@ export default function Sidebar({ isOpen, setIsOpen }) {
                   setIsFeedbackOpen={setIsFeedbackOpen}
                   isFeedbackOpen={isFeedbackOpen}
                   id={id}
+                  isActive={isActive}
                 />
               )}
 
-              <div className="mt-3 flex items-center gap-3 hover:text-amber-700 cursor-pointer">
+              <div className="mt-3 flex items-center gap-3 hover:text-red-500 cursor-pointer">
                 <Settings className="w-5 h-5" />
                 <span className="text-lg font-medium">Settings</span>
               </div>
               <div
                 onClick={handlLogOut}
-                className="flex items-center gap-3 mt-3 hover:text-red-600 cursor-pointer"
+                className="flex items-center gap-3 mt-3 hover:text-red-500 cursor-pointer"
               >
                 <LogOut className="w-5 h-5" />
                 <span className="text-lg font-medium">Logout</span>

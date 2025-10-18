@@ -2,8 +2,10 @@ import { Typewriter } from "react-simple-typewriter";
 import GenerateBtn from "./generateBtn";
 import FacultyFeedbackChart from "../charts/HorizontallBars";
 import BasicBars from "../charts/barGraph";
+import AISummaryBox from "./AISummaryBox";
 
 const Dashboard = ({
+  limit,
   totalRating,
   facultyData,
   count,
@@ -17,8 +19,8 @@ const Dashboard = ({
 }) => {
   return (
     <>
-      <div className=" bg-white  rounded-lg p-4 pt-1  transition flex flex-col ">
-        <div className="mt-2 flex flex-col md:flex-row justify-between items-center mb-2">
+      <div className=" bg-white  rounded-lg p-4 pt-1 transition flex flex-col ">
+        <div className="mt-2 flex flex-col md:flex-row justify-between items-center mb-2 mx-4 ">
           <h3 className="text-lg font-semibold text-gray-800 flex items-center">
             Faculty Analytics{" "}
             <span className="ml-2">
@@ -34,12 +36,21 @@ const Dashboard = ({
           </h2>
         </div>
 
-        <div className="mb-3 text-sm font-medium text-gray-700">
-          Count: <span className="text-basic_color font-bold">{count}</span>
+        <div className="flex  items-center justify-between mb-3 text-sm font-medium text-gray-700 mx-4">
+          <div>
+            {" "}
+            Recieved Feedbacks:{" "}
+            <span className="text-basic_color font-bold">{count}</span>
+          </div>
+          <div>
+            {" "}
+            Feedback Limit:{" "}
+            <span className="text-basic_color font-bold">{limit}</span>
+          </div>
         </div>
         {subjects && subjects.length > 0 ? (
-          <div className="grid xl:grid-cols-3 lg:grid-cols-2 gap-2 md:grid-cols-2 sm:gird-cols-1">
-            <div className="flex-grow flex-col flex items-center justify-between text-gray-500 text-sm border border-dashed border-orange-300 rounded-md p-3 min-h-90">
+          <div className="grid xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-1 gap-4 lg:gap-8  xl:gap-12 m-4  sm:gird-cols-1">
+            <div className="flex-grow flex-col flex items-center justify-between text-gray-500 text-sm border border-dashed border-orange-300 rounded-md p-3 min-h-90 bg-amber-50">
               {/* <div className="font-bold text-xl"></div> */}
               <div className="p-1 text-xl rounded-md mb-3 flex w-full justify-between items-center">
                 Average ratings for each subject
@@ -47,7 +58,7 @@ const Dashboard = ({
 
               {ratings && <BasicBars ratings={ratings} />}
             </div>
-            <div className="flex-grow flex flex-col items-center justify-between text-gray-500 text-sm border border-dashed border-orange-300 rounded-md p-3 min-h-90 ">
+            <div className="flex-grow flex flex-col items-center justify-between text-gray-500 text-sm border border-dashed border-orange-300 rounded-md p-3 min-h-90 bg-amber-50 ">
               <div className="p-1 rounded-md mb-3 flex w-full justify-between items-center">
                 {" "}
                 <label htmlFor="linkSubject" className="font-bold">
@@ -58,7 +69,9 @@ const Dashboard = ({
                   id="linkSubject"
                   value={selectedSubjectId}
                   disabled={subjects.length <= 1}
-                  onChange={(e) => setSelectedSubjectId(e.target.value)}
+                  onChange={(e) => {
+                    setSelectedSubjectId(e.target.value);
+                  }}
                   className="w-40 focus:border-red-300 px-1 border-2 border-red-300 rounded-md focus:ring-2 focus:ring-red-400 focus:outline-none"
                 >
                   {subjects.map((link) => (
@@ -76,27 +89,10 @@ const Dashboard = ({
               )}
             </div>
             {/* AI Summary */}
-            <div className="flex-grow flex flex-col items-center justify-evenly text-gray-500 text-sm border border-dashed border-orange-300 rounded-md p-3 min-h-90">
-              {aiSummary && aiSummary.trim() !== "" ? (
-                <p className="text-center">
-                  <Typewriter
-                    words={[aiSummary]}
-                    loop={1}
-                    cursor
-                    cursorStyle="|"
-                    typeSpeed={30}
-                    deleteSpeed={0}
-                    delaySpeed={1000}
-                  />
-                </p>
-              ) : (
-                <p>Click AI Summary button until it generates summary!</p>
-              )}
-
-              <div className="w-45 h-20" onClick={handleGenerateSummary}>
-                <GenerateBtn />
-              </div>
-            </div>
+            <AISummaryBox
+              aiSummary={aiSummary}
+              handleGenerateSummary={handleGenerateSummary}
+            />
           </div>
         ) : (
           <div className="text-gray-500 text-sm">

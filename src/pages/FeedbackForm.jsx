@@ -26,6 +26,8 @@ const FeedbackForm = () => {
     withLoader(async () => {
       try {
         const data = await fetchFn(`/faculty/${id}/tokens/${subject}`, "GET");
+        console.log("Token: ", data);
+
         if (data?.newToken?.token) {
           setToken(data.newToken.token);
           setSubjectName(data.newToken.subject.name);
@@ -37,7 +39,7 @@ const FeedbackForm = () => {
         console.error("Failed to fetch token", err);
       }
     }, setLoading);
-  }, [id, subject]);
+  }, []);
 
   const handleChange = (IDX, value) => {
     setAnswers((prev) => ({
@@ -63,8 +65,10 @@ const FeedbackForm = () => {
 
       if (data.message) {
         setCurrent(true);
+      } else if (data.text) {
+        alert(data.text);
       } else {
-        alert("You response has been already shared");
+        alert("Your response has been already shared");
       }
     }, setLoading);
   };

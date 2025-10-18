@@ -16,6 +16,8 @@ const CreateForm = () => {
   const semRef = useRef();
   const [linkMessage, setLinkMessage] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [limit, setLimit] = useState("");
+  const [error, setError] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
     const selectedCode = subjectRef.current.value;
@@ -44,6 +46,7 @@ const CreateForm = () => {
         `/faculty/${id}/feedback`,
         "POST",
         JSON.stringify({
+          limit,
           subject: foundSubjectId,
           link: `${FRONTEND_URL}/faculty/${id}/feedback/${selectedCode}`,
         })
@@ -163,7 +166,32 @@ const CreateForm = () => {
               )}
             </select>
           </div>
-
+          <div className="flex flex-col">
+            <label htmlFor="limit" className="mb-1 font-medium text-gray-700">
+              Limit:
+            </label>
+            <input
+              placeholder="Maximum number of forms to be submitted"
+              type="number"
+              id="limit"
+              value={limit}
+              onChange={(e) => {
+                const val = Number(e.target.value);
+                if (val > 100) {
+                  setError("Value cannot exceed 100");
+                } else {
+                  setError("");
+                  setLimit(e.target.value);
+                }
+              }}
+              className={`basic_input ${error ? "border-red-500" : ""}`}
+              max="100"
+              min="0"
+            />
+            {error && (
+              <span className="text-red-500 text-sm mt-1">{error}</span>
+            )}
+          </div>
           <button type="submit" className="basic_button">
             Create Form
           </button>
