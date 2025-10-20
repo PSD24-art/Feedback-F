@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 
 import { useNavigate } from "react-router-dom";
 import questions from "../data/questions";
-import Loader from "../components/Loader";
+import Loader from "../components/utilityComponents/Loader";
 import withLoader from "../utils/withLoader";
 import fetchFn from "../utils/fetchFn";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -63,7 +63,7 @@ const FeedbackForm = () => {
         })
       );
 
-      if (data.message) {
+      if (data.message === true) {
         setCurrent(true);
       } else if (data.text) {
         alert(data.text);

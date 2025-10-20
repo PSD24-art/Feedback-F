@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../store/AuthProvider";
 import withLoader from "../utils/withLoader";
-import Loader from "../components/Loader";
+import Loader from "../components/utilityComponents/Loader";
 const Login = () => {
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);

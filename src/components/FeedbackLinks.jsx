@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import AddSubject from "./AddSubject";
 import { useParams } from "react-router-dom";
 import withLoader from "../utils/withLoader";
-import Loader from "../components/Loader";
+import Loader from "./utilityComponents/Loader";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
-const Subject = () => {
+const FeedbackLinks = () => {
   const [clickValue, setClickValue] = useState(null);
   const { id } = useParams();
   const [shouldFetch, setShouldFetch] = useState(false);
@@ -112,4 +112,4 @@ const Subject = () => {
   );
 };
 
-export default Subject;
+export default FeedbackLinks;

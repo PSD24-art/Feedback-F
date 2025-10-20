@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import withLoader from "../utils/withLoader";
-import Loader from "../components/Loader";
-import fetchFn from "../utils/fetchFn";
+import withLoader from "../../utils/withLoader";
+import Loader from "../../components/utilityComponents/Loader";
+import fetchFn from "../../utils/fetchFn";
 
 const AddFaculty = () => {
   const [loading, setLoading] = useState(false);

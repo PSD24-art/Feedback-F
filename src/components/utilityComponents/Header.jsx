@@ -1,7 +1,7 @@
-import useAuth from "../store/AuthProvider";
+import useAuth from "../../store/AuthProvider";
 import { useNavigate, useLocation } from "react-router-dom";
 import { LogOut } from "lucide-react";
-import withLoader from "../utils/withLoader";
+import withLoader from "../../utils/withLoader";
 import { useEffect, useState } from "react";
 import Loader from "./Loader";
 const BASE_URL = import.meta.env.VITE_BASE_URL;

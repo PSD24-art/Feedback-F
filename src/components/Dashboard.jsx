@@ -95,7 +95,7 @@ const Dashboard = ({
             />
           </div>
         ) : (
-          <div className="text-gray-500 text-sm">
+          <div className="text-gray-500 text-sm h-60 w-full flex items-center justify-center bg-amber-50 border-2 border-red-300 rounded-lg">
             No subjects or feedbacks recieved.
           </div>
         )}

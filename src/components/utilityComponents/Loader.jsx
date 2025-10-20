@@ -4,7 +4,7 @@ import {
   GraduationCap,
   ChartPie,
 } from "lucide-react";
-import styles from "./Css/Loader.module.css";
+import styles from "../Css/Loader.module.css";
 
 export default function Loader() {
   return (

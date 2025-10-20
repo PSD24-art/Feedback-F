@@ -1,17 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import withLoader from "../utils/withLoader";
-import Loader from "../components/Loader";
-import BasicBars from "../charts/barGraph";
-import FacultyFeedbackChart from "../charts/HorizontallBars";
-import fetchFn from "../utils/fetchFn";
-import "../App.css";
-const BASE_URL = import.meta.env.VITE_BASE_URL;
-import useAuth from "../store/AuthProvider";
-import GenerateBtn from "../components/generateBtn";
-import { Typewriter } from "react-simple-typewriter";
-import Dashboard from "../components/Dashboard";
+import withLoader from "../../utils/withLoader";
+import Loader from "../../components/utilityComponents/Loader";
+import fetchFn from "../../utils/fetchFn";
+import "../../App.css";
+import useAuth from "../../store/AuthProvider";
+import Dashboard from "../../components/Dashboard";
 
 const FacultyDashboard = () => {
   const { user } = useAuth();

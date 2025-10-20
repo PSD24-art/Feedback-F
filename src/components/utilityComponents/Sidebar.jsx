@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { LayoutDashboard, BarChart3, Settings, LogOut } from "lucide-react";
-import useAuth from "../store/AuthProvider";
-import withLoader from "../utils/withLoader";
+import useAuth from "../../store/AuthProvider";
+import withLoader from "../../utils/withLoader";
 import Loader from "./Loader";
 import { useNavigate, useLocation } from "react-router-dom";
-import { ChevronDown, ChevronUp } from "lucide-react";
-import FacultyNav from "./Navigation/FacultyNav";
-import AdminNav from "./Navigation/AdminNav";
+import FacultyNav from "../Navigation/FacultyNav";
+import AdminNav from "../Navigation/AdminNav";
 
 export default function Sidebar({ isOpen, setIsOpen }) {
   const location = useLocation();
@@ -39,7 +38,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
         <div
           className={`mb-1 rounded-r-lg fixed lg:static flex flex-col border-2 border-red-300 h-[dvh-60px] bg-red-50/60 backdrop-blur-sm shadow-lg 
         transition-all duration-300 ease-in-out w-[220px]
-        ${isOpen ? "w-full top-0 left-0 z-40 h-dvh mt-14" : "w-[20%] hidden lg:flex mt-15 "}`}
+        ${isOpen ? "w-full top-0 left-0 z-40 h-dvh mt-13 rounded-r-none" : "w-[20%] hidden lg:flex mt-15 "}`}
         >
           <div className="flex flex-col h-full py-6 px-4">
             <h2 className="text-xl font-semibold text-red-800 mb-2 text-center border-b border-red-300 pb-2">

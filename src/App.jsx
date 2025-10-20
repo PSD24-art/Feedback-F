@@ -1,23 +1,22 @@
 import "./App.css";
 import { Route, Routes, useLocation } from "react-router-dom";
 import Login from "./pages/login";
-import AdminDashboard from "./pages/AdminDashboard";
-import FacultyDashboard from "./pages/FacultyDashboard";
-import Header from "./components/Header";
+import FacultyDashboard from "./pages/faculty/FacultyDashboard";
+import Header from "./components/utilityComponents/Header";
 import FeedbackForm from "./pages/FeedbackForm";
-import Subject from "./components/Subject";
-import FacultyDashFromAdmin from "./pages/FacultyDashFromAdmin";
-import AddFaculty from "./pages/AddFaculty";
+import FeedbackLinks from "./components/FeedbackLinks";
+import FacultyDashFromAdmin from "./pages/admin/FacultyDashFromAdmin";
+import AddFaculty from "./pages/admin/AddFaculty";
 import PasswordReset from "./pages/PasswordReset";
 import FeedbackSent from "./pages/FeedBackSent";
 import HomePage from "./pages/HomePage";
-import Sidebar from "./components/Sidebar";
+import Sidebar from "./components/utilityComponents/Sidebar";
 import { useEffect, useState } from "react";
 import CreateForm from "./components/CreateFrom";
 import AddSubject from "./components/AddSubject";
-import Footer from "./components/Footer";
-import Loader from "./components/Loader";
-
+import Footer from "./components/utilityComponents/Footer";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import Subjects from "./pages/admin/Subjects";
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showSidebar, setShowSidebar] = useState(true);
@@ -47,13 +46,16 @@ function App() {
             <Route path="/faculty/:id" element={<FacultyDashboard />} />
             <Route path="/change-password/:id" element={<PasswordReset />} />
             <Route path="/faculty/:id/form" element={<CreateForm />} />
-            <Route path="/faculty/:id/links" element={<Subject />} />
+            <Route path="/faculty/:id/links" element={<FeedbackLinks />} />
             <Route path="/faculty/:id/subject" element={<AddSubject />} />
             <Route
               path="/faculty/:id/feedback/:subject"
               element={<FeedbackForm />}
             />
             <Route path="/admin/:id" element={<AdminDashboard />} />
+            <Route path="/admin/:id/subject" element={<Subjects />} />
+            <Route path="/admin/:id/subjects/new" element={<AddSubject />} />
+
             <Route
               path="/admin/:id/faculty/:facultyId"
               element={<FacultyDashFromAdmin />}

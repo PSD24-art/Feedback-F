@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-const BASE_URL = import.meta.env.VITE_BASE_URL;
-import withLoader from "../utils/withLoader";
-import Loader from "../components/Loader";
-import fetchFn from "../utils/fetchFn";
+import withLoader from "../../utils/withLoader";
+import Loader from "../../components/utilityComponents/Loader";
+import fetchFn from "../../utils/fetchFn";
 const AdminDashboard = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -24,9 +23,6 @@ const AdminDashboard = () => {
     navigate(`/admin/${id}/faculty/${facultyId}`);
   };
 
-  const handleAddFacultyClick = async () => {
-    navigate(`/admin/${id}/faculty/new`);
-  };
   return (
     <>
       {loading && <Loader />}

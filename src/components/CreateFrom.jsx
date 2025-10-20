@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import withLoader from "../utils/withLoader";
-import Loader from "./Loader";
+import Loader from "./utilityComponents/Loader";
 import fetchFn from "../utils/fetchFn";
 const FRONTEND_URL = import.meta.env.VITE_FRONTEND_URL;
 const CreateForm = () => {
@@ -84,8 +84,8 @@ const CreateForm = () => {
   };
 
   return (
-    <div className="flex flex-col w-[100%]">
-      <h2 className="mb-4 ms-8 mt-16 text-xl font-semibold text-basic_color">
+    <div className="flex flex-col items-center">
+      <h2 className="mb-4 mt-16 text-xl font-semibold text-basic_color">
         Create Feedback Form
       </h2>
       {loading && <Loader />}
@@ -197,7 +197,7 @@ const CreateForm = () => {
           </button>
         </form>
       ) : (
-        <div className="flex flex-col gap-4 bg-white p-6 rounded-lg border-2 border-orange-200 shadow-md">
+        <div className="flex flex-col gap-4 bg-white p-6 rounded-lg border-2 mx-6 border-orange-200 shadow-md">
           <h3 className="text-lg font-semibold text-basic_color">
             Please share the below link to get the feedback
           </h3>
@@ -223,7 +223,7 @@ const CreateForm = () => {
                 );
                 alert("Link copied to clipboard!");
               }}
-              className="self-start px-3 py-1 bg-orange-500 text-white text-sm rounded-md shadow hover:bg-basic_color active:scale-95 transition"
+              className="self-start px-3 py-1 bg-red-500 text-white text-sm rounded-md shadow hover:bg-basic_color active:scale-95 transition"
             >
               Copy Link
             </button>

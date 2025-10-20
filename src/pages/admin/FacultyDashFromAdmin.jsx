@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import withLoader from "../utils/withLoader";
-import Loader from "../components/Loader";
-import BasicBars from "../charts/barGraph";
-import FacultyFeedbackChart from "../charts/HorizontallBars";
-import GenerateBtn from "../components/generateBtn";
-import useAuth from "../store/AuthProvider";
-import fetchFn from "../utils/fetchFn";
+import withLoader from "../../utils/withLoader";
+import Loader from "../../components/utilityComponents/Loader";
+import BasicBars from "../../charts/barGraph";
+import FacultyFeedbackChart from "../../charts/HorizontallBars";
+import GenerateBtn from "../../components/generateBtn";
+import useAuth from "../../store/AuthProvider";
+import fetchFn from "../../utils/fetchFn";
 import { Typewriter } from "react-simple-typewriter";
-import Dashboard from "../components/Dashboard";
+import Dashboard from "../../components/Dashboard";
 const FacultyDashFromAdmin = () => {
   const { user } = useAuth();
   const { id, facultyId, subject } = useParams();
@@ -43,7 +43,10 @@ const FacultyDashFromAdmin = () => {
           `/admin/${id}/faculties/${facultyId}/links`,
           "GET"
         );
-        setSubjects(data.links);
+
+        if (data.links) {
+          setSubjects(data.links);
+        }
       } catch (err) {
         console.error("Failed to fetch links", err);
       }

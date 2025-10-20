@@ -1,10 +1,12 @@
 import { useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import withLoader from "../utils/withLoader";
-import Loader from "./Loader";
+import Loader from "./utilityComponents/Loader";
 import fetchFn from "../utils/fetchFn";
+import useAuth from "../store/AuthProvider";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const AddSubject = () => {
+  const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
   const nameRef = useRef();
@@ -19,16 +21,30 @@ const AddSubject = () => {
     const department = deptRef.current.value;
     const semester = semesterRef.current.value;
     withLoader(async () => {
-      const data = await fetchFn(
-        `/faculty/${id}/subject`,
-        "POST",
-        JSON.stringify({ name, code, department, semester })
-      );
+      if (user.role === "faculty") {
+        const data = await fetchFn(
+          `/faculty/${id}/subject`,
+          "POST",
+          JSON.stringify({ name, code, department, semester })
+        );
 
-      if (data.message) {
-        setMessage(data.message);
-      } else if (data.error) {
-        setMessage(data.error);
+        if (data.message) {
+          setMessage(data.message);
+        } else if (data.error) {
+          setMessage(data.error);
+        }
+      } else if (user.role === "admin") {
+        const data = await fetchFn(
+          `/admin/${id}/subject`,
+          "POST",
+          JSON.stringify({ name, code, department, semester })
+        );
+
+        if (data.message) {
+          setMessage(data.message);
+        } else if (data.error) {
+          setMessage(data.error);
+        }
       }
     }, setLoading);
   };
@@ -36,14 +52,14 @@ const AddSubject = () => {
   return (
     <>
       {loading && <Loader />}
-      <div className=" mt-17 mb-3 m-8">
+      <div className="flex items-center flex-col mt-17 mb-3 m-8">
         <h2 className="mb-4 text-xl font-semibold text-basic_color">
           Add Subject
         </h2>
         {message === null ? (
           <form
             onSubmit={handleSubmit}
-            className=" flex flex-col gap-4 bg-white p-6 rounded-lg border-2 basic_border shadow-md"
+            className=" flex flex-col gap-4 bg-white p-6 rounded-lg border-2 basic_border shadow-md "
           >
             {/* Subject Name */}
             <input
