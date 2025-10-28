@@ -111,11 +111,6 @@ const Dashboard = ({
                 </div>
                 {ratings && <BasicBars ratings={ratings} />}
               </div>
-              {/*donut chart*/}
-              <div className="flex-grow flex-col flex items-center justify-center text-gray-500 text-sm border border-dashed border-orange-300 rounded-md p-3 min-h-90 bg-amber-50">
-                <h2>Percentage ratings recieved</h2>
-                <DonutChart ratingPercentage={ratingPercentage} />
-              </div>
 
               <div className="flex-grow flex flex-col items-center justify-between text-gray-500 text-sm border border-dashed border-orange-300 rounded-md p-3 min-h-90 bg-amber-50">
                 <div className="p-1 rounded-md mb-3 flex w-full justify-between items-center">
@@ -141,6 +136,11 @@ const Dashboard = ({
                 ) : (
                   <div>No data to show</div>
                 )}
+              </div>
+              {/*donut chart*/}
+              <div className="flex-grow flex-col flex items-center justify-center text-gray-500 text-sm border border-dashed border-orange-300 rounded-md p-3 min-h-90 bg-amber-50">
+                <h2>Percentage ratings recieved</h2>
+                <DonutChart ratingPercentage={ratingPercentage} />
               </div>
 
               {/* AI Summary */}
