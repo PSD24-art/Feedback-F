@@ -24,6 +24,8 @@ const FacultyDashboard = () => {
   const [subRatingsAi, setSubRatingsAi] = useState({});
   const [aiSummary, setAiSummary] = useState();
   const [limit, setLimit] = useState("");
+  const [ratingPercentage, setRatingPercentage] = useState({});
+
   //AI summary generator
   const handleGenerateSummary = async () => {
     withLoader(async () => {
@@ -86,6 +88,9 @@ const FacultyDashboard = () => {
         `/faculty/${id}/count/${selectedSubjectId}`,
         "GET"
       );
+      console.log("Data: ", data);
+
+      setRatingPercentage(data.ratingPercentage);
       setcriteriaObj(data.ratings);
       setCount(data.FeedbackLength);
       setCriteriaRatingsAi(data.criteriaRatingsAi);
@@ -100,6 +105,7 @@ const FacultyDashboard = () => {
           <div className="">
             {/* Analytics Card */}
             <Dashboard
+              ratingPercentage={ratingPercentage}
               limit={limit}
               totalRating={totalRating}
               facultyData={facultyData}

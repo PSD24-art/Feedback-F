@@ -36,6 +36,9 @@
   font-style: normal;
 }
 
+.notFoundClass {
+  @apply border-red-400 w-[100%] border-2 h-20 bg-red-50 rounded-2xl flex items-center justify-center;
+}
 .great-vibes-regular {
   font-family: "Great Vibes", cursive;
   font-weight: 400;

@@ -25,6 +25,8 @@ const FacultyDashFromAdmin = () => {
   const [selectedSubjectId, setSelectedSubjectId] = useState("");
   const [criteriaObj, setcriteriaObj] = useState([]);
   const [aiSummary, setAiSummary] = useState();
+  const [limit, setLimit] = useState("");
+  const [ratingPercentage, setRatingPercentage] = useState({});
 
   useEffect(() => {
     withLoader(async () => {
@@ -62,18 +64,31 @@ const FacultyDashFromAdmin = () => {
   }, [subjects]);
 
   useEffect(() => {
+    if (subjects.length > 0 && selectedSubjectId) {
+      const selectedSub = subjects.find(
+        (sub) => sub.subject._id === selectedSubjectId
+      );
+      if (selectedSub) {
+        setLimit(selectedSub.limit || 0);
+      }
+    }
+  }, [selectedSubjectId, subjects]);
+
+  useEffect(() => {
     if (!selectedSubjectId) return;
     withLoader(async () => {
       const data = await fetchFn(
         `/admin/${id}/faculties/${facultyId}/feedback/${selectedSubjectId}`,
         "GET"
       );
-
+      console.log("Data: ", data);
+      setRatingPercentage(data.ratingPercentage);
       setcriteriaObj(data.ratings);
       setCount(data.FeedbackLength);
       setCriteriaRatingsAi(data.criteriaRatingsAi);
     }, setLoading);
   }, [selectedSubjectId]);
+
   //AI summary generator
   const handleGenerateSummary = async () => {
     withLoader(async () => {
@@ -102,6 +117,7 @@ const FacultyDashFromAdmin = () => {
       navigate(`/admin/${id}`);
     }, setLoading);
   };
+
   return (
     <div className="flex flex-col 0">
       {loading && <Loader />}
@@ -111,6 +127,7 @@ const FacultyDashFromAdmin = () => {
           <div className="">
             {/* Analytics Card */}
             <Dashboard
+              limit={limit}
               totalRating={totalRating}
               facultyData={facultyData}
               count={count}
@@ -119,6 +136,7 @@ const FacultyDashFromAdmin = () => {
               selectedSubjectId={selectedSubjectId}
               setSelectedSubjectId={setSelectedSubjectId}
               criteriaObj={criteriaObj}
+              ratingPercentage={ratingPercentage}
               aiSummary={aiSummary}
               handleGenerateSummary={handleGenerateSummary}
             />

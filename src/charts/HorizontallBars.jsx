@@ -6,7 +6,6 @@ import { PiecewiseColorLegend } from "@mui/x-charts/ChartsLegend";
 import { useAnimate } from "@mui/x-charts/hooks";
 import { interpolateObject } from "@mui/x-charts-vendor/d3-interpolate";
 
-// Hardcoded criteria names
 const fallbackRatings = [
   { criteria: "Communication", avgRating: 3.8 },
   { criteria: "Knowledge", avgRating: 2.0 },
@@ -18,13 +17,10 @@ const fallbackRatings = [
 export default function FacultyFeedbackChart({ criteriaObj = [] }) {
   // console.log("Received criteriaObj:", criteriaObj);
 
-  // Map numeric ratings to criteria names
+  // ✅ Use provided criteriaObj directly if valid, else fallback
   const dataset =
     Array.isArray(criteriaObj) && criteriaObj.length > 0
-      ? fallbackRatings.map((item, i) => ({
-          criteria: item.criteria,
-          avgRating: Number(criteriaObj[i]) || 0,
-        }))
+      ? criteriaObj
       : fallbackRatings;
 
   if (!dataset || dataset.length === 0) {
@@ -39,10 +35,6 @@ export default function FacultyFeedbackChart({ criteriaObj = [] }) {
 
   return (
     <Box width="100%">
-      {/* <Typography marginBottom={2} fontWeight={600}>
-        Criteria-wise Faculty Feedback Ratings
-      </Typography> */}
-
       <BarChart
         height={320}
         layout="horizontal"
@@ -62,19 +54,19 @@ export default function FacultyFeedbackChart({ criteriaObj = [] }) {
         yAxis={[
           {
             scaleType: "band",
-            data: dataset.map((d) => d.criteria), // ✅ Explicitly provide data labels
+            data: dataset.map((d) => d.criteria),
             label: "Criteria",
             tickLabelStyle: {
               fontSize: 13,
               fontWeight: 600,
               fill: "#374151",
             },
-            width: 125,
+            width: 130,
           },
         ]}
         series={[
           {
-            data: dataset.map((d) => d.avgRating), // ✅ Explicitly bind data values
+            data: dataset.map((d) => d.avgRating),
             label: "Average Rating",
             valueFormatter: (v) =>
               typeof v === "number" ? `${v.toFixed(2)} / 5` : "-",
@@ -102,7 +94,7 @@ export default function FacultyFeedbackChart({ criteriaObj = [] }) {
   );
 }
 
-// Label inside each bar
+// ✅ Label inside each bar
 const Text = styled("text")(({ theme }) => ({
   ...theme.typography.body2,
   fill: (theme.vars || theme).palette.common.white,
