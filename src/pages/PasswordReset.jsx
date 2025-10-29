@@ -50,6 +50,8 @@ const PasswordReset = () => {
           navigate(`/admin/${id}`);
         } else if (data.role === "faculty") {
           navigate(`/faculty/${id}`);
+        } else if (data.role === "superAdmin") {
+          navigate(`/sAdmin/${id}`);
         }
       } catch (error) {
         console.error("Password reset error:", error.message);
