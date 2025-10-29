@@ -100,7 +100,7 @@ const FacultyDashboard = () => {
   return (
     <>
       {loading && <Loader />}
-      <div className="w-full mt-16 ps-2 pe-2 mb-2 h-dvh ">
+      <div className="w-full mt-16 ps-2 pe-2 mb-2 h-[94vh] ">
         {facultyData ? (
           <div className="">
             {/* Analytics Card */}

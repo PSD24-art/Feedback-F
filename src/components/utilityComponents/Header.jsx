@@ -1,11 +1,8 @@
 import useAuth from "../../store/AuthProvider";
 import { useNavigate, useLocation } from "react-router-dom";
-import { LogOut } from "lucide-react";
-import withLoader from "../../utils/withLoader";
 import { useEffect, useState } from "react";
 import Loader from "./Loader";
-const BASE_URL = import.meta.env.VITE_BASE_URL;
-import { Menu, X } from "lucide-react";
+import { Menu, X, ArrowRight } from "lucide-react";
 
 const Header = ({ isOpen, setIsOpen }) => {
   const [loading, setLoading] = useState();
@@ -13,6 +10,7 @@ const Header = ({ isOpen, setIsOpen }) => {
   const location = useLocation();
   const { user, logout } = useAuth();
   const [login, setLogin] = useState(true);
+  const [backBtn, setBackBtn] = useState(false);
   let username;
 
   useEffect(() => {
@@ -20,6 +18,18 @@ const Header = ({ isOpen, setIsOpen }) => {
       setLogin(true);
     } else {
       setLogin(false);
+    }
+  }, [location.pathname]);
+
+  const handleShowBackBtn = async () => {
+    navigate("/");
+  };
+
+  useEffect(() => {
+    if (location.pathname === "/institution-form") {
+      setBackBtn(true);
+    } else {
+      setBackBtn(false);
     }
   }, [location.pathname]);
 
@@ -62,6 +72,14 @@ const Header = ({ isOpen, setIsOpen }) => {
             onClick={handleLogIn}
           >
             Login
+          </button>
+        )}
+        {backBtn && (
+          <button
+            className="flex items-center gap-2 h-10 me-4 justify-center px-4 text-white font-semibold rounded-lg  active:scale-95 bg-red-500 hover:bg-orange-700 transition duration-200 hover:cursor-pointer"
+            onClick={handleShowBackBtn}
+          >
+            <ArrowRight />
           </button>
         )}
 

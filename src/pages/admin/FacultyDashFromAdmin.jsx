@@ -122,7 +122,7 @@ const FacultyDashFromAdmin = () => {
     <div className="flex flex-col 0">
       {loading && <Loader />}
 
-      <div className="w-full mt-16 ps-2 pe-2 ">
+      <div className="w-full mt-16 ps-2 pe-2 h-[94vh]">
         {facultyData ? (
           <div className="">
             {/* Analytics Card */}

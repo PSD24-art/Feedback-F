@@ -22,7 +22,7 @@ const Dashboard = ({
 }) => {
   return (
     <>
-      <div className="bg-white rounded-lg p-4 pt-1 transition flex flex-col h-[80vh]">
+      <div className="bg-white rounded-lg p-4 pt-1 transition flex flex-col h-[93vh]">
         <>
           {/* Layout for sm+ screens (md and above) */}
           <div className="hidden sm:block sticky top-0 bg-white z-10 basic_border border-b-2 md:grid md:grid-cols-3 items-center p-2">
@@ -102,7 +102,7 @@ const Dashboard = ({
         </>
 
         {/* Scrollable Content */}
-        <div className="overflow-y-auto flex-1">
+        <div className="overflow-y-auto flex-1 scrollbar-hide">
           {subjects && subjects.length > 0 ? (
             <div className="grid xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-1 gap-4 lg:gap-8 xl:gap-12 m-4 sm:gird-cols-1">
               <div className="flex-grow flex-col flex items-center justify-between text-gray-500 text-sm border border-dashed border-orange-300 rounded-md p-3 min-h-90 bg-amber-50">

@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import ".././App.css";
 import {
   Brain,
   BarChart,
@@ -53,7 +54,15 @@ export default function HomePage() {
           >
             Login
           </button>
-          <button className="border border-red-600 text-red-600 px-8 py-3 rounded-lg font-semibold hover:bg-red-50 transition-colors hover:cursor-pointer">
+
+          <button
+            className="border border-red-600 text-red-600 px-8 py-3 rounded-lg font-semibold hover:bg-red-50 transition-colors hover:cursor-pointer"
+            onClick={() =>
+              document.getElementById("access-tutorial").scrollIntoView({
+                behavior: "smooth",
+              })
+            }
+          >
             Request Access
           </button>
         </motion.div>
@@ -283,6 +292,86 @@ export default function HomePage() {
           (More testimonials coming soon...)
         </p>
       </section>
+      {/* HOW TO GET ACCESS SECTION */}
+      <section
+        id="access-tutorial"
+        className="bg-gradient-to-r from-amber-50 via-white to-amber-100 py-20 px-6 text-center"
+      >
+        <motion.h2
+          className="text-3xl sm:text-4xl font-bold text-gray-800 mb-10"
+          initial={{ opacity: 0, y: -30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          How to Get Access
+        </motion.h2>
+
+        <motion.p
+          className="max-w-2xl mx-auto text-gray-700 mb-12 leading-relaxed"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ delay: 0.2, duration: 0.8 }}
+        >
+          Institutions can easily onboard with{" "}
+          <span className="text-red-700 font-semibold">Feedback_Guru</span>.
+          Here’s how your college or university can get started:
+        </motion.p>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+          {[
+            {
+              step: "1. Submit Request",
+              desc: "Institutional representative clicks 'Request Access' and fills a verification form with basic institute details and proposed admin info.",
+              icon: "📝",
+            },
+            {
+              step: "2. Verification",
+              desc: "Our team reviews the request and contacts the institute to verify the authenticity of the submission.",
+              icon: "📞",
+            },
+            {
+              step: "3. Approval",
+              desc: "Once confirmed, your institution's admin is officially approved and the system credentials are securely shared.",
+              icon: "✅",
+            },
+            {
+              step: "4. Admin Access Granted",
+              desc: "The approved admin can now log in, add faculties, subjects, and start collecting AI-powered feedback instantly.",
+              icon: "🔥",
+            },
+          ].map(({ step, desc, icon }, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              whileHover={{ scale: 1.05, y: -5 }}
+              transition={{ duration: 0.6, delay: i * 0.15 }}
+              viewport={{ once: true }}
+              className="bg-white rounded-2xl p-6 shadow-md flex flex-col items-center text-center"
+            >
+              <div className="text-4xl mb-4">{icon}</div>
+              <h3 className="text-lg font-semibold mb-2 text-red-700">
+                {step}
+              </h3>
+              <p className="text-gray-600 text-sm">{desc}</p>
+            </motion.div>
+          ))}
+        </div>
+
+        <motion.div
+          className="mt-12"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ delay: 0.6 }}
+        >
+          <button
+            className="bg-red-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors hover:cursor-pointer"
+            onClick={() => navigate("/institution-form")}
+          >
+            Get started
+          </button>
+        </motion.div>
+      </section>
 
       {/* CALL TO ACTION */}
       <motion.section
@@ -298,11 +387,16 @@ export default function HomePage() {
           Join educational institutions embracing AI for smarter, transparent,
           and effective faculty assessments.
         </p>
+
         <button
           className="bg-white text-red-700 px-8 py-3 rounded-lg font-semibold hover:bg-red-50 transition-colors"
-          onClick={() => navigate("/login")}
+          onClick={() =>
+            document.getElementById("access-tutorial").scrollIntoView({
+              behavior: "smooth",
+            })
+          }
         >
-          Get Started
+          Request Access
         </button>
       </motion.section>
     </div>

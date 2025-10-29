@@ -17,6 +17,7 @@ import AddSubject from "./components/AddSubject";
 import Footer from "./components/utilityComponents/Footer";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import Subjects from "./pages/admin/Subjects";
+import Institution_form from "./pages/Institution_form";
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showSidebar, setShowSidebar] = useState(true);
@@ -42,6 +43,7 @@ function App() {
         <div className="flex-1 overflow-auto">
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/institution-form" element={<Institution_form />} />
             <Route path="/login" element={<Login />} />
             <Route path="/faculty/:id" element={<FacultyDashboard />} />
             <Route path="/change-password/:id" element={<PasswordReset />} />
