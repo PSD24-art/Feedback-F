@@ -18,6 +18,7 @@ import Footer from "./components/utilityComponents/Footer";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import Subjects from "./pages/admin/Subjects";
 import Institution_form from "./pages/Institution_form";
+import SAdminDash from "./pages/sAdmin/sAdminDash";
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showSidebar, setShowSidebar] = useState(true);
@@ -45,6 +46,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/institution-form" element={<Institution_form />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/sAdmin/:id" element={<SAdminDash />} />
             <Route path="/faculty/:id" element={<FacultyDashboard />} />
             <Route path="/change-password/:id" element={<PasswordReset />} />
             <Route path="/faculty/:id/form" element={<CreateForm />} />

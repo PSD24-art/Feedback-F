@@ -21,9 +21,10 @@ const Login = () => {
 
         if (data.user.role === "admin") {
           navigate(`/admin/${id}`);
-        }
-        if (data.user.role === "faculty") {
+        } else if (data.user.role === "faculty") {
           navigate(`/faculty/${id}`);
+        } else if (data.user.role === "superAdmin") {
+          navigate(`/sAdmin/${id}`);
         }
       }, setLoading);
     } catch (e) {

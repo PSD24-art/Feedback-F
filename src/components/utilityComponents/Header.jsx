@@ -45,6 +45,8 @@ const Header = ({ isOpen, setIsOpen }) => {
       navigate(`/faculty/${user.id}`);
     } else if (location.pathname === "/" && user.role === "admin") {
       navigate(`/admin/${user.id}`);
+    } else if (location.pathname === "/" && user.role === "superAdmin") {
+      navigate(`/sAdmin/${user.id}`);
     }
   };
 
@@ -53,7 +55,7 @@ const Header = ({ isOpen, setIsOpen }) => {
     /^\/faculty\/[^/]+\/feedback\/[^/]+$/.test(location.pathname) ||
     /^\/feedback\/sent$/.test(location.pathname);
   let institute;
-  if (user) {
+  if (user && user.institute) {
     institute = user.Institute.name.split(" ").splice(0, 1);
   } else {
     institute = "feedback_guru";
