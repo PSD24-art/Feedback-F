@@ -1,4 +1,10 @@
 @import "tailwindcss";
+html,
+body {
+  overflow-x: hidden;
+  overscroll-behavior: none;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -71,6 +77,9 @@
   }
 }
 
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
 /* Genrate Button */
 
 /* From Uiverse.io by dexter-st */
