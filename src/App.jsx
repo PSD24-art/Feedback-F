@@ -18,7 +18,7 @@ import Footer from "./components/utilityComponents/Footer";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import Subjects from "./pages/admin/Subjects";
 import Institution_form from "./pages/Institution_form";
-import SAdminDash from "./pages/sAdmin/sAdminDash";
+import SAdminDash from "./pages/sAdmin/SAdminDash";
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showSidebar, setShowSidebar] = useState(true);
