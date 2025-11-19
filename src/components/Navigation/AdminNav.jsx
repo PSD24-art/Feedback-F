@@ -1,13 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import {
-  LayoutDashboard,
-  BarChart3,
-  Settings,
-  LogOut,
-  UserPen,
-  BookOpenText,
-} from "lucide-react";
+import { LayoutDashboard, UserPen, BookOpenText } from "lucide-react";
 import { useParams } from "react-router-dom";
 const AdminNav = ({ setIsOpen, id, isActive }) => {
   const navigate = useNavigate();
