@@ -1,28 +1,32 @@
-@keyframes fade-in {
-  0% {
+.card {
+  opacity: 0;
+  transform: translateY(12px);
+  animation: fadeUp 0.5s ease forwards;
+}
+
+@keyframes fadeUp {
+  from {
     opacity: 0;
-    transform: translateY(6px);
+    transform: translateY(12px);
   }
-  100% {
+  to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-@keyframes pulse-slow {
-  0%,
-  100% {
-    opacity: 0.6;
+.animate_pulse_slow {
+  animation: pulseSlow 6s ease-in-out infinite;
+}
+
+@keyframes pulseSlow {
+  0% {
+    opacity: 0.4;
   }
   50% {
-    opacity: 0.9;
+    opacity: 0.7;
   }
-}
-
-.animate_fade_in {
-  animation: fade-in 0.6s ease-in-out;
-}
-
-.animate_pulse_slow {
-  animation: pulse-slow 3s ease-in-out infinite;
+  100% {
+    opacity: 0.4;
+  }
 }
