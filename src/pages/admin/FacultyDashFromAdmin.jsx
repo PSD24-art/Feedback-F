@@ -3,12 +3,8 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import withLoader from "../../utils/withLoader";
 import Loader from "../../components/utilityComponents/Loader";
-import BasicBars from "../../charts/barGraph";
-import FacultyFeedbackChart from "../../charts/HorizontallBars";
-import GenerateBtn from "../../components/generateBtn";
 import useAuth from "../../store/AuthProvider";
 import fetchFn from "../../utils/fetchFn";
-import { Typewriter } from "react-simple-typewriter";
 import Dashboard from "../../components/Dashboard";
 const FacultyDashFromAdmin = () => {
   const { user } = useAuth();
@@ -101,7 +97,9 @@ const FacultyDashFromAdmin = () => {
           subjectAnalysis: subRatingsAi,
         })
       );
-      setAiSummary(data.summary);
+      console.log("HandleGenrateSummary: ", data);
+
+      setAiSummary(data.points);
     }, setLoading);
   };
 

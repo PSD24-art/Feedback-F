@@ -26,7 +26,10 @@ const Header = ({ isOpen, setIsOpen }) => {
   };
 
   useEffect(() => {
-    if (location.pathname === "/institution-form") {
+    if (
+      location.pathname === "/institution-form" ||
+      location.pathname === "/login"
+    ) {
       setBackBtn(true);
     } else {
       setBackBtn(false);
@@ -64,7 +67,7 @@ const Header = ({ isOpen, setIsOpen }) => {
   return (
     <>
       {loading && <Loader />}
-      <div className=" bg-basic_color fixed top-0 min-w-full h-[7%] flex justify-between items-center shadow z-100">
+      <div className=" bg-basic_color fixed top-0 min-w-full h-14 flex justify-between items-center shadow z-100">
         <div className="text-3xl text-white p-1 flex flex-row text-center items-center justify-center ms-3 great-vibes-regular">
           {institute}
         </div>
