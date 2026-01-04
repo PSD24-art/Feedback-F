@@ -1,83 +1,61 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import withLoader from "../../utils/withLoader";
 import Loader from "../../components/utilityComponents/Loader";
-import useAuth from "../../store/AuthProvider";
 import fetchFn from "../../utils/fetchFn";
 import Dashboard from "../../components/Dashboard";
-const FacultyDashFromAdmin = () => {
-  const { user } = useAuth();
-  const { id, facultyId, subject } = useParams();
-  const [count, setCount] = useState();
-  const [criteriaRatingsAi, setCriteriaRatingsAi] = useState({});
-  const [subRatingsAi, setSubRatingsAi] = useState({});
-  const [facultyData, setFacultyData] = useState();
+
+const FacultyDashFromAdmin = ({ adminId, facultyId }) => {
+  const [facultyData, setFacultyData] = useState(null);
   const [subjects, setSubjects] = useState([]);
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
   const [ratings, setRatings] = useState();
   const [totalRating, setTotalRating] = useState();
-  const [selectedSubjectId, setSelectedSubjectId] = useState("");
   const [criteriaObj, setcriteriaObj] = useState([]);
-  const [aiSummary, setAiSummary] = useState();
-  const [limit, setLimit] = useState("");
   const [ratingPercentage, setRatingPercentage] = useState({});
+  const [criteriaRatingsAi, setCriteriaRatingsAi] = useState({});
+  const [subRatingsAi, setSubRatingsAi] = useState({});
+  const [aiSummary, setAiSummary] = useState([]);
+  const [count, setCount] = useState();
+  const [limit, setLimit] = useState();
+  const [selectedSubjectId, setSelectedSubjectId] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    if (!facultyId) return;
+
     withLoader(async () => {
-      const data = await fetchFn(`/admin/${id}/faculties/${facultyId}`, "GET");
+      const data = await fetchFn(
+        `/admin/${adminId}/faculties/${facultyId}`,
+        "GET"
+      );
       setFacultyData(data.faculty);
       setRatings(data.ratingObjects);
       setTotalRating(data.totalRating);
       setSubRatingsAi(data.ratingsForAi);
     }, setLoading);
-  }, []);
+  }, [facultyId]);
 
   useEffect(() => {
     withLoader(async () => {
-      try {
-        const data = await fetchFn(
-          `/admin/${id}/faculties/${facultyId}/links`,
-          "GET"
-        );
-
-        if (data.links) {
-          setSubjects(data.links);
-        }
-      } catch (err) {
-        console.error("Failed to fetch links", err);
+      const data = await fetchFn(
+        `/admin/${adminId}/faculties/${facultyId}/links`,
+        "GET"
+      );
+      setSubjects(data.links || []);
+      if (data.links?.length > 0) {
+        setSelectedSubjectId(data.links[0].subject._id);
+        setLimit(data.links[0].limit || 0);
       }
     }, setLoading);
-  }, []);
-
-  //setSUbjecId redering without selecting
-
-  useEffect(() => {
-    if (subjects.length > 0 && !selectedSubjectId) {
-      setSelectedSubjectId(subjects[0].subject._id);
-    }
-  }, [subjects]);
-
-  useEffect(() => {
-    if (subjects.length > 0 && selectedSubjectId) {
-      const selectedSub = subjects.find(
-        (sub) => sub.subject._id === selectedSubjectId
-      );
-      if (selectedSub) {
-        setLimit(selectedSub.limit || 0);
-      }
-    }
-  }, [selectedSubjectId, subjects]);
+  }, [facultyId]);
 
   useEffect(() => {
     if (!selectedSubjectId) return;
+
     withLoader(async () => {
       const data = await fetchFn(
-        `/admin/${id}/faculties/${facultyId}/feedback/${selectedSubjectId}`,
+        `/admin/${adminId}/faculties/${facultyId}/feedback/${selectedSubjectId}`,
         "GET"
       );
-      console.log("Data: ", data);
       setRatingPercentage(data.ratingPercentage);
       setcriteriaObj(data.ratings);
       setCount(data.FeedbackLength);
@@ -85,11 +63,10 @@ const FacultyDashFromAdmin = () => {
     }, setLoading);
   }, [selectedSubjectId]);
 
-  //AI summary generator
   const handleGenerateSummary = async () => {
     withLoader(async () => {
       const data = await fetchFn(
-        `/admin/${id}/faculty-summary`,
+        `/admin/${adminId}/faculty-summary`,
         "POST",
         JSON.stringify({
           facultyName: facultyData.name,
@@ -97,60 +74,30 @@ const FacultyDashFromAdmin = () => {
           subjectAnalysis: subRatingsAi,
         })
       );
-      console.log("HandleGenrateSummary: ", data);
-
       setAiSummary(data.points);
     }, setLoading);
   };
 
-  const handleDeleteFaculty = async () => {
-    const confirmed = confirm("Really want to delete the faculty");
-    if (!confirmed) return;
-    withLoader(async () => {
-      const data = await fetchFn(
-        `/admin/${id}/faculties/${facultyId}`,
-        "DELETE"
-      );
-      alert(data.message);
-      navigate(`/admin/${id}`);
-    }, setLoading);
-  };
+  if (!facultyData) return <Loader />;
 
   return (
-    <div className="flex flex-col 0">
+    <>
       {loading && <Loader />}
-
-      <div className="w-full mt-16 ps-2 pe-2 h-[94vh]">
-        {facultyData ? (
-          <div className="">
-            {/* Analytics Card */}
-            <Dashboard
-              limit={limit}
-              totalRating={totalRating}
-              facultyData={facultyData}
-              count={count}
-              subjects={subjects}
-              ratings={ratings}
-              selectedSubjectId={selectedSubjectId}
-              setSelectedSubjectId={setSelectedSubjectId}
-              criteriaObj={criteriaObj}
-              ratingPercentage={ratingPercentage}
-              aiSummary={aiSummary}
-              handleGenerateSummary={handleGenerateSummary}
-            />
-          </div>
-        ) : null}
-      </div>
-      {/* Admin Buttons */}
-      <div className="flex gap-4 justify-center items-center mb-4 pe-4">
-        <button
-          onClick={handleDeleteFaculty}
-          className=" bg-red-500 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-red-600 transition active:scale-95 "
-        >
-          Delete Faculty
-        </button>
-      </div>
-    </div>
+      <Dashboard
+        facultyData={facultyData}
+        subjects={subjects}
+        ratings={ratings}
+        totalRating={totalRating}
+        criteriaObj={criteriaObj}
+        ratingPercentage={ratingPercentage}
+        count={count}
+        limit={limit}
+        selectedSubjectId={selectedSubjectId}
+        setSelectedSubjectId={setSelectedSubjectId}
+        aiSummary={aiSummary}
+        handleGenerateSummary={handleGenerateSummary}
+      />
+    </>
   );
 };
 
