@@ -125,114 +125,169 @@ const FeedbackForm = () => {
   return (
     <>
       {loading && <Loader />}
-      <div className="flex justify-center items-start md:items-center min-h-[calc(100vh-80px)] py-10">
+
+      <div className="flex justify-center items-start md:items-center min-h-[calc(100vh-80px)] py-10 bg-gray-100">
         <div className="w-full max-w-3xl bg-white rounded-xl shadow-lg p-8">
-          {/* Header Section */}
-          <div className="p-6 border rounded-lg bg-gray-50 shadow-sm mb-8">
-            <h2 className="text-xl font-bold text-gray-800 mb-4">
-              Feedback Form Details
-            </h2>
-            <p className="text-gray-700 font-medium mb-2">
-              Faculty:{" "}
-              <span className="font-semibold text-blue-600">{facultyName}</span>
-            </p>
-            <p className="text-gray-700 font-medium">
-              Subject:{" "}
-              <span className="font-semibold text-blue-600">{subjectName}</span>
+          {/* Page Header */}
+          <div className="mb-8">
+            <h1 className="text-2xl font-bold text-gray-800 mb-2">
+              Faculty Feedback Form
+            </h1>
+            <p className="text-gray-600 text-sm leading-relaxed">
+              Your feedback plays an important role in enhancing the quality of
+              teaching and learning. Please share your honest experience based
+              on your interactions with the faculty.
             </p>
           </div>
 
-          {/* Step 1: Student Info Form */}
+          {/* Faculty & Subject Info */}
+          <div className="p-6 border rounded-lg bg-blue-50 shadow-sm mb-8">
+            <h2 className="text-lg font-semibold text-gray-800 mb-4">
+              Feedback Details
+            </h2>
+            <p className="text-gray-700 font-medium mb-2">
+              Faculty Name:{" "}
+              <span className="font-semibold text-blue-700">{facultyName}</span>
+            </p>
+            <p className="text-gray-700 font-medium">
+              Subject Name:{" "}
+              <span className="font-semibold text-blue-700">{subjectName}</span>
+            </p>
+          </div>
+
+          {/* Privacy Notice */}
+          <div className="mb-6 p-4 rounded-lg border border-green-300 bg-green-50">
+            <p className="text-sm text-green-800 leading-relaxed">
+              🔒 <strong>Privacy Notice:</strong> Your responses are kept
+              confidential and are used only for academic improvement purposes.
+              Individual student identities are not disclosed in reports.
+            </p>
+          </div>
+
+          {/* Step 1: Student Info */}
           {!current ? (
-            <form onSubmit={handleStudentDataSubmit} className="space-y-6">
-              <div>
-                <label className="block text-gray-700 font-medium mb-2">
-                  Student Name:
-                </label>
-                <input
-                  type="text"
-                  ref={nameRef}
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm 
-                           focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+            <>
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                  Student Information
+                </h3>
+                <p className="text-gray-600 text-sm">
+                  Please provide your basic details to proceed. This helps
+                  prevent duplicate submissions.
+                </p>
               </div>
 
-              <div>
-                <label className="block text-gray-700 font-medium mb-2">
-                  Student Roll:
-                </label>
-                <input
-                  type="text"
-                  ref={rollRef}
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm 
+              <form onSubmit={handleStudentDataSubmit} className="space-y-6">
+                <div>
+                  <label className="block text-gray-700 font-medium mb-2">
+                    Student Name
+                  </label>
+                  <input
+                    type="text"
+                    ref={nameRef}
+                    required
+                    placeholder="Enter your full name"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm 
                            focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
+                  />
+                </div>
 
-              <button
-                type="submit"
-                className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 
+                <div>
+                  <label className="block text-gray-700 font-medium mb-2">
+                    Student Roll Number{" "}
+                    <span className="font-normal">
+                      {"(University Roll Number ex. 24BD_ _ _)"}
+                    </span>
+                  </label>
+                  <input
+                    type="text"
+                    ref={rollRef}
+                    required
+                    placeholder="Enter your roll number"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm 
+                           focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 
                          transition shadow-md font-semibold"
-              >
-                Next
-              </button>
-            </form>
-          ) : (
-            /* Step 2: Feedback Questions Form */
-            <form onSubmit={handleSubmit} className="space-y-8">
-              {questions.map((question, IDX) => (
-                <div
-                  key={IDX}
-                  className="space-y-4 p-4 border rounded-lg bg-gray-50 shadow-sm"
                 >
-                  <p className="font-semibold text-gray-800">{question}</p>
-                  <div className="flex flex-wrap gap-4">
-                    {[1, 2, 3, 4, 5].map((num) => (
-                      <label
-                        key={num}
-                        className={`flex flex-col items-center px-3 py-2 rounded-lg cursor-pointer border transition
+                  Proceed to Feedback
+                </button>
+              </form>
+            </>
+          ) : (
+            /* Step 2: Feedback Questions */
+            <>
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                  Faculty Evaluation
+                </h3>
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  Please rate the following statements based on your classroom
+                  experience. Select the option that best reflects your opinion.
+                </p>
+              </div>
+
+              <form onSubmit={handleSubmit} className="space-y-8">
+                {questions.map((question, IDX) => (
+                  <div
+                    key={IDX}
+                    className="space-y-4 p-4 border rounded-lg bg-gray-50 shadow-sm"
+                  >
+                    <p className="font-semibold text-gray-800">{question}</p>
+                    <div className="flex flex-wrap gap-4">
+                      {[1, 2, 3, 4, 5].map((num) => (
+                        <label
+                          key={num}
+                          className={`flex flex-col items-center px-3 py-2 rounded-lg cursor-pointer border transition
                         ${
                           answers[IDX] === num
                             ? "bg-blue-600 text-white border-blue-600 shadow-md"
                             : "bg-white text-gray-700 border-gray-300 hover:border-blue-400"
                         }`}
-                      >
-                        <input
-                          type="radio"
-                          required
-                          name={`question-${IDX}`}
-                          value={num}
-                          checked={answers[IDX] === num}
-                          onChange={() => handleChange(IDX, num)}
-                          className="sr-only"
-                        />
-                        <span className="font-medium">
-                          {num === 1
-                            ? "Strongly Disagree"
-                            : num === 2
-                              ? "Disagree"
-                              : num === 3
-                                ? "Neutral"
-                                : num === 4
-                                  ? "Agree"
-                                  : "Strongly Agree"}
-                        </span>
-                      </label>
-                    ))}
+                        >
+                          <input
+                            type="radio"
+                            required
+                            name={`question-${IDX}`}
+                            value={num}
+                            checked={answers[IDX] === num}
+                            onChange={() => handleChange(IDX, num)}
+                            className="sr-only"
+                          />
+                          <span className="text-sm font-medium text-center">
+                            {num === 1
+                              ? "Strongly Disagree"
+                              : num === 2
+                                ? "Disagree"
+                                : num === 3
+                                  ? "Neutral"
+                                  : num === 4
+                                    ? "Agree"
+                                    : "Strongly Agree"}
+                          </span>
+                        </label>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
 
-              <button
-                type="submit"
-                className="w-full py-3 bg-green-600 text-white font-semibold rounded-lg 
+                <div className="text-sm text-gray-500 italic text-center">
+                  Please ensure all questions are answered before submitting.
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full py-3 bg-green-600 text-white font-semibold rounded-lg 
                          hover:bg-green-700 transition shadow-md"
-              >
-                Submit
-              </button>
-            </form>
+                >
+                  Submit Feedback
+                </button>
+              </form>
+            </>
           )}
         </div>
       </div>

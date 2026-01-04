@@ -1,29 +1,31 @@
 import "./App.css";
 import { Route, Routes, useLocation } from "react-router-dom";
-import Login from "./pages/login";
-import FacultyDashboard from "./pages/faculty/FacultyDashboard";
+import { useEffect, useState } from "react";
+
 import Header from "./components/utilityComponents/Header";
+import Sidebar from "./components/utilityComponents/Sidebar";
+import Footer from "./components/utilityComponents/Footer";
+
+import Login from "./pages/login";
+import HomePage from "./pages/HomePage";
+import FacultyDashboard from "./pages/faculty/FacultyDashboard";
 import FeedbackForm from "./pages/FeedbackForm";
 import FeedbackLinks from "./components/FeedbackLinks";
-import FacultyDashFromAdmin from "./pages/admin/FacultyDashFromAdmin";
-import AddFaculty from "./pages/admin/AddFaculty";
 import PasswordReset from "./pages/PasswordReset";
 import FeedbackSent from "./pages/FeedBackSent";
-import HomePage from "./pages/HomePage";
-import Sidebar from "./components/utilityComponents/Sidebar";
-import { useEffect, useState } from "react";
 import CreateForm from "./components/CreateFrom";
 import AddSubject from "./components/AddSubject";
-import Footer from "./components/utilityComponents/Footer";
-import AdminDashboard from "./pages/admin/AdminDashboard";
 import Subjects from "./pages/admin/Subjects";
 import Institution_form from "./pages/Institution_form";
 import SAdminDash from "./pages/sAdmin/SAdminDash";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AddFaculty from "./pages/admin/AddFaculty";
+
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showSidebar, setShowSidebar] = useState(true);
-
   const location = useLocation();
+
   useEffect(() => {
     if (location.pathname === "/" || location.pathname === "/login") {
       setShowSidebar(false);
@@ -41,14 +43,15 @@ function App() {
           <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
         )}
 
-        <div className="flex-1 overflow-auto">
+        <div className="flex-1 overflow-auto pt-8">
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/institution-form" element={<Institution_form />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/institution-form" element={<Institution_form />} />
+
             <Route path="/sAdmin/:id" element={<SAdminDash />} />
+
             <Route path="/faculty/:id" element={<FacultyDashboard />} />
-            <Route path="/change-password/:id" element={<PasswordReset />} />
             <Route path="/faculty/:id/form" element={<CreateForm />} />
             <Route path="/faculty/:id/links" element={<FeedbackLinks />} />
             <Route path="/faculty/:id/subject" element={<AddSubject />} />
@@ -56,16 +59,15 @@ function App() {
               path="/faculty/:id/feedback/:subject"
               element={<FeedbackForm />}
             />
+
+            <Route path="/change-password/:id" element={<PasswordReset />} />
+            <Route path="/feedback/sent" element={<FeedbackSent />} />
+
+            {/* ADMIN */}
             <Route path="/admin/:id" element={<AdminDashboard />} />
             <Route path="/admin/:id/subject" element={<Subjects />} />
             <Route path="/admin/:id/subjects/new" element={<AddSubject />} />
-
-            <Route
-              path="/admin/:id/faculty/:facultyId"
-              element={<FacultyDashFromAdmin />}
-            />
             <Route path="/admin/:id/faculty/new" element={<AddFaculty />} />
-            <Route path="feedback/sent" element={<FeedbackSent />} />
           </Routes>
         </div>
       </div>
