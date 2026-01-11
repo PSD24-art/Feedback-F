@@ -4,23 +4,27 @@ import withLoader from "../utils/withLoader";
 import Loader from "./utilityComponents/Loader";
 import fetchFn from "../utils/fetchFn";
 import useAuth from "../store/AuthProvider";
-const BASE_URL = import.meta.env.VITE_BASE_URL;
+
 const AddSubject = () => {
   const { user } = useAuth();
-  const [loading, setLoading] = useState(false);
   const { id } = useParams();
+
   const nameRef = useRef();
   const deptRef = useRef();
   const codeRef = useRef();
   const semesterRef = useRef();
-  const [message, setMessage] = useState(null);
+
+  const [loading, setLoading] = useState(false);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const name = nameRef.current.value;
+
+    const name = nameRef.current.value.trim();
     const code = codeRef.current.value;
     const department = deptRef.current.value;
     const semester = semesterRef.current.value;
-    withLoader(async () => {
+
+    await withLoader(async () => {
       if (user.role === "faculty") {
         const data = await fetchFn(
           `/faculty/${id}/subject`,
@@ -28,22 +32,26 @@ const AddSubject = () => {
           JSON.stringify({ name, code, department, semester })
         );
 
-        if (data.message) {
-          setMessage(data.message);
-        } else if (data.error) {
-          setMessage(data.error);
+        if (data?.message) {
+          alert(data.message);
+          e.target.reset();
+        } else if (data?.error) {
+          alert(data.error);
         }
-      } else if (user.role === "admin") {
+      }
+
+      if (user.role === "admin") {
         const data = await fetchFn(
           `/admin/${id}/subject`,
           "POST",
           JSON.stringify({ name, code, department, semester })
         );
 
-        if (data.message) {
-          setMessage(data.message);
-        } else if (data.error) {
-          setMessage(data.error);
+        if (data?.message) {
+          alert(data.message);
+          e.target.reset();
+        } else if (data?.error) {
+          alert(data.error);
         }
       }
     }, setLoading);
@@ -52,86 +60,62 @@ const AddSubject = () => {
   return (
     <>
       {loading && <Loader />}
+
       <div className="flex items-center flex-col mt-17 mb-3 m-8">
         <h2 className="mb-4 text-xl font-semibold text-basic_color">
           Add Subject
         </h2>
-        {message === null ? (
-          <form
-            onSubmit={handleSubmit}
-            className=" flex flex-col gap-4 bg-white p-6 rounded-lg border-2 basic_border shadow-md "
-          >
-            {/* Subject Name */}
-            <input
-              type="text"
-              id="subName"
-              ref={nameRef}
-              placeholder="Subject Name"
-              className="basic_input"
-            />
 
-            {/* Department */}
-            <div className="flex flex-col">
-              <label
-                htmlFor="department"
-                className="mb-1 font-medium text-gray-700"
-              >
-                Department
-              </label>
-              <select ref={deptRef} id="department" className="basic_dropdown">
-                <option value="CS">Computer Science</option>
-                <option value="CE">Civil Engineering</option>
-                <option value="EE">Electrical Engineering</option>
-                <option value="ME">Mechanical Engineering</option>
-                <option value="EC">Electronics and Telecommunication</option>
-              </select>
-            </div>
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col gap-4 bg-white p-6 rounded-lg border-2 basic_border shadow-md"
+        >
+          {/* Subject Name */}
+          <input
+            type="text"
+            ref={nameRef}
+            required
+            placeholder="Subject Name (Ex. Computer Graphics)"
+            className="basic_input"
+          />
 
-            <div className="flex flex-col">
-              <label htmlFor="code" className="mb-1 font-medium text-gray-700">
-                Code
-              </label>
-              <select ref={codeRef} id="code" className="basic_dropdown">
-                {[...Array(10).keys()].map((n) => (
-                  <option key={n + 1} value={String(n + 1).padStart(2, "0")}>
-                    {n + 1}
-                  </option>
-                ))}
-              </select>
-            </div>
+          {/* Department */}
+          <select ref={deptRef} required className="basic_dropdown">
+            <option value="CS">Computer Science</option>
+            <option value="CE">Civil Engineering</option>
+            <option value="EE">Electrical Engineering</option>
+            <option value="ME">Mechanical Engineering</option>
+            <option value="EC">Electronics and Telecommunication</option>
+          </select>
 
-            <div className="flex flex-col">
-              <label
-                htmlFor="semester"
-                className="mb-1 font-medium text-gray-700"
-              >
-                Semester
-              </label>
-              <select
-                ref={semesterRef}
-                id="semester"
-                className="basic_dropdown"
-              >
-                <option value="01">SEM I</option>
-                <option value="02">SEM II</option>
-                <option value="03">SEM III</option>
-                <option value="04">SEM IV</option>
-                <option value="05">SEM V</option>
-                <option value="06">SEM VI</option>
-                <option value="07">SEM VII</option>
-                <option value="08">SEM VIII</option>
-              </select>
-            </div>
+          {/* Code */}
+          <select ref={codeRef} required className="basic_dropdown">
+            {[...Array(10).keys()].map((n) => (
+              <option key={n + 1} value={String(n + 1).padStart(2, "0")}>
+                {n + 1}
+              </option>
+            ))}
+          </select>
 
-            <button type="submit" className="basic_button">
-              Add New Subject
-            </button>
-          </form>
-        ) : (
-          <h3 className="text-green-600 font-semibold">{message}</h3>
-        )}
+          {/* Semester */}
+          <select ref={semesterRef} required className="basic_dropdown">
+            <option value="01">SEM I</option>
+            <option value="02">SEM II</option>
+            <option value="03">SEM III</option>
+            <option value="04">SEM IV</option>
+            <option value="05">SEM V</option>
+            <option value="06">SEM VI</option>
+            <option value="07">SEM VII</option>
+            <option value="08">SEM VIII</option>
+          </select>
+
+          <button type="submit" className="basic_button">
+            Add New Subject
+          </button>
+        </form>
       </div>
     </>
   );
 };
+
 export default AddSubject;

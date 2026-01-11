@@ -37,7 +37,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
       {loading && <Loader />}
       {user && user.role !== "superAdmin" ? (
         <div
-          className={`mb-1 rounded-r-lg fixed lg:static flex flex-col border-2 border-red-300 h-[92vh] bg-red-50/60 backdrop-blur-sm shadow-lg 
+          className={`mb-1 rounded-r-lg fixed lg:static flex flex-col border-2 border-red-300 max-h-[96vh] bg-red-50/60 backdrop-blur-sm shadow-lg 
         transition-all duration-300 ease-in-out w-[220px]
         ${isOpen ? "w-full top-0 left-0 z-40 h-dvh mt-13 rounded-r-none" : "w-[20%] hidden lg:flex mt-15 "}`}
         >

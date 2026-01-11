@@ -91,48 +91,56 @@ const Subjects = () => {
         {/* ✅ Subjects List */}
         {subjects.length > 0 ? (
           <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 mb-8">
-            {subjects.length > 0 ? (
-              subjects.map((subject) => (
-                <div
-                  key={subject._id}
-                  className="bg-white border border-red-200 rounded-xl shadow-sm flex justify-between items-center hover:shadow-md hover:border-red-400 transition-all duration-300"
-                >
-                  <li className="bg-white rounded-l-xl flex justify-between items-center px-5 pe-0 py-4 transition-all duration-300 ">
-                    {/* Left Section */}
-                    <div className="flex flex-col gap-1 text-gray-800">
-                      <p className="font-semibold text-lg text-basic_color leading-tight">
-                        {subject.name}
-                      </p>
+            {subjects.map((subject) => (
+              <div
+                key={subject._id}
+                className="bg-white border border-red-200 rounded-xl shadow-sm flex justify-between items-center hover:shadow-md hover:border-red-400 transition-all duration-300"
+              >
+                <li className="bg-white rounded-l-xl flex justify-between items-center px-5 pe-0 py-4">
+                  <div className="flex flex-col gap-1 text-gray-800">
+                    <p className="font-semibold text-lg text-basic_color">
+                      {subject.name}
+                    </p>
 
-                      <div className="flex flex-wrap gap-x-6 text-sm text-gray-600">
-                        <span className="font-medium">
-                          Code: {subject.unique_code}
-                        </span>
-                        <span className="font-medium text-gray-700">
-                          Dept: {subject.department}
-                        </span>
-                        <span className="font-medium text-gray-700">
-                          Created by: {subject.created_by.name}
-                        </span>
-                      </div>
+                    <div className="flex flex-wrap gap-x-6 text-sm text-gray-600">
+                      <span className="font-medium">
+                        Code: {subject.unique_code}
+                      </span>
+                      <span className="font-medium">
+                        Dept: {subject.department}
+                      </span>
+                      <span className="font-medium">
+                        Created by: {subject.created_by?.name || "System"}
+                      </span>
                     </div>
-                  </li>
-                  {/* Delete Button */}
-                  <button
-                    onClick={() => handleDelete(subject._id)}
-                    className="text-basic_color hover:text-red-500 bg-white hover:bg-gray-100 h-full rounded-r-xl px-3 py-2 transition-colors duration-300 hover:cursor-pointer"
-                  >
-                    <Trash size={20} />
-                  </button>
-                </div>
-              ))
-            ) : (
-              <></>
-            )}
+                  </div>
+                </li>
+
+                <button
+                  onClick={() => handleDelete(subject._id)}
+                  className="text-basic_color hover:text-red-500 bg-white hover:bg-gray-100 h-full rounded-r-xl px-3 py-2 transition-colors duration-300"
+                >
+                  <Trash size={20} />
+                </button>
+              </div>
+            ))}
           </ul>
         ) : (
-          <div className="notFoundClass">
-            No Subject found for this department
+          <div className="flex flex-col items-center justify-center py-16 px-4 bg-gray-50 border border-dashed border-gray-300 rounded-xl">
+            <p className="text-lg font-semibold text-gray-700 mb-2">
+              No subjects found
+            </p>
+            <p className="text-sm text-gray-500 text-center mb-4">
+              There are currently no subjects available for this department. You
+              can add a new subject to get started.
+            </p>
+
+            <button
+              onClick={() => navigate(`/admin/${id}/subjects/new`)}
+              className="basic_button"
+            >
+              Add Subject
+            </button>
           </div>
         )}
       </div>

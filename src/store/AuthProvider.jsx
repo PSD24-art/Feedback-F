@@ -41,6 +41,7 @@ export function AuthProvider({ children }) {
         });
     }
   }, []);
+
   const login = async (loginDetails) => {
     const res = await fetch(`${BASE_URL}/login`, {
       method: "POST",
@@ -48,8 +49,8 @@ export function AuthProvider({ children }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(loginDetails),
     });
+
     if (!res.ok) {
-      const data = await res.json();
       alert("Invalid Username or Password");
       return console.log("Invalid Username or Password", data);
     }

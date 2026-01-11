@@ -14,7 +14,7 @@ const FeedbackForm = () => {
   const [roll, setRoll] = useState();
   const [token, setToken] = useState(null);
   const navigate = useNavigate();
-  const { id, subject } = useParams();
+  const { id, subject, term } = useParams();
   const nameRef = useRef();
   const rollRef = useRef();
   const [answers, setAnswers] = useState({});
@@ -115,6 +115,7 @@ const FeedbackForm = () => {
           strengths: answers[17],
           improvements: answers[18],
           additionalComments: answers[19],
+          term: term,
         })
       );
       alert("Feedback submitted successfully!");
@@ -209,11 +210,7 @@ const FeedbackForm = () => {
                   />
                 </div>
 
-                <button
-                  type="submit"
-                  className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 
-                         transition shadow-md font-semibold"
-                >
+                <button type="submit" className="basic_button w-full">
                   Proceed to Feedback
                 </button>
               </form>

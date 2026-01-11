@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import withLoader from "../../utils/withLoader";
 import Loader from "../../components/utilityComponents/Loader";
 import fetchFn from "../../utils/fetchFn";
@@ -10,23 +9,94 @@ import Dashboard from "../../components/Dashboard";
 
 const FacultyDashboard = () => {
   const { user } = useAuth();
-
-  const [facultyData, setFacultyData] = useState(null);
   const navigate = useNavigate();
   const { id } = useParams();
+
+  const [facultyData, setFacultyData] = useState(null);
   const [subjects, setSubjects] = useState([]);
-  const [count, setCount] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const [ratings, setRatings] = useState();
+  const [ratings, setRatings] = useState([]);
+  const [totalRating, setTotalRating] = useState(0);
   const [criteriaObj, setcriteriaObj] = useState([]);
-  const [totalRating, setTotalRating] = useState();
+  const [ratingPercentage, setRatingPercentage] = useState({});
   const [criteriaRatingsAi, setCriteriaRatingsAi] = useState({});
   const [subRatingsAi, setSubRatingsAi] = useState({});
-  const [aiSummary, setAiSummary] = useState();
-  const [limit, setLimit] = useState("");
-  const [ratingPercentage, setRatingPercentage] = useState({});
+  const [aiSummary, setAiSummary] = useState([]);
+  const [count, setCount] = useState(0);
+  const [limit, setLimit] = useState(0);
+  const [loading, setLoading] = useState(false);
 
-  //AI summary generator
+  /* 🔹 TERM STATE */
+  const [terms, setTerms] = useState([]);
+  const [selectedTerm, setSelectedTerm] = useState("ALL");
+
+  /* 🔹 SUBJECT STATE */
+  const [selectedSubjectId, setSelectedSubjectId] = useState("");
+
+  /* ---------------------------------------------
+     1️⃣ Fetch ALL TERMS (generic dashboard route)
+  ----------------------------------------------*/
+  useEffect(() => {
+    if (!id) return;
+
+    withLoader(async () => {
+      const data = await fetchFn(`/dashboard/${id}/terms`, "GET");
+      setTerms(data.terms || []);
+      setSelectedTerm("ALL");
+    }, setLoading);
+  }, [id]);
+
+  /* ---------------------------------------------
+     2️⃣ Fetch DASHBOARD DATA based on TERM
+  ----------------------------------------------*/
+  useEffect(() => {
+    if (!id || !selectedTerm) return;
+
+    withLoader(async () => {
+      const url = `/faculty/${id}/${selectedTerm}`;
+      const data = await fetchFn(url, "GET");
+      console.log(data);
+      setSubjects(data.links || []);
+      setFacultyData(data.faculty);
+      setRatings(data.ratingObjects || []);
+      setTotalRating(data.totalRating || 0);
+      setSubRatingsAi(data.ratingsForAi || {});
+
+      if (!data.faculty?.isPasswordSet) {
+        navigate(`/change-password/${id}`);
+      }
+
+      if (data.links?.length > 0) {
+        setSelectedSubjectId(data.links[0].subject._id);
+        setLimit(data.links[0].limit || 0);
+      } else {
+        setSelectedSubjectId("");
+        setLimit(0);
+      }
+    }, setLoading);
+  }, [id, selectedTerm, navigate]);
+
+  /* ---------------------------------------------
+     3️⃣ Fetch SUBJECT-SPECIFIC DATA
+  ----------------------------------------------*/
+  useEffect(() => {
+    if (!selectedSubjectId) return;
+
+    withLoader(async () => {
+      const data = await fetchFn(
+        `/faculty/${id}/count/${selectedSubjectId}/${selectedTerm}`,
+        "GET"
+      );
+
+      setRatingPercentage(data.ratingPercentage || {});
+      setcriteriaObj(data.ratings || []);
+      setCount(data.FeedbackLength || 0);
+      setCriteriaRatingsAi(data.criteriaRatingsAi || {});
+    }, setLoading);
+  }, [selectedSubjectId, id]);
+
+  /* ---------------------------------------------
+     AI SUMMARY
+  ----------------------------------------------*/
   const handleGenerateSummary = async () => {
     withLoader(async () => {
       const data = await fetchFn(
@@ -38,94 +108,38 @@ const FacultyDashboard = () => {
           subjectAnalysis: subRatingsAi,
         })
       );
-      setAiSummary(data.summary);
+      setAiSummary(data.points || []);
     }, setLoading);
   };
 
-  useEffect(() => {
-    withLoader(async () => {
-      const data = await fetchFn(`/faculty/${id}/feedback`, "GET");
-      setSubjects(data.links);
-    }, setLoading);
-  }, [id]);
-
-  useEffect(() => {
-    withLoader(async () => {
-      const data = await fetchFn(`/faculty/${id}`, "GET");
-      setFacultyData(data.faculty);
-      setRatings(data.ratingObjects);
-      setTotalRating(data.totalRating);
-      setSubRatingsAi(data.ratingsForAi);
-      if (!data.faculty.isPasswordSet) {
-        navigate(`/change-password/${id}`);
-      }
-    }, setLoading);
-  }, [id]);
-
-  const [selectedSubjectId, setSelectedSubjectId] = useState("");
-
-  useEffect(() => {
-    if (subjects.length > 0 && !selectedSubjectId) {
-      setSelectedSubjectId(subjects[0].subject._id);
-    }
-  }, [subjects]);
-
-  useEffect(() => {
-    if (subjects.length > 0 && selectedSubjectId) {
-      const selectedSub = subjects.find(
-        (sub) => sub.subject._id === selectedSubjectId
-      );
-      if (selectedSub) {
-        setLimit(selectedSub.limit || 0);
-      }
-    }
-  }, [selectedSubjectId, subjects]);
-
-  useEffect(() => {
-    if (!selectedSubjectId) return;
-    withLoader(async () => {
-      const data = await fetchFn(
-        `/faculty/${id}/count/${selectedSubjectId}`,
-        "GET"
-      );
-      console.log("Data: ", data);
-
-      setRatingPercentage(data.ratingPercentage);
-      setcriteriaObj(data.ratings);
-      setCount(data.FeedbackLength);
-      setCriteriaRatingsAi(data.criteriaRatingsAi);
-    }, setLoading);
-  }, [selectedSubjectId]);
+  if (!facultyData) return <Loader />;
 
   return (
     <>
       {loading && <Loader />}
-      <div className="w-full mt-16 ps-2 pe-2 mb-2 h-[94vh] ">
-        {facultyData ? (
-          <div className="">
-            {/* Analytics Card */}
-            <Dashboard
-              ratingPercentage={ratingPercentage}
-              limit={limit}
-              totalRating={totalRating}
-              facultyData={facultyData}
-              count={count}
-              subjects={subjects}
-              ratings={ratings}
-              selectedSubjectId={selectedSubjectId}
-              setSelectedSubjectId={setSelectedSubjectId}
-              criteriaObj={criteriaObj}
-              aiSummary={aiSummary}
-              handleGenerateSummary={handleGenerateSummary}
-            />
-          </div>
-        ) : null}
+      <div className="w-full mt-4 px-2 h-[94vh]">
+        <Dashboard
+          /* Core */
+          facultyData={facultyData}
+          subjects={subjects}
+          ratings={ratings}
+          totalRating={totalRating}
+          criteriaObj={criteriaObj}
+          ratingPercentage={ratingPercentage}
+          count={count}
+          limit={limit}
+          /* Subject */
+          selectedSubjectId={selectedSubjectId}
+          setSelectedSubjectId={setSelectedSubjectId}
+          /* AI */
+          aiSummary={aiSummary}
+          handleGenerateSummary={handleGenerateSummary}
+          /* 🔹 TERM SUPPORT */
+          terms={terms}
+          selectedTerm={selectedTerm}
+          setSelectedTerm={setSelectedTerm}
+        />
       </div>
-      {/* <div className="items-center mt-5 flex justify-center">
-        <button onClick={handleOnClick} className="basic_button">
-          Feedback Form
-        </button>
-      </div> */}
     </>
   );
 };

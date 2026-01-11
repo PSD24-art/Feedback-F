@@ -56,7 +56,7 @@ function App() {
             <Route path="/faculty/:id/links" element={<FeedbackLinks />} />
             <Route path="/faculty/:id/subject" element={<AddSubject />} />
             <Route
-              path="/faculty/:id/feedback/:subject"
+              path="/faculty/:id/feedback/:term/:subject"
               element={<FeedbackForm />}
             />
 
