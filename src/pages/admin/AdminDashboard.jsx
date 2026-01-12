@@ -60,7 +60,7 @@ const AdminDashboard = () => {
       {loading && <Loader />}
 
       {/* MAIN WRAPPER */}
-      <div className="flex flex-col h-[96vh]  md:flex-row gap-4 p-4 pt-10 lg:pt-12 md:pt-12 min-h-[calc(100vh-80px)]">
+      <div className="flex flex-col h-[96vh]  md:flex-row gap-4 p-8 pb-1 mb-0  pt-8 lg:pt-8 md:pt-8 min-h-[calc(100vh-80px)]">
         {/* RIGHT PANEL ON MOBILE / RIGHT ON DESKTOP — FACULTY LIST */}
         <div
           className="

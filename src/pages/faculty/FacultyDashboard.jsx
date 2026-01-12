@@ -108,6 +108,8 @@ const FacultyDashboard = () => {
           subjectAnalysis: subRatingsAi,
         })
       );
+      console.log("Ai summary: ", data);
+
       setAiSummary(data.points || []);
     }, setLoading);
   };

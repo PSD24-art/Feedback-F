@@ -16,7 +16,7 @@ export default function HomePage() {
   const navigate = useNavigate();
 
   return (
-    <div className="overflow-x-hidden mt-14 w-[100%] bg-amber-50 min-h-screen flex flex-col bg-gradient-to-b text-gray-800">
+    <div className="overflow-x-hidden mt-6 w-[100%] bg-amber-50 min-h-screen flex flex-col bg-gradient-to-b text-gray-800">
       {/* HERO SECTION */}
       <section className="flex flex-col items-center justify-center flex-1 text-center px-6 py-20">
         <motion.h1
