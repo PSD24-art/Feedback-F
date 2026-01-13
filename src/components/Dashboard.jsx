@@ -22,9 +22,8 @@ const Dashboard = ({
   selectedTerm,
   setSelectedTerm,
 }) => {
-  /* ------------------------------------------------
-     🔧 FIX: Keep selectedSubjectId in sync
-  -------------------------------------------------*/
+  console.log("Faculty Data: ", facultyData);
+
   useEffect(() => {
     if (
       subjects.length > 0 &&
@@ -46,7 +45,7 @@ const Dashboard = ({
       <div className="sticky top-0 bg-white z-10 border-b-2 basic_border pb-2">
         {/* Desktop */}
         <div className="hidden sm:grid grid-cols-3 items-center gap-2">
-          <div className="flex justify-center">
+          <div className="flex justify-start">
             <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
               Faculty Analytics
               <span>{isNaN(totalRating) ? "⭐--" : `⭐${totalRating}`}</span>
@@ -188,6 +187,9 @@ const Dashboard = ({
           </div>
         )}
       </div>
+      <p className="text-xs text-gray-400 mt-2 text-end">
+        <span>email: </span> {facultyData.email}
+      </p>
     </div>
   );
 };

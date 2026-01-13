@@ -216,7 +216,7 @@ export default function HomePage() {
         </h2>
 
         <motion.div
-          className="flex gap-6 pb-4 overflow-x-auto scrollbar-hide px-4 "
+          className="flex gap-6 pb-4 overflow-x-auto  px-4 "
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
