@@ -46,7 +46,7 @@ const FacultyDashFromAdmin = ({ adminId, facultyId }) => {
     withLoader(async () => {
       const data = await fetchFn(
         `/admin/${adminId}/faculties/${facultyId}/${selectedTerm}`,
-        "GET"
+        "GET",
       );
 
       // console.log("From term", data);
@@ -74,7 +74,7 @@ const FacultyDashFromAdmin = ({ adminId, facultyId }) => {
     withLoader(async () => {
       const data = await fetchFn(
         `/admin/${adminId}/faculties/${facultyId}/feedback/${selectedSubjectId}`,
-        "GET"
+        "GET",
       );
 
       // console.log("Data from count call", data);
@@ -100,7 +100,7 @@ const FacultyDashFromAdmin = ({ adminId, facultyId }) => {
           facultyName: facultyData.name,
           criteriaAnalysis: criteriaRatingsAi,
           subjectAnalysis: subRatingsAi,
-        })
+        }),
       );
       setAiSummary(data.points || []);
     }, setLoading);
@@ -112,6 +112,7 @@ const FacultyDashFromAdmin = ({ adminId, facultyId }) => {
     <>
       {loading && <Loader />}
       <Dashboard
+        facultyId={facultyId}
         facultyData={facultyData}
         subjects={subjects}
         ratings={ratings}

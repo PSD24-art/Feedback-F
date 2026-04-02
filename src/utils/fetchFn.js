@@ -1,7 +1,8 @@
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-const fetchFn = async (url, method, body) => {
+const fetchFn = async (url, method, body, responseType = "json") => {
   const fullUrl = `${BASE_URL}${url}`;
+
   try {
     const res = await fetch(fullUrl, {
       method,
@@ -9,10 +10,18 @@ const fetchFn = async (url, method, body) => {
       headers: { "Content-Type": "application/json" },
       body,
     });
-    const data = await res.json();
-    return data;
+
+    if (!res.ok) {
+      throw new Error("Request failed");
+    }
+    if (responseType === "blob") {
+      return res; // return raw response
+    }
+
+    return await res.json(); // default
   } catch (err) {
-    console.error("Failed to fetch links", err);
+    console.error("Fetch error:", err);
+    throw err;
   }
 };
 

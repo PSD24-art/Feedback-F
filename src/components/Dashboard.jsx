@@ -4,8 +4,11 @@ import BasicBars from "../charts/barGraph";
 import AISummaryBox from "./AISummaryBox";
 import { Gauge, gaugeClasses } from "@mui/x-charts/Gauge";
 import DonutChart from "./DonutChart";
+import fetchFn from "../utils/fetchFn";
+import { useParams } from "react-router-dom";
 
 const Dashboard = ({
+  facultyId,
   limit,
   totalRating,
   facultyData,
@@ -22,7 +25,7 @@ const Dashboard = ({
   selectedTerm,
   setSelectedTerm,
 }) => {
-  console.log("Faculty Data: ", facultyData);
+  // console.log("Faculty Data: ", facultyData);
 
   useEffect(() => {
     if (
@@ -37,7 +40,36 @@ const Dashboard = ({
     }
   }, [subjects, selectedSubjectId, setSelectedSubjectId]);
 
-  console.log("From Dashboard subjects:", subjects);
+  // console.log("From Dashboard subjects:", subjects);
+
+  const { id } = useParams();
+
+  let finalId;
+  let NewUrl;
+  if (location.pathname.startsWith("/faculty")) {
+    finalId = id; // logged-in faculty
+    NewUrl = "/faculty/generate-report";
+  } else {
+    finalId = facultyId;
+    NewUrl = "/admin/generate-report";
+  }
+
+  const generateReport = async () => {
+    const response = await fetchFn(
+      NewUrl,
+      "POST",
+      JSON.stringify({ facultyId: finalId }),
+      "blob",
+    );
+
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "Faculty_Report.xlsx";
+    a.click();
+  };
 
   return (
     <div className="bg-white rounded-lg p-3 flex flex-col h-[93vh]">
@@ -186,6 +218,14 @@ const Dashboard = ({
             No subjects or feedback received.
           </div>
         )}
+        <div>
+          <button
+            onClick={generateReport}
+            className="mt-2 h-10 hover:cursor-pointer px-4 py-2 rounded-lg bg-green-600 text-white font-medium hover:bg-green-700 transition"
+          >
+            Generate EXCEL
+          </button>
+        </div>
       </div>
       <p className="text-xs text-gray-400 mt-2 text-end">
         <span>email: </span> {facultyData.email}
