@@ -7,7 +7,7 @@ import fetchFn from "../utils/fetchFn";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-const PasswordReset = () => {
+const PasswordReset = ({ setIsOpen }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -18,6 +18,7 @@ const PasswordReset = () => {
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
 
+  setIsOpen(true);
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -36,7 +37,7 @@ const PasswordReset = () => {
         const data = await fetchFn(
           `/change-password/${id}`,
           "POST",
-          JSON.stringify({ oldPassword, newPassword })
+          JSON.stringify({ oldPassword, newPassword }),
         );
 
         if (data.error) {

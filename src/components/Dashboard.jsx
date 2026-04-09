@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import FacultyFeedbackChart from "../charts/HorizontallBars";
 import BasicBars from "../charts/barGraph";
 import AISummaryBox from "./AISummaryBox";
@@ -26,6 +26,8 @@ const Dashboard = ({
   setSelectedTerm,
 }) => {
   // console.log("Faculty Data: ", facultyData);
+
+  const [generate, setGenerate] = useState(false);
 
   useEffect(() => {
     if (
@@ -55,6 +57,7 @@ const Dashboard = ({
   }
 
   const generateReport = async () => {
+    setGenerate(true);
     const response = await fetchFn(
       NewUrl,
       "POST",
@@ -64,6 +67,7 @@ const Dashboard = ({
 
     const blob = await response.blob();
     const url = window.URL.createObjectURL(blob);
+    setGenerate(false);
 
     const a = document.createElement("a");
     a.href = url;
@@ -223,7 +227,7 @@ const Dashboard = ({
             onClick={generateReport}
             className="mt-2 h-10 hover:cursor-pointer px-4 py-2 rounded-lg bg-green-600 text-white font-medium hover:bg-green-700 transition"
           >
-            Generate EXCEL
+            {generate ? "Generating.." : "Generate EXCEL"}
           </button>
         </div>
       </div>

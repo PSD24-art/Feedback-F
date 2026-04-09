@@ -60,7 +60,10 @@ function App() {
               element={<FeedbackForm />}
             />
 
-            <Route path="/change-password/:id" element={<PasswordReset />} />
+            <Route
+              path="/change-password/:id"
+              element={<PasswordReset setIsOpen={setIsSidebarOpen} />}
+            />
             <Route path="/feedback/sent" element={<FeedbackSent />} />
 
             {/* ADMIN */}
