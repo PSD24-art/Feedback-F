@@ -21,9 +21,9 @@ const FeedbackForm = () => {
   const [subjectName, setSubjectName] = useState();
   const [facultyName, setFacultyName] = useState();
   const [loading, setLoading] = useState(false);
-
+  const [isDisable, setIsDisable] = useState(true);
   useEffect(() => {
-    withLoader(async () => {
+    async function getToken() {
       try {
         const data = await fetchFn(`/faculty/${id}/tokens/${subject}`, "GET");
         console.log("Token: ", data);
@@ -38,7 +38,9 @@ const FeedbackForm = () => {
       } catch (err) {
         console.error("Failed to fetch token", err);
       }
-    }, setLoading);
+    }
+    getToken();
+    setIsDisable(false);
   }, []);
 
   const handleChange = (IDX, value) => {
@@ -60,7 +62,7 @@ const FeedbackForm = () => {
         "POST",
         JSON.stringify({
           studentRoll: studentroll,
-        })
+        }),
       );
 
       if (data.message === true) {
@@ -116,7 +118,7 @@ const FeedbackForm = () => {
           improvements: answers[18],
           additionalComments: answers[19],
           term: term,
-        })
+        }),
       );
       alert("Feedback submitted successfully!");
       navigate("/feedback/sent");
@@ -210,8 +212,16 @@ const FeedbackForm = () => {
                   />
                 </div>
 
-                <button type="submit" className="basic_button w-full">
-                  Proceed to Feedback
+                <button
+                  type="submit"
+                  disabled={isDisable}
+                  className={
+                    isDisable
+                      ? "mt-2 h-10 hover:cursor-pointer px-4 py-2 rounded-lg bg-gray-300 w-full"
+                      : "basic_button w-full"
+                  }
+                >
+                  {isDisable ? "Please wait.." : "Proceed to Feedback"}
                 </button>
               </form>
             </>
