@@ -1,142 +1,151 @@
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import withLoader from "../../utils/withLoader";
-import Loader from "../../components/utilityComponents/Loader";
 import fetchFn from "../../utils/fetchFn";
-import "../../App.css";
-import useAuth from "../../store/AuthProvider";
 import Dashboard from "../../components/Dashboard";
+import useAuth from "../../store/AuthProvider";
+
+const dashboardCache = {};
+const feedbackCache = {};
+const aiSummaryCache = {};
 
 const FacultyDashboard = () => {
-  const { user } = useAuth();
-  const navigate = useNavigate();
   const { id } = useParams();
+  const navigate = useNavigate();
+  const { user } = useAuth();
 
-  const [facultyData, setFacultyData] = useState(null);
-  const [subjects, setSubjects] = useState([]);
-  const [ratings, setRatings] = useState([]);
-  const [totalRating, setTotalRating] = useState(0);
-  const [criteriaObj, setcriteriaObj] = useState([]);
-  const [ratingPercentage, setRatingPercentage] = useState({});
-  const [criteriaRatingsAi, setCriteriaRatingsAi] = useState({});
-  const [subRatingsAi, setSubRatingsAi] = useState({});
-  const [aiSummary, setAiSummary] = useState([]);
-  const [count, setCount] = useState(0);
-  const [limit, setLimit] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [aiSpinner, setAiSpinner] = useState(false);
 
-  /* 🔹 TERM STATE */
   const [terms, setTerms] = useState([]);
-  const [selectedTerm, setSelectedTerm] = useState("ALL");
+  const [selectedTerm, setSelectedTerm] = useState("");
 
-  /* 🔹 SUBJECT STATE */
   const [selectedSubjectId, setSelectedSubjectId] = useState("");
+  const [limit, setLimit] = useState(0);
 
-  /* ---------------------------------------------
-     1️⃣ Fetch ALL TERMS (generic dashboard route)
-  ----------------------------------------------*/
+  const [termData, setTermData] = useState({});
+  const [feedbackData, setFeedbackData] = useState({});
+  const [aiSummary, setAiSummary] = useState([]);
+
+  /* ---------------------- FETCH TERMS + DASHBOARD ---------------------- */
+
   useEffect(() => {
     if (!id) return;
 
-    withLoader(async () => {
-      const data = await fetchFn(`/dashboard/${id}/terms`, "GET");
-      setTerms(data.terms || []);
-      setSelectedTerm("ALL");
-    }, setLoading);
-  }, [id]);
+    setAiSummary([]);
 
-  /* ---------------------------------------------
-     2️⃣ Fetch DASHBOARD DATA based on TERM
-  ----------------------------------------------*/
-  useEffect(() => {
-    if (!id || !selectedTerm) return;
+    const fetchDashboard = async () => {
+      const cacheKey = `${id}-${selectedTerm}`;
 
-    withLoader(async () => {
-      const url = `/faculty/${id}/${selectedTerm}`;
-      const data = await fetchFn(url, "GET");
-      console.log(data);
-      setSubjects(data.links || []);
-      setFacultyData(data.faculty);
-      setRatings(data.ratingObjects || []);
-      setTotalRating(data.totalRating || 0);
-      setSubRatingsAi(data.ratingsForAi || {});
+      if (dashboardCache[cacheKey]) {
+        const data = dashboardCache[cacheKey];
 
-      if (!data.faculty?.isPasswordSet) {
+        setTermData(data);
+
+        return;
+      }
+
+      // Terms
+
+      const termRes = await fetchFn(`/dashboard/${id}/terms`, "GET");
+      console.log("termRes: ", termRes);
+      setTerms(termRes.terms || []);
+      setSelectedTerm(termRes.terms[0]);
+
+      const dashboardRes = await fetchFn(
+        `/faculty/${id}/${selectedTerm}`,
+        "GET",
+      );
+      console.log("faculty term data: ", dashboardRes);
+      if (!dashboardRes.faculty?.isPasswordSet) {
         navigate(`/change-password/${id}`);
       }
 
-      if (data.links?.length > 0) {
-        setSelectedSubjectId(data.links[0].subject._id);
-        setLimit(data.links[0].limit || 0);
+      dashboardCache[cacheKey] = dashboardRes;
+      setTermData(dashboardRes);
+
+      if (dashboardRes.links?.length > 0) {
+        setSelectedSubjectId(dashboardRes.links[0].subject._id);
+        setLimit(dashboardRes.links[0].limit || 0);
       } else {
         setSelectedSubjectId("");
         setLimit(0);
       }
-    }, setLoading);
+    };
+
+    withLoader(fetchDashboard, setLoading);
   }, [id, selectedTerm, navigate]);
 
-  /* ---------------------------------------------
-     3️⃣ Fetch SUBJECT-SPECIFIC DATA
-  ----------------------------------------------*/
+  /* ---------------------- SUBJECT FEEDBACK ---------------------- */
+
   useEffect(() => {
     if (!selectedSubjectId) return;
 
-    withLoader(async () => {
+    const fetchFeedback = async () => {
+      const cacheKey = `${id}-${selectedSubjectId}-${selectedTerm}`;
+
+      if (feedbackCache[cacheKey]) {
+        setFeedbackData(feedbackCache[cacheKey]);
+        return;
+      }
+
       const data = await fetchFn(
         `/faculty/${id}/count/${selectedSubjectId}/${selectedTerm}`,
-        "GET"
+        "GET",
       );
 
-      setRatingPercentage(data.ratingPercentage || {});
-      setcriteriaObj(data.ratings || []);
-      setCount(data.FeedbackLength || 0);
-      setCriteriaRatingsAi(data.criteriaRatingsAi || {});
-    }, setLoading);
-  }, [selectedSubjectId, id]);
+      feedbackCache[cacheKey] = data;
+      setFeedbackData(data);
+    };
 
-  /* ---------------------------------------------
-     AI SUMMARY
-  ----------------------------------------------*/
-  const handleGenerateSummary = async () => {
-    withLoader(async () => {
+    withLoader(fetchFeedback, setLoading);
+  }, [selectedSubjectId, id, selectedTerm]);
+
+  /* ---------------------- AI SUMMARY ---------------------- */
+
+  const handleGenerateSummary = useCallback(async () => {
+    try {
+      setAiSpinner(true);
+
+      if (!termData.faculty) return;
+
+      const cacheKey = termData.faculty.name;
+
+      if (aiSummaryCache[cacheKey]) {
+        setAiSummary(aiSummaryCache[cacheKey]);
+        return;
+      }
+
       const data = await fetchFn(
         `/faculty/${id}/faculty-summary`,
         "POST",
         JSON.stringify({
           facultyName: user.name,
-          criteriaAnalysis: criteriaRatingsAi,
-          subjectAnalysis: subRatingsAi,
-        })
+          criteriaAnalysis: feedbackData.criteriaRatingsAi,
+          subjectAnalysis: termData.ratingsForAi,
+        }),
       );
-      console.log("Ai summary: ", data);
 
+      aiSummaryCache[cacheKey] = data.points || [];
       setAiSummary(data.points || []);
-    }, setLoading);
-  };
-
-  if (!facultyData) return <Loader />;
+    } finally {
+      setAiSpinner(false);
+    }
+  }, [termData, feedbackData, id, user]);
 
   return (
     <>
-      {loading && <Loader />}
       <div className="w-full mt-4 px-2 h-[94vh]">
         <Dashboard
-          /* Core */
-          facultyData={facultyData}
-          subjects={subjects}
-          ratings={ratings}
-          totalRating={totalRating}
-          criteriaObj={criteriaObj}
-          ratingPercentage={ratingPercentage}
-          count={count}
+          aiSpinner={aiSpinner}
+          loading={loading}
+          termData={termData}
+          feedbackData={feedbackData}
           limit={limit}
-          /* Subject */
           selectedSubjectId={selectedSubjectId}
           setSelectedSubjectId={setSelectedSubjectId}
-          /* AI */
           aiSummary={aiSummary}
           handleGenerateSummary={handleGenerateSummary}
-          /* 🔹 TERM SUPPORT */
           terms={terms}
           selectedTerm={selectedTerm}
           setSelectedTerm={setSelectedTerm}

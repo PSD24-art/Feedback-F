@@ -20,6 +20,7 @@ import Institution_form from "./pages/Institution_form";
 import SAdminDash from "./pages/sAdmin/SAdminDash";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AddFaculty from "./pages/admin/AddFaculty";
+import SkeletonCard from "./components/utilityComponents/SkeletonCard";
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -65,6 +66,7 @@ function App() {
               element={<PasswordReset setIsOpen={setIsSidebarOpen} />}
             />
             <Route path="/feedback/sent" element={<FeedbackSent />} />
+            <Route path="/loader" element={<SkeletonCard />} />
 
             {/* ADMIN */}
             <Route path="/admin/:id" element={<AdminDashboard />} />

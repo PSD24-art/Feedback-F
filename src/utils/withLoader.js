@@ -1,7 +1,7 @@
 const withLoader = async (fn, setLoading) => {
   setLoading(true);
   try {
-    await fn();
+    return await fn();
   } catch (err) {
     console.error("withLoader error:", err);
   } finally {

@@ -2,35 +2,35 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Trash } from "lucide-react";
 import withLoader from "../../utils/withLoader";
-import Loader from "../../components/utilityComponents/Loader";
 import fetchFn from "../../utils/fetchFn";
-
+import Loader from "../../components/utilityComponents/Loader";
+const subjectsData = {};
 const Subjects = () => {
   const { id } = useParams();
-  const deptRef = useRef();
+  const [dept, setDept] = useState("CS");
   const navigate = useNavigate();
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(false);
   const [fetch, setFetch] = useState(false);
+
   useEffect(() => {
+    let cacheKey = `${id}-${dept}`;
+
+    if (subjectsData[cacheKey]) {
+      setSubjects(subjectsData[cacheKey]);
+      return;
+    }
+
     const fetchSubjects = async () => {
-      const dept = deptRef.current?.value || "CS";
       await withLoader(async () => {
         const data = await fetchFn(`/admin/${id}/subjects/${dept}`, "GET");
         setSubjects(data.subjects || []);
+        subjectsData[cacheKey] = data.subjects;
       }, setLoading);
     };
 
     fetchSubjects();
-  }, [fetch]);
-
-  const handleOnChange = async () => {
-    const dept = deptRef.current.value;
-    await withLoader(async () => {
-      const data = await fetchFn(`/admin/${id}/subjects/${dept}`, "GET");
-      setSubjects(data.subjects || []);
-    }, setLoading);
-  };
+  }, [dept, id, fetch]);
 
   const handleDelete = (subject_id) => {
     const isconfirm = confirm("Want to delete this subject?");
@@ -38,7 +38,7 @@ const Subjects = () => {
     withLoader(async () => {
       const data = await fetchFn(
         `/admin/${id}/subjects/${subject_id}`,
-        "DELETE"
+        "DELETE",
       );
       if (data) {
         alert(data.message);
@@ -63,10 +63,9 @@ const Subjects = () => {
           <div className="flex flex-col pt-2 w-[180px] sm:w-fit">
             <select
               required
-              ref={deptRef}
+              value={dept}
               id="department"
-              onChange={handleOnChange}
-              defaultValue="CS"
+              onChange={(e) => setDept(e.target.value)}
               className="basic_dropdown"
             >
               <option value="CS">Computer Science</option>
@@ -88,7 +87,7 @@ const Subjects = () => {
           </div>
         </div>
 
-        {/* ✅ Subjects List */}
+        {/* Subjects List */}
         {subjects.length > 0 ? (
           <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 mb-8">
             {subjects.map((subject) => (
