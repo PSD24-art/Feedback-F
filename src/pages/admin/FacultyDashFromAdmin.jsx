@@ -5,6 +5,7 @@ import Dashboard from "../../components/Dashboard";
 const aiSumaryCache = {};
 const termDataCache = {};
 const feedbackDataCache = {};
+const termsCache = {};
 const FacultyDashFromAdmin = ({ adminId, facultyId }) => {
   const [aiSpinner, setAiSpinner] = useState(false);
   const [aiSummary, setAiSummary] = useState([]);
@@ -23,8 +24,9 @@ const FacultyDashFromAdmin = ({ adminId, facultyId }) => {
     const fetchAllDashboardData = async () => {
       let cacheKey = `${facultyId}-${selectedTerm}`;
 
-      if (termDataCache[cacheKey]) {
+      if (termDataCache[cacheKey] && termsCache[cacheKey]) {
         setTermData(termDataCache[cacheKey]);
+        setTerms(termsCache[cacheKey]);
         return;
       } else {
         // 1. Fetch Terms
@@ -33,7 +35,7 @@ const FacultyDashFromAdmin = ({ adminId, facultyId }) => {
           "GET",
         );
         setTerms(termsResult.terms || []);
-
+        termsCache[cacheKey] = termsResult.terms;
         // 2. Fetch Dashboard Data based on current selectedTerm
         const dashboardResult = await fetchFn(
           `/admin/${adminId}/faculties/${facultyId}/${selectedTerm}`,
