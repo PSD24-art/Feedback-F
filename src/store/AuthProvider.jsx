@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
+import { useParams } from "react-router-dom";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const AuthContext = createContext();
 const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -13,7 +14,9 @@ function authReducer(state, action) {
       localStorage.setItem("user", JSON.stringify(action.payload));
       return { isAuthenticated: true, user: action.payload };
     case "LOGOUT":
+      console.log("Inside logout: ", action.payload);
       localStorage.removeItem("user");
+      localStorage.removeItem(`selectedFaculty-${action.payload}`);
       return { isAuthenticated: false, user: null };
     default:
       return state;
@@ -22,7 +25,6 @@ function authReducer(state, action) {
 
 export function AuthProvider({ children }) {
   const [state, dispatch] = useReducer(authReducer, initialState);
-
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -61,7 +63,7 @@ export function AuthProvider({ children }) {
     return data;
   };
 
-  const logout = async () => {
+  const logout = async (id) => {
     try {
       await fetch(`${BASE_URL}/logout`, {
         method: "GET",
@@ -70,7 +72,8 @@ export function AuthProvider({ children }) {
     } catch (err) {
       console.error("Server logout failed, but clearing local state anyway");
     }
-    dispatch({ type: "LOGOUT" });
+
+    dispatch({ type: "LOGOUT", payload: id });
   };
 
   return (

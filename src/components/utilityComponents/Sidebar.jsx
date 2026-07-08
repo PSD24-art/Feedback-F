@@ -27,7 +27,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
     withLoader(async () => {
       const confirmed = confirm("Are you sure want to log out");
       if (!confirmed) return;
-      await logout();
+      await logout(id);
       navigate("/");
     }, setLoading);
   };

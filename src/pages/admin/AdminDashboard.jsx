@@ -14,7 +14,7 @@ const AdminDashboard = () => {
   const [selectedDepartment, setSelectedDepartment] = useState("CS");
   const [facultyList, setFacultyList] = useState([]);
   const [selectedFacultyId, setSelectedFacultyId] = useState(() => {
-    return localStorage.getItem(`selectedFaculty-${id}`) || null;
+    return localStorage.getItem(`selectedFaculty-${id}`);
   });
 
   const [loading, setLoading] = useState(false);
@@ -46,7 +46,7 @@ const AdminDashboard = () => {
       const cacheKey = `${id}-${selectedDepartment}`;
       facultyCache[cacheKey] = updatedList;
 
-      setSelectedFacultyId(null);
+      setSelectedFacultyId(updatedList[0]._id);
     } catch (error) {
       console.error("Error deleting faculty:", error);
     }
@@ -60,6 +60,8 @@ const AdminDashboard = () => {
     if (facultyCache[cacheKey]) {
       const cachedData = facultyCache[cacheKey];
       setFacultyList(cachedData);
+      let facultyId = localStorage.getItem(`selectedFaculty-${id}`);
+      setSelectedFacultyId(facultyId);
       console.log("Returned from cache");
       return;
     }
@@ -69,22 +71,27 @@ const AdminDashboard = () => {
 
       const data = await fetchFn(`/admin/${id}/${selectedDepartment}`, "GET");
       const fetchedFaculties = data.allFaculties || [];
-
       // Store the data inside the global cache object
       facultyCache[cacheKey] = fetchedFaculties;
       setFacultyList(fetchedFaculties);
 
-      if (selectedFacultyId) {
-        localStorage.setItem(`selectedFaculty-${id}`, selectedFacultyId);
+      let facultyId = localStorage.getItem(`selectedFaculty-${id}`);
+      console.log("FacultyId from localStrg: ", facultyId);
+      if (facultyId) {
+        setSelectedFacultyId(facultyId);
       } else {
-        localStorage.removeItem(`selectedFaculty-${id}`);
+        setSelectedFacultyId(fetchedFaculties[0]._id);
       }
-
       if (!data.admin.isPasswordSet) {
         navigate(`/change-password/${id}`);
       }
     }, setLoading);
   }, [id, selectedDepartment, navigate]);
+
+  const handleOnFacultyClick = (facultyId) => {
+    setSelectedFacultyId(facultyId);
+    localStorage.setItem(`selectedFaculty-${id}`, facultyId);
+  };
 
   return (
     <>
@@ -122,7 +129,7 @@ const AdminDashboard = () => {
               {facultyList.map((faculty) => (
                 <li
                   key={faculty._id}
-                  onClick={() => setSelectedFacultyId(faculty._id)}
+                  onClick={() => handleOnFacultyClick(faculty._id)}
                   className={` min-w-[220px] md:min-w-0 p-3 border rounded-lg cursor-pointer transition ${
                     selectedFacultyId === faculty._id
                       ? "bg-gray-100 border-amber-500"
