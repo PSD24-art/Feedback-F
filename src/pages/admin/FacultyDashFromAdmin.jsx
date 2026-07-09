@@ -85,8 +85,9 @@ const FacultyDashFromAdmin = ({ adminId, facultyId }) => {
   const handleGenerateSummary = useCallback(async () => {
     try {
       setAiSpinner(true);
-      if (!termData.faculty) return;
+      if (!termData.faculty || !feedbackData?.criteriaRatingsAi) return;
       let cacheKey = termData.faculty.name;
+
       if (aiSumaryCache[cacheKey]) {
         setAiSummary(aiSumaryCache[cacheKey]);
       } else {

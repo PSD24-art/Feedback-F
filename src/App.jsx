@@ -73,6 +73,7 @@ function App() {
             <Route path="/admin/:id/subject" element={<Subjects />} />
             <Route path="/admin/:id/subjects/new" element={<AddSubject />} />
             <Route path="/admin/:id/faculty/new" element={<AddFaculty />} />
+            <Route path="*" element={<></>} />
           </Routes>
         </div>
       </div>

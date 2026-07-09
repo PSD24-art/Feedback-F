@@ -9,6 +9,7 @@ import AdminNav from "../Navigation/AdminNav";
 import SuperAdminNav from "../Navigation/SuperAdminNav";
 
 export default function Sidebar({ isOpen, setIsOpen }) {
+  console.log("Sidebar Rendered");
   const location = useLocation();
   const isActive = (path) => location.pathname === path;
   const { user } = useAuth();
