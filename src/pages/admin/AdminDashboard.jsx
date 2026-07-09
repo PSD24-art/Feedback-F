@@ -61,7 +61,12 @@ const AdminDashboard = () => {
       const cachedData = facultyCache[cacheKey];
       setFacultyList(cachedData);
       let facultyId = localStorage.getItem(`selectedFaculty-${id}`);
-      setSelectedFacultyId(facultyId);
+      if (facultyId) {
+        setSelectedFacultyId(facultyId);
+      } else {
+        setSelectedFacultyId(cachedData[0]._id);
+        localStorage.setItem(`selectedFaculty-${id}`, cachedData[0]._id);
+      }
       console.log("Returned from cache");
       return;
     }
@@ -81,6 +86,7 @@ const AdminDashboard = () => {
         setSelectedFacultyId(facultyId);
       } else {
         setSelectedFacultyId(fetchedFaculties[0]._id);
+        localStorage.setItem(`selectedFaculty-${id}`, fetchedFaculties[0]._id);
       }
       if (!data.admin.isPasswordSet) {
         navigate(`/change-password/${id}`);
