@@ -18,7 +18,7 @@ const PasswordReset = ({ setIsOpen }) => {
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
 
-  setIsOpen(true);
+  setIsOpen(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
 
