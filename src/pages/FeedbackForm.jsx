@@ -253,7 +253,7 @@ const FeedbackForm = () => {
                       {[1, 2, 3, 4, 5].map((num) => (
                         <label
                           key={num}
-                          className={`flex min-h-16 cursor-pointer flex-col items-center justify-center rounded-xl border px-2 py-2 text-center transition
+                          className={`relative flex min-h-16 cursor-pointer flex-col items-center justify-center rounded-xl border px-2 py-2 text-center transition
                         ${
                           answers[IDX] === num
                             ? "border-rose-700 bg-rose-700 text-white shadow-md shadow-rose-500/20"
@@ -267,7 +267,7 @@ const FeedbackForm = () => {
                             value={num}
                             checked={answers[IDX] === num}
                             onChange={() => handleChange(IDX, num)}
-                            className="sr-only"
+                            className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
                           />
                           <span className="text-sm font-medium text-center">
                             {num === 1
