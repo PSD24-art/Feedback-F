@@ -1,40 +1,79 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@1,700&display=swap");
 @import "tailwindcss";
+
 html,
 body {
   overflow-x: hidden;
+  scroll-behavior: smooth;
   /* overscroll-behavior: none; */
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  color: #1e293b;
+  background: #f8fafc;
 }
 
 * {
   box-sizing: border-box;
 }
 
+.logo-font {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+}
+
+.gradient-glow {
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(244, 63, 94, 0.15) 0%,
+    transparent 60%
+  );
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 /* Main utility classes */
 
 .bg-basic_color {
-  @apply bg-red-700;
+  @apply bg-rose-700;
 }
 
 .text-basic_color {
-  @apply text-red-600;
+  @apply text-rose-700;
 }
 
 .basic_border {
-  @apply border-red-200 hover:border-red-400;
+  @apply border-slate-200 hover:border-rose-300;
 }
 
 /*Basic button*/
 .basic_button {
-  @apply mt-2 h-10 hover:cursor-pointer px-4 py-2 rounded-lg bg-red-500 text-white font-medium hover:bg-red-600 transition;
+  @apply mt-2 inline-flex min-h-10 items-center justify-center rounded-xl bg-gradient-to-r from-rose-700 to-rose-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-rose-500/20 transition hover:-translate-y-px hover:from-rose-800 hover:to-rose-700 focus:outline-none focus:ring-2 focus:ring-rose-300 disabled:cursor-not-allowed disabled:opacity-60;
 }
 /*Basic input*/
 .basic_input {
-  @apply w-full p-2 border-2 border-red-300 rounded-md focus:ring-2 focus:ring-red-400 focus:outline-none;
+  @apply w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-700 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-rose-400 focus:bg-white focus:ring-4 focus:ring-rose-100;
 }
 
 /*Basic dropdown*/
 .basic_dropdown {
-  @apply focus:border-red-300 px-2 py-2 border-2 border-red-300 rounded-md focus:ring-2 focus:ring-red-400 focus:outline-none;
+  @apply rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm font-medium text-slate-700 shadow-sm outline-none transition focus:border-rose-400 focus:bg-white focus:ring-4 focus:ring-rose-100;
+}
+
+.app-surface {
+  @apply min-h-screen bg-[radial-gradient(circle_at_top_right,_rgba(244,63,94,0.08),_transparent_30%),linear-gradient(180deg,_#f8fafc_0%,_#f1f5f9_100%)];
+}
+
+.panel-card {
+  @apply rounded-2xl border border-slate-200/80 bg-white shadow-[0_12px_32px_-18px_rgba(15,23,42,0.25)];
 }
 /* Font */
 .mea-culpa-regular {

@@ -25,8 +25,19 @@ const FacultyDashFromAdmin = ({ adminId, facultyId }) => {
       let cacheKey = `${facultyId}-${selectedTerm}`;
 
       if (termDataCache[cacheKey] && termsCache[cacheKey]) {
-        setTermData(termDataCache[cacheKey]);
+        const cachedDashboard = termDataCache[cacheKey];
+        setTermData(cachedDashboard);
         setTerms(termsCache[cacheKey]);
+
+        if (cachedDashboard?.links?.length > 0) {
+          const firstLink = cachedDashboard.links[0];
+          setSelectedSubjectId(firstLink.subject?._id || "");
+          setLimit(firstLink.limit || 0);
+        } else {
+          setSelectedSubjectId("");
+          setLimit(0);
+          setFeedbackData({});
+        }
         return;
       } else {
         // 1. Fetch Terms
@@ -61,8 +72,13 @@ const FacultyDashFromAdmin = ({ adminId, facultyId }) => {
   }, [facultyId, adminId, selectedTerm]);
 
   useEffect(() => {
+    if (!facultyId || !adminId || !selectedSubjectId) {
+      setFeedbackData({});
+      return;
+    }
+
     async function getAllFeedbackData() {
-      let cacheKey = `${facultyId}-${selectedSubjectId}`;
+      const cacheKey = `${facultyId}-${selectedSubjectId}-${selectedTerm}`;
 
       if (feedbackDataCache[cacheKey]) {
         setFeedbackData(feedbackDataCache[cacheKey]);
@@ -78,7 +94,7 @@ const FacultyDashFromAdmin = ({ adminId, facultyId }) => {
     }
 
     withLoader(getAllFeedbackData, setLoading);
-  }, [selectedSubjectId]);
+  }, [adminId, facultyId, selectedSubjectId, selectedTerm]);
 
   // AI SUMMARY
 
@@ -112,7 +128,9 @@ const FacultyDashFromAdmin = ({ adminId, facultyId }) => {
   };
 
   return (
-    <Dashboard
+    <div className="h-full min-h-0">
+      <Dashboard
+      embedded
       aiSpinner={aiSpinner}
       loading={loading}
       termData={termData}
@@ -125,7 +143,8 @@ const FacultyDashFromAdmin = ({ adminId, facultyId }) => {
       terms={terms}
       selectedTerm={selectedTerm}
       setSelectedTerm={setSelectedTerm}
-    />
+      />
+    </div>
   );
 };
 

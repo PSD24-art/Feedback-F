@@ -151,7 +151,7 @@ const FacultyDashboard = () => {
   }, [termData, feedbackData, id, user]);
 
   return (
-    <div className="w-full mt-4 px-2 h-[94vh]">
+    <div className="w-full px-3 py-4 lg:px-5">
       <Dashboard
         aiSpinner={aiSpinner}
         loading={loading}

@@ -13,24 +13,24 @@ const FacultyNav = ({
   return (
     <>
       <div
-        className={`flex items-center  gap-3 mt-3 hover:text-red-500 cursor-pointer ${isActive(`/faculty/${id}`) ? "text-red-500" : "text-amber-900"}`}
+        className={`flex cursor-pointer items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold transition ${isActive(`/faculty/${id}`) ? "bg-rose-50 text-rose-700 shadow-sm" : "text-slate-600 hover:bg-slate-100 hover:text-rose-700"}`}
         onClick={() => {
           setIsOpen(false);
           navigate(`/faculty/${id}`);
         }}
       >
         <LayoutDashboard className="w-5 h-5" />
-        <span className="text-lg font-medium">Dashboard</span>
+        <span>Dashboard</span>
       </div>
       <div
-        className="mt-3 flex items-center justify-between hover:text-red-500 cursor-pointer px-2 ps-0 py-2 pt-0 rounded-md transition-all duration-200 pb-0"
+        className="mt-1 flex cursor-pointer items-center justify-between rounded-xl px-3 py-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 hover:text-rose-700"
         onClick={() => {
           setIsFeedbackOpen((prev) => !prev);
         }}
       >
         <div className="flex items-center gap-3">
           <BarChart3 className="w-5 h-4" />
-          <span className="text-lg font-medium">Feedback Form</span>
+          <span>Feedback Form</span>
         </div>
         {isFeedbackOpen ? (
           <ChevronUp className="w-4 h-4 text-red-500" />
@@ -45,12 +45,12 @@ const FacultyNav = ({
           isFeedbackOpen
             ? "max-h-40 opacity-100 flex flex-col ml-9 overflow-hidden transition-all duration-300"
             : "max-h-0 opacity-0 hidden"
-        }  ${isActive(`/faculty/${id}/links`) ? "text-red-500" : "text-amber-900"}`}
+        } text-slate-600`}
       >
-        <div className="flex items-center gap-3 hover:text-red-500 cursor-pointer py-1">
+        <div className={`flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2 text-sm transition hover:bg-rose-50 hover:text-rose-700 ${isActive(`/faculty/${id}/links`) ? "bg-rose-50 text-rose-700" : ""}`}>
           <BarChart3 className="w-4 h-4" />
           <span
-            className="text-base"
+            className="text-sm"
             onClick={() => {
               setIsOpen(false);
               navigate(`/faculty/${id}/links`);
@@ -61,11 +61,11 @@ const FacultyNav = ({
         </div>
 
         <div
-          className={`flex items-center gap-3 hover:text-red-500 cursor-pointer py-1  ${isActive(`/faculty/${id}/form`) ? "text-red-500" : "text-amber-900"}`}
+          className={`flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2 text-sm transition hover:bg-rose-50 hover:text-rose-700 ${isActive(`/faculty/${id}/form`) ? "bg-rose-50 text-rose-700" : ""}`}
         >
           <BarChart3 className="w-4 h-4" />
           <span
-            className="text-base"
+            className="text-sm"
             onClick={() => {
               setIsOpen(false);
               navigate(`/faculty/${id}/form`);
@@ -76,11 +76,11 @@ const FacultyNav = ({
         </div>
 
         <div
-          className={`flex items-center gap-3 hover:text-red-500 cursor-pointer py-1 ${isActive(`/faculty/${id}/subject`) ? "text-red-500" : "text-amber-900"}`}
+          className={`flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2 text-sm transition hover:bg-rose-50 hover:text-rose-700 ${isActive(`/faculty/${id}/subject`) ? "bg-rose-50 text-rose-700" : ""}`}
         >
           <BarChart3 className="w-4 h-4" />
           <span
-            className="text-base"
+            className="text-sm"
             onClick={() => {
               setIsOpen(false);
               navigate(`/faculty/${id}/subject`);

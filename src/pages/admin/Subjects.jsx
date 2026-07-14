@@ -50,16 +50,29 @@ const Subjects = () => {
   return (
     <>
       {loading && <Loader />}
-      <div className="mt-10 p-6">
+      <div className="mx-auto w-full max-w-7xl p-4 sm:p-6">
         {/* Title */}
-        <h2 className="text-xl mt-3 font-cursive text-center pb-2 text-basic_color font-bold mb-6 border-b-2">
+        <div className="panel-card mb-5 flex flex-col gap-4 p-5 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-rose-600">Subject catalogue</p>
+            <h2 className="mt-1 text-2xl font-extrabold text-slate-800">
           All Subjects
-        </h2>
-        <label htmlFor="department" className="mb-1 font-medium text-gray-700">
+            </h2>
+          </div>
+          <button
+            className="basic_button mt-0 w-full sm:w-auto"
+            onClick={() => {
+              navigate(`/admin/${id}/subjects/new`);
+            }}
+          >
+            Add Subject
+          </button>
+        </div>
+        <label htmlFor="department" className="mb-1 font-semibold text-slate-700">
           Department
         </label>
         {/* Department Filter */}
-        <div className="flex flex-row items-center mb-6 justify-between">
+        <div className="mb-6 flex flex-row items-center justify-between">
           <div className="flex flex-col pt-2 w-[180px] sm:w-fit">
             <select
               required
@@ -75,16 +88,6 @@ const Subjects = () => {
               <option value="EC">Electronics and Telecommunication</option>
             </select>
           </div>
-          <div className="">
-            <button
-              className="basic_button w-[122px]"
-              onClick={() => {
-                navigate(`/admin/${id}/subjects/new`);
-              }}
-            >
-              Add Subject
-            </button>
-          </div>
         </div>
 
         {/* Subjects List */}
@@ -93,15 +96,15 @@ const Subjects = () => {
             {subjects.map((subject) => (
               <div
                 key={subject._id}
-                className="bg-white border border-red-200 rounded-xl shadow-sm flex justify-between items-center hover:shadow-md hover:border-red-400 transition-all duration-300"
+                className="panel-card flex items-center justify-between overflow-hidden transition hover:-translate-y-0.5 hover:border-rose-200"
               >
-                <li className="bg-white rounded-l-xl flex justify-between items-center px-5 pe-0 py-4">
-                  <div className="flex flex-col gap-1 text-gray-800">
-                    <p className="font-semibold text-lg text-basic_color">
+                <li className="flex items-center justify-between px-5 py-4">
+                  <div className="flex flex-col gap-1 text-slate-800">
+                    <p className="text-lg font-bold text-slate-800">
                       {subject.name}
                     </p>
 
-                    <div className="flex flex-wrap gap-x-6 text-sm text-gray-600">
+                    <div className="flex flex-wrap gap-x-6 text-sm text-slate-500">
                       <span className="font-medium">
                         Code: {subject.unique_code}
                       </span>
@@ -117,7 +120,7 @@ const Subjects = () => {
 
                 <button
                   onClick={() => handleDelete(subject._id)}
-                  className="text-basic_color hover:text-red-500 bg-white hover:bg-gray-100 h-full rounded-r-xl px-3 py-2 transition-colors duration-300"
+                  className="h-full rounded-r-xl px-4 py-2 text-rose-700 transition-colors hover:bg-rose-50 hover:text-rose-800"
                 >
                   <Trash size={20} />
                 </button>
@@ -125,7 +128,7 @@ const Subjects = () => {
             ))}
           </ul>
         ) : (
-          <div className="flex flex-col items-center justify-center py-16 px-4 bg-gray-50 border border-dashed border-gray-300 rounded-xl">
+          <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-white px-4 py-16">
             <p className="text-lg font-semibold text-gray-700 mb-2">
               No subjects found
             </p>

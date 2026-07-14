@@ -48,12 +48,15 @@ const Institution_form = () => {
       const data = await fetchFn(
         "/instituteRequest",
         "POST",
-        JSON.stringify({ formData })
+        JSON.stringify({ formData }),
       );
 
       if (data?.success) {
+        alert(
+          "Institure request sent. Our Representetive will reach out to you soon",
+        );
         console.log("Request successful:", data);
-        ({
+        setFormData({
           name: "",
           code: "",
           contactInfo: {
@@ -68,9 +71,6 @@ const Institution_form = () => {
             email: "",
           },
         });
-
-        //show a toast or alert here
-        // toast.success("Request sent successfully!");
       } else {
         console.log("⚠️ Request failed:", data);
       }
@@ -80,25 +80,30 @@ const Institution_form = () => {
   return (
     <>
       {loading && <Loader />}
-      <div className="mt-16 w-full flex justify-center py-10 px-4 bg-amber-50 min-h-screen">
-        <div className="w-full max-w-3xl bg-white shadow-md rounded-2xl p-8 border border-gray-100">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-2 text-center ">
-            Institution Access Request
-          </h2>
-          <p className="text-gray-500 text-center mb-8 border-b-2 pb-3  border-red-500">
-            Fill in the required details below. Our team will contact your
-            institution for verification and approval.
-          </p>
+      <div className="flex min-h-[calc(100vh-8rem)] w-full justify-center px-4 py-8 sm:px-6">
+        <div className="panel-card h-fit w-full max-w-3xl p-5 sm:p-8">
+          <div className="mb-8 border-b border-slate-100 pb-5 text-center">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-rose-600">
+              Feedback Guru workspace
+            </p>
+            <h2 className="mb-2 mt-1 text-2xl font-extrabold text-slate-800">
+              Institution Access Request
+            </h2>
+            <p className="mx-auto max-w-xl text-sm leading-relaxed text-slate-500">
+              Fill in the required details below. Our team will contact your
+              institution for verification and approval.
+            </p>
+          </div>
 
           <form onSubmit={handleSubmit} className="space-y-8">
             {/* Institution Details */}
-            <div>
-              <h3 className="text-lg font-medium text-gray-700 mb-4">
+            <section className="rounded-2xl border border-slate-200 bg-slate-50/70 p-4 sm:p-5">
+              <h3 className="mb-4 text-base font-extrabold text-slate-800">
                 Institution Details
               </h3>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-gray-600 font-medium mb-1">
+                  <label className="mb-1.5 block text-sm font-semibold text-slate-700">
                     Institution Name
                   </label>
                   <input
@@ -113,7 +118,7 @@ const Institution_form = () => {
                 </div>
 
                 <div>
-                  <label className="block text-gray-600 font-medium mb-1">
+                  <label className="mb-1.5 block text-sm font-semibold text-slate-700">
                     Institution Code
                   </label>
                   <input
@@ -127,7 +132,7 @@ const Institution_form = () => {
                 </div>
 
                 <div>
-                  <label className="block text-gray-600 font-medium mb-1">
+                  <label className="mb-1.5 block text-sm font-semibold text-slate-700">
                     Address
                   </label>
                   <textarea
@@ -140,16 +145,16 @@ const Institution_form = () => {
                   />
                 </div>
               </div>
-            </div>
+            </section>
 
             {/* Contact Information */}
-            <div>
-              <h3 className="text-lg font-medium text-gray-700 mb-4">
+            <section className="rounded-2xl border border-slate-200 bg-slate-50/70 p-4 sm:p-5">
+              <h3 className="mb-4 text-base font-extrabold text-slate-800">
                 Contact Information
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-gray-600 font-medium mb-1">
+                  <label className="mb-1.5 block text-sm font-semibold text-slate-700">
                     Email
                   </label>
                   <input
@@ -163,7 +168,7 @@ const Institution_form = () => {
                 </div>
 
                 <div>
-                  <label className="block text-gray-600 font-medium mb-1">
+                  <label className="mb-1.5 block text-sm font-semibold text-slate-700">
                     Phone
                   </label>
                   <input
@@ -178,7 +183,7 @@ const Institution_form = () => {
               </div>
 
               <div className="mt-4">
-                <label className="block text-gray-600 font-medium mb-1">
+                <label className="mb-1.5 block text-sm font-semibold text-slate-700">
                   Website
                 </label>
                 <input
@@ -190,21 +195,21 @@ const Institution_form = () => {
                   className="basic_input"
                 />
               </div>
-            </div>
+            </section>
 
             {/* Contact Person */}
-            <div>
-              <h3 className="text-lg font-medium text-gray-700 mb-2">
+            <section className="rounded-2xl border border-slate-200 bg-slate-50/70 p-4 sm:p-5">
+              <h3 className="mb-2 text-base font-extrabold text-slate-800">
                 Institutional Representative
               </h3>
-              <p className="text-sm text-gray-500 mb-4">
+              <p className="mb-4 text-sm text-slate-500">
                 This person will act as the official representative for
                 communication and admin access approval.
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-gray-600 font-medium mb-1">
+                  <label className="mb-1.5 block text-sm font-semibold text-slate-700">
                     Full Name
                   </label>
                   <input
@@ -218,7 +223,7 @@ const Institution_form = () => {
                 </div>
 
                 <div>
-                  <label className="block text-gray-600 font-medium mb-1">
+                  <label className="mb-1.5 block text-sm font-semibold text-slate-700">
                     Mobile Number
                   </label>
                   <input
@@ -233,7 +238,7 @@ const Institution_form = () => {
               </div>
 
               <div className="mt-4">
-                <label className="block text-gray-600 font-medium mb-1">
+                <label className="mb-1.5 block text-sm font-semibold text-slate-700">
                   Email
                 </label>
                 <input
@@ -245,11 +250,14 @@ const Institution_form = () => {
                   className="basic_input"
                 />
               </div>
-            </div>
+            </section>
 
             {/* Submit */}
-            <div className="pt-4 flex justify-center">
-              <button type="submit" className="basic_button">
+            <div className="flex justify-end border-t border-slate-100 pt-5">
+              <button
+                type="submit"
+                className="basic_button mt-0 w-full sm:w-auto"
+              >
                 Submit Request
               </button>
             </div>

@@ -98,13 +98,14 @@ const Login = () => {
     <>
       {loading && <Loader />}
       <div
-        className={`${forgotPass || showForgotPassword ? "hidden" : ""} flex justify-center items-center w-full h-dvh  flex-col bg-amber-50`}
+        className={`${forgotPass || showForgotPassword ? "hidden" : ""} flex h-full min-h-[calc(100dvh-9rem)] w-full flex-col items-center justify-center bg-[radial-gradient(circle_at_top,_rgba(244,63,94,0.13),_transparent_35%)] px-4 py-8`}
       >
-        <div className="mb-4 text-2xl font-bold text-red-500">
+        <div className="mb-3 text-center text-2xl font-extrabold text-slate-800">
           Welcome back!
         </div>
-        <div className=" bg-white border-2 border-red-300 shadow-lg rounded-xl flex flex-col p-6 w-full max-w-sm">
-          <h2 className="mb-4 pb-2 border-b-2 border-red-300 text-basic_color text-2xl font-bold text-center">
+        <div className="panel-card flex w-full max-w-sm flex-col p-6 sm:p-8">
+          <p className="text-center text-[10px] font-bold uppercase tracking-[0.2em] text-rose-600">Secure workspace</p>
+          <h2 className="mb-5 mt-1 text-center text-2xl font-extrabold text-slate-800">
             Login
           </h2>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -136,7 +137,7 @@ const Login = () => {
               <button
                 type="button"
                 onClick={() => setForgotPass(true)}
-                className="text-red-700 hover:cursor-pointer hover:underline hover:underline-offset-3"
+                className="text-sm font-semibold text-rose-700 hover:underline hover:underline-offset-3"
               >
                 Forgot Password?
               </button>
@@ -147,13 +148,14 @@ const Login = () => {
 
       {/* password reset div */}
       <div
-        className={`${!forgotPass || showForgotPassword ? "hidden" : ""} flex justify-center items-center w-full h-dvh  flex-col bg-amber-50`}
+        className={`${!forgotPass || showForgotPassword ? "hidden" : ""} flex h-full min-h-[calc(100dvh-9rem)] w-full flex-col items-center justify-center bg-[radial-gradient(circle_at_top,_rgba(244,63,94,0.13),_transparent_35%)] px-4 py-8`}
       >
-        <div className="mb-4 text-2xl font-bold text-red-500">
+        <div className="mb-3 text-center text-2xl font-extrabold text-slate-800">
           Forgot Password
         </div>
-        <div className=" bg-white border-2 border-red-300 shadow-lg rounded-xl flex flex-col p-6 w-full max-w-sm">
-          <h2 className="mb-4 pb-2 border-b-2 border-red-300 text-basic_color text-2xl font-bold text-center">
+        <div className="panel-card flex w-full max-w-sm flex-col p-6 sm:p-8">
+          <p className="text-center text-[10px] font-bold uppercase tracking-[0.2em] text-rose-600">Account recovery</p>
+          <h2 className="mb-5 mt-1 text-center text-2xl font-extrabold text-slate-800">
             Change Password
           </h2>
 
@@ -171,7 +173,7 @@ const Login = () => {
               <button
                 type="button"
                 onClick={handleSendOtp}
-                className="text-gray-600 text-sm border p-1 rounded-2xl absolute right-2 top-2 border-red-300 bg-gray-100 hover:bg-gray-300 hover:cursor-pointer"
+                className="absolute right-2 top-2 rounded-lg border border-rose-100 bg-rose-50 px-2 py-1 text-xs font-semibold text-rose-700 transition hover:bg-rose-100"
               >
                 Send OTP
               </button>
@@ -195,7 +197,7 @@ const Login = () => {
               onClick={() => {
                 setForgotPass(false);
               }}
-              className="hover:text-red-600 text-red-400 hover:cursor-pointer"
+              className="text-sm font-semibold text-rose-600 transition hover:text-rose-800"
             >
               Back{"->"}
             </button>

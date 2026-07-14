@@ -21,17 +21,18 @@ export default function SAdminDash() {
   }, [id]);
 
   return (
-    <div className="mt-16 min-h-screen bg-gray-50 px-6 md:px-10 py-8">
-      <h1 className="text-2xl font-semibold text-gray-800 mb-6">
-        Super Admin Dashboard
-      </h1>
+    <div className="mx-auto min-h-screen max-w-7xl px-4 py-6 sm:px-6">
+      <div className="panel-card mb-6 p-5 sm:p-6">
+        <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-rose-600">Platform administration</p>
+        <h1 className="mt-1 text-2xl font-extrabold text-slate-800">Super Admin Dashboard</h1>
+      </div>
 
       {loading ? (
         <div className="flex justify-center items-center h-64">
           <Loader2 className="animate-spin text-gray-500 w-8 h-8" />
         </div>
       ) : requests.length === 0 ? (
-        <div className="text-center text-gray-500 mt-16">
+        <div className="rounded-2xl border border-dashed border-slate-300 bg-white py-16 text-center text-slate-500">
           No access requests received yet.
         </div>
       ) : (
@@ -39,16 +40,16 @@ export default function SAdminDash() {
           {requests.map((req) => (
             <div
               key={req._id}
-              className="bg-white shadow-md hover:shadow-lg transition rounded-2xl p-5 border border-gray-100"
+              className="panel-card p-5 transition hover:-translate-y-0.5 hover:border-rose-200"
             >
-              <h2 className="text-lg font-semibold text-gray-800">
+              <h2 className="text-lg font-bold text-slate-800">
                 {req.name}
               </h2>
               {req.code && (
-                <p className="text-sm text-gray-500 mb-3">Code: {req.code}</p>
+                <p className="mb-3 text-sm text-slate-500">Code: {req.code}</p>
               )}
 
-              <div className="text-sm text-gray-600 space-y-2 mb-3">
+              <div className="mb-3 space-y-2 text-sm text-slate-600">
                 {req.contactInfo?.email && (
                   <p className="flex items-center gap-2">
                     <Mail size={16} className="text-gray-400" />
@@ -68,7 +69,7 @@ export default function SAdminDash() {
                       href={req.contactInfo.website}
                       target="_blank"
                       rel="noreferrer"
-                      className="text-blue-600 hover:underline"
+                      className="text-rose-700 hover:underline"
                     >
                       {req.contactInfo.website}
                     </a>
@@ -98,7 +99,7 @@ export default function SAdminDash() {
 
               <div className="mt-4 flex justify-end">
                 <button
-                  className="text-sm bg-blue-600 text-white px-4 py-1.5 rounded-lg hover:bg-blue-700 transition"
+                  className="basic_button mt-0 min-h-0 px-4 py-2"
                   onClick={() => handleApprove(req._id)}
                 >
                   Approve

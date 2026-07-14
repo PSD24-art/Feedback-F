@@ -64,16 +64,17 @@ const PasswordReset = ({ setIsOpen }) => {
   return (
     <>
       {loading && <Loader />}
-      <div className="w-full flex items-center justify-center">
-        <div className="mt-18 max-w-md mx-4 bg-white rounded-xl shadow-lg p-8 border-2 border-red-200">
-          <h2 className="text-2xl font-bold text-center text-basic_color mb-6 border-b-2 pb-2">
+      <div className="flex min-h-[calc(100vh-12rem)] w-full items-center justify-center px-4 py-10">
+        <div className="panel-card w-full max-w-md p-6 sm:p-8">
+          <p className="text-center text-[10px] font-bold uppercase tracking-[0.2em] text-rose-600">Account security</p>
+          <h2 className="mb-6 mt-1 text-center text-2xl font-extrabold text-slate-800">
             Reset Password
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Old Password */}
             <div>
-              <label className="block text-gray-700 font-medium mb-2">
+              <label className="mb-2 block text-sm font-semibold text-slate-700">
                 Old Password
               </label>
               <div className="relative">
@@ -81,13 +82,12 @@ const PasswordReset = ({ setIsOpen }) => {
                   type={showOldPassword ? "text" : "password"}
                   ref={oldPassRef}
                   placeholder="Enter old password"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm 
-                  focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 pr-10"
+                  className="basic_input pr-10"
                 />
                 <button
                   type="button"
                   onClick={() => setShowOldPassword((prev) => !prev)}
-                  className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700"
+                  className="absolute inset-y-0 right-3 flex items-center text-slate-400 transition hover:text-rose-700"
                 >
                   {showOldPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
@@ -96,7 +96,7 @@ const PasswordReset = ({ setIsOpen }) => {
 
             {/* New Password */}
             <div>
-              <label className="block text-gray-700 font-medium mb-2">
+              <label className="mb-2 block text-sm font-semibold text-slate-700">
                 New Password
               </label>
               <div className="relative">
@@ -104,13 +104,12 @@ const PasswordReset = ({ setIsOpen }) => {
                   type={showNewPassword ? "text" : "password"}
                   ref={newPassRef}
                   placeholder="Enter new password"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm 
-                  focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 pr-10"
+                  className="basic_input pr-10"
                 />
                 <button
                   type="button"
                   onClick={() => setShowNewPassword((prev) => !prev)}
-                  className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700"
+                  className="absolute inset-y-0 right-3 flex items-center text-slate-400 transition hover:text-rose-700"
                 >
                   {showNewPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
@@ -120,14 +119,13 @@ const PasswordReset = ({ setIsOpen }) => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full py-3 bg-basic_color text-white font-semibold rounded-lg 
-              hover:bg-orange-700 transition shadow-md"
+              className="basic_button mt-0 w-full py-3"
             >
               Reset Password
             </button>
           </form>
 
-          <p className="mt-6 text-sm text-gray-500 text-center">
+          <p className="mt-6 text-center text-sm text-slate-500">
             Make sure your new password is strong and unique.
           </p>
         </div>

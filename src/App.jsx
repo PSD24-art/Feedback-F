@@ -17,6 +17,7 @@ import CreateForm from "./components/CreateFrom";
 import AddSubject from "./components/AddSubject";
 import Subjects from "./pages/admin/Subjects";
 import Institution_form from "./pages/Institution_form";
+import DemoWorkspace from "./pages/DemoWorkspace";
 import SAdminDash from "./pages/sAdmin/SAdminDash";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AddFaculty from "./pages/admin/AddFaculty";
@@ -28,27 +29,36 @@ function App() {
   const location = useLocation();
 
   useEffect(() => {
-    if (location.pathname === "/" || location.pathname === "/login") {
+    if (["/", "/login", "/institution-form", "/demo"].includes(location.pathname)) {
       setShowSidebar(false);
     } else {
       setShowSidebar(true);
     }
   }, [location.pathname]);
 
-  return (
-    <div className="flex flex-col min-h-screen">
-      <Header setIsOpen={setIsSidebarOpen} isOpen={isSidebarOpen} />
+  const isLandingPage = location.pathname === "/";
 
-      <div className="flex flex-row flex-1">
+  return (
+    <div className="app-surface flex min-h-screen flex-col">
+      {!isLandingPage && (
+        <Header setIsOpen={setIsSidebarOpen} isOpen={isSidebarOpen} />
+      )}
+
+      <div
+        className={`flex min-h-0 flex-row ${
+          isLandingPage ? "flex-1" : "h-screen pt-16"
+        }`}
+      >
         {showSidebar && (
           <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
         )}
 
-        <div className="flex-1 overflow-auto pt-8">
+        <main className="min-w-0 flex-1 overflow-y-auto overflow-x-hidden">
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/institution-form" element={<Institution_form />} />
+            <Route path="/demo" element={<DemoWorkspace />} />
 
             <Route path="/sAdmin/:id" element={<SAdminDash />} />
 
@@ -75,10 +85,10 @@ function App() {
             <Route path="/admin/:id/faculty/new" element={<AddFaculty />} />
             <Route path="*" element={<></>} />
           </Routes>
-        </div>
+        </main>
       </div>
 
-      <Footer />
+      {!isLandingPage && <Footer />}
     </div>
   );
 }
