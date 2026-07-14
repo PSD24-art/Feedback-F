@@ -92,12 +92,15 @@ const FeedbackLinks = () => {
     <>
       {loading && <Loader />}
 
-      <div className="w-full px-6">
+      <div className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6">
         {/* Header */}
-        <div className="mt-16 mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-          <h2 className="text-xl font-semibold text-basic_color">
+        <div className="panel-card mb-5 flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-rose-600">Feedback workflow</p>
+            <h2 className="mt-1 text-xl font-extrabold text-slate-800">
             Feedback Links by Term
-          </h2>
+            </h2>
+          </div>
 
           {/* ✅ Term Filter (NO ALL OPTION) */}
           <select
@@ -120,15 +123,15 @@ const FeedbackLinks = () => {
             {feedbackLinks.map((linkObj) => (
               <div
                 key={linkObj._id}
-                className="bg-white border-2 basic_border rounded-lg shadow-md p-4 hover:shadow-lg transition flex flex-col"
+                className="panel-card flex flex-col p-5 transition hover:-translate-y-0.5 hover:border-rose-200"
               >
                 {/* Subject */}
-                <p className="text-lg font-semibold text-gray-800 mb-1">
+                <p className="mb-1 text-lg font-bold text-slate-800">
                   {linkObj.subject?.name || "Unknown Subject"}
                 </p>
 
                 {/* Term */}
-                <p className="text-sm text-gray-600 mb-2">
+                <p className="mb-3 text-sm text-slate-500">
                   Term: <span className="font-medium">{linkObj.term}</span>
                 </p>
 
@@ -137,7 +140,7 @@ const FeedbackLinks = () => {
                   href={linkObj.link}
                   target="_blank"
                   rel="noreferrer"
-                  className="block truncate max-w-[250px] text-sm text-blue-600 underline mb-3"
+                  className="mb-4 block max-w-[250px] truncate text-sm font-medium text-rose-700 underline"
                   title={linkObj.link}
                 >
                   {linkObj.link}
@@ -147,7 +150,7 @@ const FeedbackLinks = () => {
                 <div className="flex gap-2 mt-auto">
                   <button
                     onClick={() => handleDelete(linkObj._id)}
-                    className="px-3 py-1 bg-red-100 text-red-600 rounded-md text-sm hover:bg-red-200 transition"
+                    className="rounded-lg bg-rose-50 px-3 py-2 text-sm font-semibold text-rose-700 transition hover:bg-rose-100"
                   >
                     Delete
                   </button>
@@ -157,7 +160,7 @@ const FeedbackLinks = () => {
                       navigator.clipboard.writeText(linkObj.link);
                       alert("Link copied to clipboard!");
                     }}
-                    className="px-3 py-1 bg-orange-100 text-basic_color rounded-md text-sm hover:bg-orange-200 transition"
+                    className="rounded-lg bg-slate-100 px-3 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-200"
                   >
                     Copy
                   </button>
@@ -173,7 +176,7 @@ const FeedbackLinks = () => {
 
         {/* Add Subject Section */}
         {clickValue === "AddSubject" && (
-          <div className="relative bg-white border-2 border-orange-200 rounded-lg shadow-md p-4 mb-6">
+          <div className="panel-card relative mb-6 p-4">
             <button
               onClick={() => setClickValue(null)}
               className="absolute top-0 right-2 text-2xl text-gray-500 hover:text-red-500"

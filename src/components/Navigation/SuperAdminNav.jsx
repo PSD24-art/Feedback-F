@@ -8,35 +8,34 @@ const SuperAdminNav = ({ user, handlLogOut, isOpen }) => {
   return (
     <>
       {user && (
-        <div
-          className={`mb-1 rounded-r-lg fixed lg:static flex flex-col border-2 border-red-300 h-[92vh] bg-red-50/60 backdrop-blur-sm shadow-lg 
-        transition-all duration-300 ease-in-out w-[220px]
-        ${isOpen ? "w-full top-0 left-0 z-40 h-dvh mt-13 rounded-r-none" : "w-[20%] hidden lg:flex mt-15 "}`}
+        <aside
+          className={`fixed left-0 top-16 z-40 flex h-[calc(100dvh-4rem)] w-[280px] flex-col overflow-hidden border-r border-slate-200 bg-white/95 shadow-xl shadow-slate-900/10 backdrop-blur transition-transform duration-300 lg:static lg:h-full lg:shrink-0 lg:translate-x-0 lg:shadow-none ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
         >
-          <div className="flex flex-col h-full py-6 px-4">
-            <h2 className="text-xl font-semibold text-red-800 mb-2 text-center border-b border-red-300 pb-2">
-              Feedback_Guru
-            </h2>
+          <div className="flex h-full flex-col px-4 py-5">
+            <div className="mb-5 border-b border-slate-100 px-3 pb-5">
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-rose-600">Administration</p>
+              <h2 className="mt-1 text-base font-extrabold text-slate-800">Control Panel</h2>
+            </div>
 
-            <nav className="flex flex-col text-amber-900">
-              <div className="flex items-center gap-3 mt-3 hover:text-red-500 cursor-pointer">
+            <nav className="flex flex-1 flex-col gap-1 text-slate-600">
+              <div className="flex cursor-pointer items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold transition hover:bg-slate-100 hover:text-rose-700">
                 <University className="w-5 h-5" />
-                <span className="text-lg font-medium">Institutes</span>
+                <span>Institutes</span>
               </div>
-              <div className="flex items-center gap-3 mt-3 hover:text-red-500 cursor-pointer">
+              <div className="flex cursor-pointer items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold transition hover:bg-slate-100 hover:text-rose-700">
                 <ShieldUser className="w-5 h-5" />
-                <span className="text-lg font-medium">Admins</span>
+                <span>Admins</span>
               </div>
               <div
                 onClick={handlLogOut}
-                className="flex items-center gap-3 mt-3 hover:text-red-500 cursor-pointer"
+                className="mt-auto flex cursor-pointer items-center gap-3 rounded-xl border border-slate-200 px-3 py-3 text-sm font-semibold transition hover:border-rose-100 hover:bg-rose-50 hover:text-rose-700"
               >
                 <LogOut className="w-5 h-5" />
-                <span className="text-lg font-medium">Logout</span>
+                <span>Logout</span>
               </div>
             </nav>
           </div>
-        </div>
+        </aside>
       )}
     </>
   );

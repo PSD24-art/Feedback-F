@@ -2,23 +2,20 @@ import React from "react";
 import { BarChart } from "@mui/x-charts/BarChart";
 
 export default function BasicBars({ ratings }) {
-  // console.log("Bar chart ratings Vertical: ", ratings);
-
   const categories = ratings.map(
-    (r) => r.subjectName.split(" ").splice(0, 2).join(" ") ?? ""
+    (r) => r.subjectName.split(" ").splice(0, 2).join(" ") ?? "",
   );
   const data = ratings.map((r) => Number(r.avgRating) || 0);
 
   const colors = [
-    "#FFA500", // orange
-    "#C70039", // maroon
-    "#3380FF", // blue
-    "#FF5733", // red-orange
-    "#33FF57", // green
-    "#FFC300", // yellow
+    "#f43f5e",
+    "#fb923c",
+    "#3b82f6",
+    "#10b981",
+    "#f59e0b",
+    "#8b5cf6",
   ];
 
-  // Create a separate series for each bar
   const series = data.map((value, i) => ({
     data: [value],
     label: categories[i],
@@ -26,16 +23,16 @@ export default function BasicBars({ ratings }) {
   }));
 
   return (
-    <div style={{ width: "100%", maxWidth: 800, margin: "0 auto" }}>
+    <div className="mx-auto w-full max-w-2xl">
       <BarChart
         xAxis={[{ data: [""], scaleType: "band" }]}
         series={series}
-        height={300}
-        margin={{ top: 20, bottom: 50 }}
+        height={280}
+        margin={{ top: 20, bottom: 55, left: 18, right: 18 }}
         slotProps={{
           legend: { hidden: false },
         }}
-        fontSize={13}
+        fontSize={12}
         fontWeight={600}
       />
     </div>

@@ -3,35 +3,31 @@ import { PieChart } from "@mui/x-charts/PieChart";
 export default function DonutChart({ ratingPercentage }) {
   if (!ratingPercentage) return null;
 
-  // Convert ratings {1:'0.0',2:'0.0',3:'0.0',4:'100.0',5:'0.0'} → array
   const data = Object.entries(ratingPercentage).map(([rating, percent]) => ({
     label: `${rating}⭐`,
     value: parseFloat(percent),
   }));
 
-  // 1⭐→5⭐ colors
-  const colors = ["#FF4C4C", "#FF944C", "#FFD24C", "#A8E06E", "#4CAF50"];
-
-  // hide 0% segments
+  const colors = ["#ef4444", "#f97316", "#f59e0b", "#84cc16", "#10b981"];
   const filtered = data.filter((d) => d.value > 0);
 
   return (
-    <div className="flex flex-col items-center w-full gap-3">
+    <div className="flex w-full flex-col items-center gap-3">
       <PieChart
-        width={250}
-        height={250}
+        width={240}
+        height={240}
         series={[
           {
-            innerRadius: 60,
-            outerRadius: 100,
+            innerRadius: 56,
+            outerRadius: 96,
             paddingAngle: 2,
             data:
               filtered.length > 0
-                ? filtered.map((item, i) => ({
+                ? filtered.map((item) => ({
                     ...item,
-                    color: colors[parseInt(item.label) - 1] || "#ccc",
+                    color: colors[parseInt(item.label) - 1] || "#cbd5e1",
                   }))
-                : [{ label: "No Data", value: 100, color: "#e0e0e0" }],
+                : [{ label: "No Data", value: 100, color: "#e2e8f0" }],
             arcLabel: (item) =>
               item.value > 5 ? `${item.value.toFixed(1)}%` : "",
           },
@@ -39,14 +35,16 @@ export default function DonutChart({ ratingPercentage }) {
         slotProps={{ legend: { hidden: true } }}
       />
 
-      {/* Horizontal legend */}
-      <div className="flex justify-center gap-3 mt-1">
-        {data.map((item, i) => (
-          <div key={i} className="flex items-center gap-1 text-sm">
+      <div className="flex flex-wrap justify-center gap-2 text-[11px] font-medium text-slate-500">
+        {data.map((item, index) => (
+          <div
+            key={`${item.label}-${index}`}
+            className="flex items-center gap-1.5"
+          >
             <div
-              className="w-3 h-3 rounded-full"
-              style={{ backgroundColor: colors[i] }}
-            ></div>
+              className="h-2.5 w-2.5 rounded-full"
+              style={{ backgroundColor: colors[index] || "#cbd5e1" }}
+            />
             <span>{item.label}</span>
           </div>
         ))}

@@ -61,14 +61,15 @@ const AddSubject = () => {
     <>
       {loading && <Loader />}
 
-      <div className="flex items-center flex-col mt-17 mb-3 m-8">
-        <h2 className="mb-4 text-xl font-semibold text-basic_color">
+      <div className="flex min-h-[calc(100vh-12rem)] flex-col items-center justify-center px-4 py-10">
+        <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-rose-600">Subject catalogue</p>
+        <h2 className="mb-5 mt-1 text-2xl font-extrabold text-slate-800">
           Add Subject
         </h2>
 
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col gap-4 bg-white p-6 rounded-lg border-2 basic_border shadow-md"
+          className="panel-card flex w-full max-w-md flex-col gap-4 p-6 sm:p-8"
         >
           {/* Subject Name */}
           <input

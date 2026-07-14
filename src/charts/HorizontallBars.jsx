@@ -15,9 +15,6 @@ const fallbackRatings = [
 ];
 
 export default function FacultyFeedbackChart({ criteriaObj = [] }) {
-  // console.log("Received criteriaObj:", criteriaObj);
-
-  // ✅ Use provided criteriaObj directly if valid, else fallback
   const dataset =
     Array.isArray(criteriaObj) && criteriaObj.length > 0
       ? criteriaObj
@@ -25,7 +22,7 @@ export default function FacultyFeedbackChart({ criteriaObj = [] }) {
 
   if (!dataset || dataset.length === 0) {
     return (
-      <Box width="100%" textAlign="center" mt={4}>
+      <Box width="100%" mt={4} textAlign="center">
         <Typography color="text.secondary">
           No feedback data available
         </Typography>
@@ -36,7 +33,7 @@ export default function FacultyFeedbackChart({ criteriaObj = [] }) {
   return (
     <Box width="100%">
       <BarChart
-        height={320}
+        height={280}
         layout="horizontal"
         dataset={dataset}
         xAxis={[
@@ -57,11 +54,11 @@ export default function FacultyFeedbackChart({ criteriaObj = [] }) {
             data: dataset.map((d) => d.criteria),
             label: "Criteria",
             tickLabelStyle: {
-              fontSize: 13,
+              fontSize: 12,
               fontWeight: 600,
-              fill: "#374151",
+              fill: "#64748b",
             },
-            width: 130,
+            width: 120,
           },
         ]}
         series={[
@@ -70,10 +67,10 @@ export default function FacultyFeedbackChart({ criteriaObj = [] }) {
             label: "Average Rating",
             valueFormatter: (v) =>
               typeof v === "number" ? `${v.toFixed(2)} / 5` : "-",
-            color: "#3b82f6",
+            color: "#f43f5e",
           },
         ]}
-        margin={{ top: 20, bottom: 30 }}
+        margin={{ top: 20, bottom: 24, left: 8, right: 8 }}
         slots={{
           legend: PiecewiseColorLegend,
           barLabel: BarLabelInside,
@@ -94,7 +91,6 @@ export default function FacultyFeedbackChart({ criteriaObj = [] }) {
   );
 }
 
-// ✅ Label inside each bar
 const Text = styled("text")(({ theme }) => ({
   ...theme.typography.body2,
   fill: (theme.vars || theme).palette.common.white,
@@ -125,7 +121,7 @@ function BarLabelInside(props) {
         el.setAttribute("x", p.x.toString());
         el.setAttribute("y", p.y.toString());
       },
-    }
+    },
   );
 
   return <Text {...animatedProps}>{formattedValue}</Text>;

@@ -2,13 +2,13 @@ import { CheckCircle } from "lucide-react"; // icon library (lucide-react is lig
 
 const FeedbackSent = () => {
   return (
-    <div className="flex justify-center items-center mx-4 mt-20">
-      <div className="bg-white border-green-200 shadow-lg rounded-xl border-2 p-8 text-center max-w-md w-full">
-        <CheckCircle className="mx-auto text-green-500 w-16 h-16 mb-4" />
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">
+    <div className="flex min-h-[calc(100vh-12rem)] items-center justify-center px-4 py-10">
+      <div className="panel-card w-full max-w-md p-8 text-center">
+        <CheckCircle className="mx-auto mb-4 h-16 w-16 text-emerald-500" />
+        <h2 className="mb-2 text-2xl font-extrabold text-slate-800">
           Feedback Submitted!
         </h2>
-        <p className="text-gray-600 mb-6">
+        <p className="mb-2 text-slate-500">
           Thank you for taking the time to share your feedback. Your response
           has been recorded successfully.
         </p>

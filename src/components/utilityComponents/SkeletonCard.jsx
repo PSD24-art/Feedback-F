@@ -10,6 +10,10 @@ const SkeletonCard = () => {
       </div>
       <div className="skeleton-line shimmer"></div>
       <div className="skeleton-line shimmer short"></div>
+      <div className="flex items-center gap-2">
+        <div className="skeleton-chip shimmer"></div>
+        <div className="skeleton-chip shimmer"></div>
+      </div>
     </div>
   );
 };

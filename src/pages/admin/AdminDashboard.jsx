@@ -102,17 +102,18 @@ const AdminDashboard = () => {
   return (
     <>
       {/* MAIN WRAPPER */}
-      <div className="flex flex-col h-[96vh]  md:flex-row gap-4 p-8 pb-1 mb-0  pt-8 lg:pt-8 md:pt-8 min-h-[calc(100vh-80px)]">
+      <div className="flex h-full min-h-0 flex-col gap-5 p-3 sm:p-5 md:flex-row">
         {/* RIGHT PANEL ON MOBILE / RIGHT ON DESKTOP — FACULTY LIST */}
-        <div className="w-full md:w-[300px] bg-gray-50 rounded-xl shadow p-4 md:order-2 flex flex-col">
+        <div className="panel-card flex w-full flex-col p-4 md:order-2 md:h-full md:min-h-0 md:w-[300px]">
           {/* TOP — Fixed */}
           <div>
-            <h3 className="font-semibold mb-3 text-gray-800">Faculties</h3>
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-rose-600">Faculty directory</p>
+            <h3 className="mb-3 mt-1 font-extrabold text-slate-800">Faculties</h3>
 
             <select
               value={selectedDepartment}
               onChange={(e) => setSelectedDepartment(e.target.value)}
-              className="w-full mb-4 p-2 border rounded-md"
+              className="basic_dropdown mb-4 w-full"
             >
               <option value="CS">Computer Science</option>
               <option value="CE">Civil Engineering</option>
@@ -124,26 +125,26 @@ const AdminDashboard = () => {
 
           {/* MIDDLE — SCROLLABLE LIST */}
           {loading ? (
-            <div className="flex-1 flex md:flex-col gap-2 overflow-y-auto scrollbar-hide pr-1">
+            <div className="flex flex-1 gap-2 overflow-y-auto pr-1 scrollbar-hide md:min-h-0 md:flex-col">
               <SkeletonCard />
               <SkeletonCard />
               <SkeletonCard />
               <SkeletonCard />
             </div>
           ) : (
-            <ul className="flex-1 flex md:flex-col gap-2 overflow-y-auto scrollbar-hide pr-1">
+            <ul className="flex flex-1 gap-2 overflow-y-auto pr-1 scrollbar-hide md:min-h-0 md:flex-col">
               {facultyList.map((faculty) => (
                 <li
                   key={faculty._id}
                   onClick={() => handleOnFacultyClick(faculty._id)}
                   className={` min-w-[220px] md:min-w-0 p-3 border rounded-lg cursor-pointer transition ${
                     selectedFacultyId === faculty._id
-                      ? "bg-gray-100 border-amber-500"
-                      : "bg-white hover:border-red-300 hover:border-2"
+                      ? "border-rose-200 bg-rose-50"
+                      : "border-slate-200 bg-white hover:border-rose-200 hover:bg-slate-50"
                   }`}
                 >
-                  <p className="font-medium text-basic_color">{faculty.name}</p>
-                  <p className="text-xs text-gray-500">{faculty.department}</p>
+                  <p className="font-semibold text-slate-800">{faculty.name}</p>
+                  <p className="mt-1 text-xs text-slate-500">{faculty.department}</p>
                 </li>
               ))}
             </ul>
@@ -158,7 +159,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* CENTER PANEL — FACULTY DASHBOARD */}
-        <div className="flex-1  bg-white rounded-xl shadow overflow-automd:order-1scrollbar-hide ">
+        <div className="panel-card min-w-0 flex-1 overflow-hidden md:order-1 md:min-h-0">
           {selectedFacultyId ? (
             <FacultyDashFromAdmin adminId={id} facultyId={selectedFacultyId} />
           ) : (

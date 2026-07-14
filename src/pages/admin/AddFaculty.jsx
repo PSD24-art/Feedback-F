@@ -51,16 +51,17 @@ const AddFaculty = () => {
   return (
     <>
       {loading && <Loader />}
-      <div className="mt-15 flex justify-center items-center ps-3 pe-3 flex-col ">
-        <h2 className="text-xl text-center font-bold text-basic_color mt-4 mb-2">
+      <div className="flex min-h-[calc(100vh-12rem)] flex-col items-center justify-center px-4 py-10">
+        <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-rose-600">Faculty directory</p>
+        <h2 className="mb-5 mt-1 text-center text-2xl font-extrabold text-slate-800">
           Enter Faculty Details
         </h2>
         <form
           onSubmit={handleOnSubmit}
-          className="bg-white shadow-md basic_border rounded-xl p-6 w-full max-w-md space-y-6 border-2 border-amber-100"
+          className="panel-card w-full max-w-md space-y-5 p-6 sm:p-8"
         >
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="mb-1.5 block text-sm font-semibold text-slate-700">
               Faculty Name
             </label>
             <input
@@ -73,7 +74,7 @@ const AddFaculty = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="mb-1.5 block text-sm font-semibold text-slate-700">
               Faculty Email
             </label>
             <input
@@ -86,7 +87,7 @@ const AddFaculty = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="mb-1.5 block text-sm font-semibold text-slate-700">
               Department
             </label>
             <select
@@ -105,7 +106,7 @@ const AddFaculty = () => {
 
           <button
             type="submit"
-            className="w-full bg-basic_color basic_button text-white font-medium py-2 rounded-lg shadow transition"
+            className="basic_button mt-1 w-full"
           >
             Add Faculty
           </button>

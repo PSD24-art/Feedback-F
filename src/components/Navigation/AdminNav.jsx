@@ -7,34 +7,34 @@ const AdminNav = ({ setIsOpen, id, isActive }) => {
   return (
     <>
       <div
-        className={`flex items-center gap-3 mt-3 hover:text-red-500 cursor-pointer ${isActive(`/admin/${id}`) ? "text-red-500" : "text-amber-900"}`}
+        className={`flex cursor-pointer items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold transition ${isActive(`/admin/${id}`) ? "bg-rose-50 text-rose-700 shadow-sm" : "text-slate-600 hover:bg-slate-100 hover:text-rose-700"}`}
         onClick={() => {
           setIsOpen(false);
           navigate(`/admin/${id}`);
         }}
       >
         <LayoutDashboard className="w-5 h-5" />
-        <span className="text-lg font-medium">All Faculties</span>
+        <span>All Faculties</span>
       </div>
       <div
-        className={`flex items-center gap-3 mt-3 hover:text-red-500 cursor-pointer ${isActive(`/admin/${id}/faculty/new`) ? "text-red-500" : "text-amber-900"}`}
+        className={`flex cursor-pointer items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold transition ${isActive(`/admin/${id}/faculty/new`) ? "bg-rose-50 text-rose-700 shadow-sm" : "text-slate-600 hover:bg-slate-100 hover:text-rose-700"}`}
         onClick={() => {
           setIsOpen(false);
           navigate(`/admin/${id}/faculty/new`);
         }}
       >
         <UserPen className="w-5 h-5" />
-        <span className="text-lg font-medium">Add Faculty</span>
+        <span>Add Faculty</span>
       </div>
       <div
-        className={`flex items-center gap-3 mt-3 hover:text-red-500 cursor-pointer ${isActive(`/admin/${id}/subject`) ? "text-red-500" : "text-amber-900"}`}
+        className={`flex cursor-pointer items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold transition ${isActive(`/admin/${id}/subject`) ? "bg-rose-50 text-rose-700 shadow-sm" : "text-slate-600 hover:bg-slate-100 hover:text-rose-700"}`}
         onClick={() => {
           setIsOpen(false);
           navigate(`/admin/${id}/subject`);
         }}
       >
         <BookOpenText className="w-5 h-5" />
-        <span className="text-lg font-medium">Subjects</span>
+        <span>Subjects</span>
       </div>
     </>
   );
